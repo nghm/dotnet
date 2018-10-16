@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2041
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypermedia.WebApi", "Hypermedia.WebApi\Hypermedia.WebApi.csproj", "{F008393E-9B79-4AA3-98D8-7B83A90D9304}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermedia.AspNetCore.Siren", "Hypermedia.AspNetCore.Siren\Hypermedia.AspNetCore.Siren.csproj", "{07C0764E-82D9-4C13-9750-147A2A30400A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F008393E-9B79-4AA3-98D8-7B83A90D9304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F008393E-9B79-4AA3-98D8-7B83A90D9304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F008393E-9B79-4AA3-98D8-7B83A90D9304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F008393E-9B79-4AA3-98D8-7B83A90D9304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07C0764E-82D9-4C13-9750-147A2A30400A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07C0764E-82D9-4C13-9750-147A2A30400A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07C0764E-82D9-4C13-9750-147A2A30400A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07C0764E-82D9-4C13-9750-147A2A30400A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {078B1914-1774-4986-829B-74698F301995}
+	EndGlobalSection
+EndGlobal
