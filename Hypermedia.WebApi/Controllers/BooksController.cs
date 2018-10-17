@@ -79,7 +79,9 @@ namespace Hypermedia.WebApi.Controllers
                         .AddAction(c => c.Update(id, new EditBookModel
                         {
                             Title = oneBook.Title,
-                            Description = oneBook.Description
+                            Description = oneBook.Description,
+                            Status = oneBook.Status,
+                            IsFree = oneBook.IsFree
                         }), "update")
                     )
                     .Build()
@@ -95,7 +97,9 @@ namespace Hypermedia.WebApi.Controllers
                 {
                     Id = id,
                     Title = editBookModel.Title,
-                    Description = editBookModel.Description
+                    Description = editBookModel.Description,
+                    Status = editBookModel.Status,
+                    IsFree = editBookModel.IsFree
                 });
 
                 return NoContent();

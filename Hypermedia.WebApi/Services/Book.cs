@@ -11,5 +11,7 @@ namespace Hypermedia.WebApi.Services
         public string Title { get; internal set; }
         public int Id { get; internal set; }
         public string Description { get; internal set; }
+        public BookStatus Status { get; set; }
+        public bool IsFree { get; set; }
     }
 }

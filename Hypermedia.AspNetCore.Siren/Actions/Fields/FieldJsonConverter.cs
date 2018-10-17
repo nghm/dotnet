@@ -34,7 +34,9 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 
             foreach (var meta in field.Metadata.SelectMany(meta => meta.GetMetadata()))
             {
-                o.AddFirst(new JProperty(meta.Key, meta.Value ));
+                JToken valueObj = JToken.FromObject(meta.Value); 
+
+                o.AddFirst(new JProperty(meta.Key, valueObj));
             }
 
             o.WriteTo(writer);

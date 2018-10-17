@@ -58,7 +58,18 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
         {
             string type = "";
 
-            switch(Type.GetTypeCode(propertyType))
+            if (propertyType.IsEnum)
+            {
+                yield return KeyValuePair.Create("type", "option" as object);
+                var names = Enum.GetNames(propertyType).Cast<string>();
+                var values = Enum.GetValues(propertyType).Cast<int>().ToArray();
+                object options = names.Select((name, index) => new FieldOption { Name = name, Value = values[index] }).ToArray();
+
+                yield return KeyValuePair.Create("options", options);
+                yield break;
+            }
+
+            switch (Type.GetTypeCode(propertyType))
             {
                 case TypeCode.Byte:
                 case TypeCode.SByte:
@@ -78,22 +89,6 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
             if (!string.IsNullOrEmpty(type))
             {
                 yield return KeyValuePair.Create("type", type as object);
-                yield break;
-            }
-
-            if (propertyType.IsEnum)
-            {
-                yield return KeyValuePair.Create("type", "option" as object);
-                yield return KeyValuePair.Create("options",
-                        Enum.GetNames(propertyType).Join(
-                            Enum.GetValues(propertyType) as object[],
-                            inner => inner, outer => outer,
-                            (name, value) => new {
-                                name,
-                                value
-                            }
-                        ) as object
-                );
                 yield break;
             }
 
