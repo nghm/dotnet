@@ -1,16 +1,10 @@
-﻿using Castle.DynamicProxy;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Moq.AutoMock;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-
-namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
+﻿namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 {
-    using System.Dynamic;
+    using Castle.DynamicProxy;
+    using Moq.AutoMock;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     internal class CachedProxyCollector : IProxyCollector
     {

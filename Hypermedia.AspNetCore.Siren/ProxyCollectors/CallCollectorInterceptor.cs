@@ -1,7 +1,7 @@
-﻿using Castle.DynamicProxy;
-
-namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
+﻿namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 {
+    using Castle.DynamicProxy;
+
     internal class CallCollectorInterceptor : IInterceptor
     {
         public void Intercept(IInvocation invocation)

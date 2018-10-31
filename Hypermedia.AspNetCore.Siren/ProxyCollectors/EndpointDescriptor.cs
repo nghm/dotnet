@@ -9,34 +9,34 @@ namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 {
     internal class EndpointDescriptor
     {
-        private readonly ActionDescriptor actionDescriptor;
-        private readonly object[] arguments;
-        private readonly string host;
-        private readonly string protocol;
+        private readonly ActionDescriptor _actionDescriptor;
+        private readonly object[] _arguments;
+        private readonly string _host;
+        private readonly string _protocol;
 
         public EndpointDescriptor(ActionDescriptor actionDescriptor, object[] arguments, string host, string protocol)
         {
-            this.actionDescriptor = actionDescriptor;
-            this.arguments = arguments;
-            this.host = host;
-            this.protocol = protocol;
+            this._actionDescriptor = actionDescriptor;
+            this._arguments = arguments;
+            this._host = host;
+            this._protocol = protocol;
         }
 
-        public string Method { get => actionDescriptor.GetHttpMethod().ToUpper(); }
-        public object Body { get => actionDescriptor.PickBodyArgument(arguments); }
-        public object Query { get => actionDescriptor.BuildQueryObject(arguments); }
-        public object Route { get => actionDescriptor.BuildRouteObject(arguments); }
-        public string Href { get => ComputeHref(); }
+        public string Method => this._actionDescriptor.GetHttpMethod().ToUpper();
+        public object Body => this._actionDescriptor.PickBodyArgument(this._arguments);
+        public object Query => this._actionDescriptor.BuildQueryObject(this._arguments);
+        public object Route => this._actionDescriptor.BuildRouteObject(this._arguments);
+        public string Href => ComputeHref();
         public IEnumerable<IField> Fields { get => ComputeFields(); }
 
         private IEnumerable<IField> ComputeFields()
         {
-            return Body.AsPropertyEnumerable(true)
+            return this.Body.AsPropertyEnumerable(true)
                 .Select(kvp => 
                     MakeFieldField(
                         kvp.Key,
                         kvp.Value,
-                        actionDescriptor
+                        this._actionDescriptor
                     ));
         }
 
@@ -66,15 +66,15 @@ namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
             yield return new TypeMetadata(fieldGenerationContext);
         }
 
-        string ComputeHref()
+        private string ComputeHref()
         {
-            var parameters = actionDescriptor.Parameters;
-            var queryParameters = new Dictionary<string, object>();
-            var routeParameters = new Dictionary<string, object>();
+            var parameters = this._actionDescriptor.Parameters;
+            var queryParameters = new Dictionary<string, string>();
+            var routeParameters = new Dictionary<string, string>();
 
             for (var index = 0; index < parameters.Count; index++)
             {
-                var value = arguments[index];
+                var value = this._arguments[index];
                 var info = parameters[index] as ControllerParameterDescriptor;
 
                 if (value == null || info.ParameterInfo.DefaultValue.Equals(value))
@@ -84,25 +84,22 @@ namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 
                 switch (info.BindingInfo.BindingSource.Id)
                 {
-                    case "Query": queryParameters[info.Name] = value; break;
-                    case "Path": routeParameters[info.Name] = value; break;
+                    case "Query":
+                        queryParameters[info.Name] = value.ToString();
+                        break;
+                    case "Path":
+                        routeParameters[info.Name] = value.ToString();
+                        break;
                 }
             }
 
-            var template = actionDescriptor.AttributeRouteInfo.Template.ToLower();
+            var template = this._actionDescriptor.AttributeRouteInfo.Template.ToLower();
 
-            var href = $"{protocol}://{host}/{template}";
+            var href = $"{this._protocol}://{this._host}/{template}";
 
-            if (routeParameters != null)
-            {
-                href = href.InterpolateRouteParameters(routeParameters);
-            }
-
-            if (queryParameters != null)
-            {
-                href = href.InterpolateQueryParameters(queryParameters);
-            }
-
+            href = href.InterpolateRouteParameters(routeParameters);
+            href = href.InterpolateQueryParameters(queryParameters);
+            
             return href;
         }
     }

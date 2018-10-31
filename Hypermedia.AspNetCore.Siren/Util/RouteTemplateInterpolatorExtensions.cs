@@ -3,9 +3,11 @@ using System.Text.RegularExpressions;
 
 namespace Hypermedia.AspNetCore.Siren.Util
 {
+    using System.Collections.Generic;
+
     static class RouteTemplateInterpolatorExtensions
     {
-        public static string InterpolateRouteParameters(this string template, object parameters)
+        public static string InterpolateRouteParameters(this string template, IDictionary<string, string> parameters)
         {
             if (template == null)
             {
@@ -17,11 +19,9 @@ namespace Hypermedia.AspNetCore.Siren.Util
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            var paramertersKvp = parameters.AsPropertyEnumerable();
-
-            foreach (var kvp in paramertersKvp)
+            foreach (var kvp in parameters)
             {
-                template = Regex.Replace(template, $"\\{{ *{kvp.Key}[:a-zA-Z0-9 ]*\\}}", kvp.Value.ToString());
+                template = Regex.Replace(template, $"\\{{ *{kvp.Key}[:a-zA-Z0-9 ]*\\}}", kvp.Value);
             }
 
             return template;

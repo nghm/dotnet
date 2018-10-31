@@ -9,7 +9,7 @@ namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 
         public CallCollectionFinishedException(CollectedMethodCall call)
         {
-            Call = call;
+            this.Call = call;
         }
     }
 }

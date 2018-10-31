@@ -4,9 +4,11 @@ using System.Web;
 
 namespace Hypermedia.AspNetCore.Siren.Util
 {
+    using System.Collections.Generic;
+
     static class QueryParametersInterpolatorExtensions
     {
-        public static string InterpolateQueryParameters(this string template, object parameters)
+        public static string InterpolateQueryParameters(this string template, IDictionary<string, string> parameters)
         {
             if (template == null)
             {
@@ -18,24 +20,16 @@ namespace Hypermedia.AspNetCore.Siren.Util
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            var paramertersKvp = parameters
-                .AsPropertyEnumerable();
+            var queryParamsString = HttpUtility.ParseQueryString(string.Empty);
 
-            NameValueCollection queryParamsNameValueCollection = HttpUtility.ParseQueryString(string.Empty);
-
-            foreach (var kvp in paramertersKvp)
+            foreach (var kvp in parameters)
             {
-                queryParamsNameValueCollection.Set(kvp.Key, kvp.Value.ToString());
+                queryParamsString.Set(kvp.Key, kvp.Value);
             }
 
-            var queryString = queryParamsNameValueCollection.ToString();
+            var queryString = queryParamsString.ToString();
 
-            if (string.IsNullOrEmpty(queryString))
-            {
-                return template;
-            }
-
-            return $"{template}?{queryString}";
+            return string.IsNullOrEmpty(queryString) ? template : $"{template}?{queryString}";
         }
     }
 }

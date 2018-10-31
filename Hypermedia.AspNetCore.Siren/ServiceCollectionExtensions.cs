@@ -1,9 +1,8 @@
-﻿using Hypermedia.AspNetCore.Siren.ProxyCollectors;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Hypermedia.AspNetCore.Siren
+﻿namespace Hypermedia.AspNetCore.Siren
 {
+    using Microsoft.Extensions.DependencyInjection;
+    using ProxyCollectors;
+
     public static class ServiceCollectionExtensions
     {
         public static IMvcBuilder AddHypermediaSiren(this IMvcBuilder mvcBuilder)
