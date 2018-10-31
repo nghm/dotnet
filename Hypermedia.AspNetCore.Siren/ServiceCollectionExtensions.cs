@@ -13,7 +13,6 @@ namespace Hypermedia.AspNetCore.Siren
             services.AddSingleton<IControllerTypeChecker, ControllerTypeChecker>();
             services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
             services.AddSingleton<IProxyCollector, CachedProxyCollector>();
-            // services.AddSingleton<IProxyCollector, ExpressionProxyCollector>();
             services.AddSingleton<IHypermedia, Hypermedia>();
 
             return mvcBuilder;

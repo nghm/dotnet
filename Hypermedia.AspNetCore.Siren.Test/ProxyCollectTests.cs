@@ -20,15 +20,15 @@ namespace Hypermedia.AspNetCore.Siren.Test
             }
         }
 
-        [Theory]
-        [AutoMockData]
-        private void TestPerformanceNew(ExpressionProxyCollector sut)
-        {
-            for (var i = 0; i < 10000; i++)
-            {
-                sut.ProxyCollectOne<ProxyCollectTests>(e => ComplexMethod(i + 1, i + 2, i * i));
-            }
-        }
+        //[Theory]
+        //[AutoMockData]
+        //private void TestPerformanceNew(ExpressionProxyCollector sut)
+        //{
+        //    for (var i = 0; i < 10000; i++)
+        //    {
+        //        sut.ProxyCollectOne<ProxyCollectTests>(e => ComplexMethod(i + 1, i + 2, i * i));
+        //    }
+        //}
 
         void ComplexMethod(int a, int b, int c = 0)
         {
