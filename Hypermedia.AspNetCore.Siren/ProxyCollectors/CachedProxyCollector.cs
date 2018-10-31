@@ -10,50 +10,47 @@ using System.Reflection;
 
 namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 {
+    using System.Dynamic;
+
     internal class CachedProxyCollector : IProxyCollector
     {
-        public IDictionary<TypeInfo, object> CachedControllerProxyCollectors { get; }
-        private readonly ProxyGenerator generator = new ProxyGenerator();
-        private readonly AutoMocker mocker = new AutoMocker();
-        private readonly IActionDescriptorCollectionProvider actionDescriptorCollectionProvider;
+        private readonly IDictionary<Type, object> _cache = new Dictionary<Type, object>();
 
-        public CachedProxyCollector(IActionDescriptorCollectionProvider actionDescriptorCollectionProvider)
+        private readonly ProxyGenerator _generator = new ProxyGenerator();
+        private readonly AutoMocker _mocker = new AutoMocker();
+        private readonly IControllerTypeChecker _controllerTypeChecker;
+        private readonly IActionDescriptorResolver _actionDescriptorResolver;
+
+        public CachedProxyCollector(
+            IControllerTypeChecker controllerTypeChecker,
+            IActionDescriptorResolver actionDescriptorResolver
+        )
         {
-            CachedControllerProxyCollectors = actionDescriptorCollectionProvider
-                .ActionDescriptors
-                .Items
-                .OfType<ControllerActionDescriptor>()
-                .GroupBy(descriptor => descriptor.ControllerTypeInfo)
-                .ToDictionary(
-                    group => group.First().ControllerTypeInfo,
-                    group => MakeProxyControllerCollector(group.First())
-                );
-            this.actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;
+            this._controllerTypeChecker = controllerTypeChecker;
+            this._actionDescriptorResolver = actionDescriptorResolver;
         }
-
-        private object MakeProxyControllerCollector(ControllerActionDescriptor descriptor)
+        
+        public CollectedMethodCall ProxyCollectOne<T>(Action<T> select) where T : class
         {
-            var interceptor = new CallCollectorInterceptor();
-            var type = descriptor.ControllerTypeInfo.AsType();
-            var ctor = type.GetConstructors().First();
-            var arguments = ctor
-                .GetParameters()
-                .Select(parameter => mocker.Get(parameter.ParameterType))
-                .ToArray();
+            var type = typeof(T);
 
-            var proxy = generator.CreateClassProxy(type, arguments, interceptor);
+            if (!this._cache.ContainsKey(type))
+            {
+                var interceptor = new CallCollectorInterceptor();
+                var ctor = type.GetConstructors().First();
+                var arguments = ctor
+                    .GetParameters()
+                    .Select(parameter => this._mocker.Get(parameter.ParameterType))
+                    .ToArray();
 
-            return proxy;
-        }
+                this._cache[type] = this._generator.CreateClassProxy(type, arguments, interceptor);
+            }
 
-        private CollectedMethodCall ProxyCollectOne<T>(Action<T> select) where T : class
-        {
-            Type controllerType = typeof(T);
-            var proxyController = CachedControllerProxyCollectors[controllerType.GetTypeInfo()];
+            var proxy = this._cache[type];
 
             try
             {
-                select(proxyController as T);
+                select.Invoke(proxy as T);
             }
             catch (CallCollectionFinishedException collectionResult)
             {
@@ -62,18 +59,7 @@ namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 
             return null;
         }
-
-        private ActionDescriptor GetActionDescriptor(Type controllerType, MethodInfo methodInfo)
-        {
-            var actionDescriptor = actionDescriptorCollectionProvider
-                .ActionDescriptors
-                .Items
-                .OfType<ControllerActionDescriptor>()
-                .First(ad => ad.ControllerTypeInfo == controllerType.GetTypeInfo() && ad.MethodInfo == methodInfo);
-
-            return actionDescriptor;
-        }
-
+        
         public EndpointDescriptor GetEndpointDescriptor<T>(Action<T> select) where T : class
         {
             var methodCall = ProxyCollectOne(select);
@@ -87,7 +73,9 @@ namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
             var controllerType = methodCall.Target;
             var actionMethodInfo = methodCall.Method;
 
-            return new EndpointDescriptor(GetActionDescriptor(controllerType, actionMethodInfo), arguments, "localhost:54287", "http");
+            var actionDescriptor = this._actionDescriptorResolver.Resolve(controllerType, actionMethodInfo);
+
+            return new EndpointDescriptor(actionDescriptor, arguments, "localhost:54287", "http");
         }
     }
 }

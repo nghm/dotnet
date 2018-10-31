@@ -1,7 +1,6 @@
 ﻿using Hypermedia.AspNetCore.Siren.ProxyCollectors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Hypermedia.AspNetCore.Siren
 {
@@ -11,7 +10,10 @@ namespace Hypermedia.AspNetCore.Siren
         {
             var services = mvcBuilder.Services;
 
-            services.AddSingleton<CachedProxyCollector>();
+            services.AddSingleton<IControllerTypeChecker, ControllerTypeChecker>();
+            services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
+            services.AddSingleton<IProxyCollector, CachedProxyCollector>();
+            // services.AddSingleton<IProxyCollector, ExpressionProxyCollector>();
             services.AddSingleton<IHypermedia, Hypermedia>();
 
             return mvcBuilder;
