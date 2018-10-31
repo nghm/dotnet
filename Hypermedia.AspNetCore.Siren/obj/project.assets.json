@@ -8080,7 +8080,9 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://swissbilling.pkgs.visualstudio.com/_packaging/Swissbilling/nuget/v3/index.json": {},
+        "https://www.myget.org/F/autofixture/api/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.1": {

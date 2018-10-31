@@ -8,9 +8,9 @@ namespace Hypermedia.AspNetCore.Siren.Entities
     internal class TypedEntityBuilder<T> : EntityBuilder, ITypedEntityBuilder<T> where T : class
     {
         public TypedEntityBuilder(
-            CachedProxyCollector apiExplorationCapabilities,
+            IProxyCollector proxyCollector,
             ClaimsPrincipal claimsPrincipal)
-            : base(apiExplorationCapabilities, claimsPrincipal)
+            : base(proxyCollector, claimsPrincipal)
         {
         }
 

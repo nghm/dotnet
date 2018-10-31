@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 {
-    internal class CachedProxyCollector
+    internal class CachedProxyCollector : IProxyCollector
     {
         public IDictionary<TypeInfo, object> CachedControllerProxyCollectors { get; }
         private readonly ProxyGenerator generator = new ProxyGenerator();
@@ -74,7 +74,7 @@ namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
             return actionDescriptor;
         }
 
-        internal EndpointDescriptor GetEndpointDescriptor<T>(Action<T> select) where T : class
+        public EndpointDescriptor GetEndpointDescriptor<T>(Action<T> select) where T : class
         {
             var methodCall = ProxyCollectOne(select);
 

@@ -1,10 +1,27 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Util
+﻿using System;
+
+namespace Hypermedia.AspNetCore.Siren.Util
 {
     internal static class StringExtensions
     {   
         public static string ToCamelCase(this string target)
         {
-            return target.Substring(0, 1).ToLower() + target.Substring(1);
+            if (target == null)
+            {
+                throw new ArgumentNullException(nameof(target));
+            }
+
+            if (target == "")
+            {
+                return target;
+            }
+
+            if (!char.IsLetter(target[0]))
+            {
+                return target;
+            }
+
+            return char.ToLower(target[0]) + target.Substring(1);
         }
     }
 }

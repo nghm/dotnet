@@ -33,7 +33,7 @@ namespace Hypermedia.WebApi.Controllers
                 .Take(perPage);
 
             return Ok(
-                Hypermedia.Make(User)
+                Hypermedia.Make()
                     .AddClasses("books")
                     .AddProperties(new { name = "Books", pageNo, perPage })
                     .AddFrom<BooksController>(builder => builder
@@ -70,7 +70,7 @@ namespace Hypermedia.WebApi.Controllers
             var oneBook = Books.One(id);
 
             return Ok(
-                Hypermedia.Make(User)
+                Hypermedia.Make()
                     .AddClasses("book", "details")
                     .AddProperties(oneBook)
                     .AddFrom<BooksController>(builder => builder

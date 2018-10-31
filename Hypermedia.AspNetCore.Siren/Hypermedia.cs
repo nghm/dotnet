@@ -1,14 +1,13 @@
 ﻿using Hypermedia.AspNetCore.Siren.Entities;
 using Hypermedia.AspNetCore.Siren.ProxyCollectors;
-using System.Security.Claims;
 
 namespace Hypermedia.AspNetCore.Siren
 {
     class Hypermedia : IHypermedia
     {
-        private readonly CachedProxyCollector proxyCollector;
+        private readonly IProxyCollector proxyCollector;
 
-        public Hypermedia(CachedProxyCollector proxyCollector)
+        public Hypermedia(IProxyCollector proxyCollector)
         {
             this.proxyCollector = proxyCollector;
         }
@@ -16,10 +15,6 @@ namespace Hypermedia.AspNetCore.Siren
         public IEntityBuilder Make()
         {
             return new EntityBuilder(proxyCollector, null);
-        }
-        public IEntityBuilder Make(ClaimsPrincipal claimsPrincipal)
-        {
-            return new EntityBuilder(proxyCollector, claimsPrincipal);
         }
     }
 }

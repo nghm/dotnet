@@ -1,0 +1,17 @@
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\bin\Debug\netcoreapp2.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\bin\Debug\netcoreapp2.1\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\bin\Debug\netcoreapp2.1\xunit.runner.utility.netcoreapp10.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\bin\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Test.deps.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\bin\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Test.runtimeconfig.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\bin\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Test.runtimeconfig.dev.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\bin\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Test.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\bin\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Test.pdb
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\bin\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\bin\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.pdb
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Test.csprojAssemblyReference.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Test.csproj.CoreCompileInputs.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Test.AssemblyInfoInputs.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Test.AssemblyInfo.cs
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Test.csproj.CopyComplete
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Test.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Test\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Test.pdb

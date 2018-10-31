@@ -17,15 +17,15 @@ namespace Hypermedia.AspNetCore.Siren.Entities
         private IList<ILink> links = new List<ILink>();
         private IList<IAction> actions = new List<IAction>();
 
-        private readonly CachedProxyCollector proxyCollector;
+        private readonly IProxyCollector proxyCollector;
         private readonly ClaimsPrincipal claimsPrincipal;
 
         public EntityBuilder(
-            CachedProxyCollector cachedProxyCollector, 
+            IProxyCollector proxyCollector, 
             ClaimsPrincipal user
         )
         {
-            proxyCollector = cachedProxyCollector;
+            this.proxyCollector = proxyCollector;
             claimsPrincipal = user;
         }
 

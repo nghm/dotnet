@@ -8,6 +8,11 @@ namespace Hypermedia.AspNetCore.Siren.Util
     {
         public static string InterpolateQueryParameters(this string template, object parameters)
         {
+            if (template == null)
+            {
+                throw new ArgumentNullException(nameof(template));
+            }
+
             if (parameters == null)
             {
                 throw new ArgumentNullException(nameof(parameters));

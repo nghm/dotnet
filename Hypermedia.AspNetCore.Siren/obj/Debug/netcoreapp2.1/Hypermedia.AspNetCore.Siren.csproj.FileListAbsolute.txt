@@ -3,7 +3,7 @@ C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetC
 C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.csproj.CoreCompileInputs.cache
 C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.AssemblyInfoInputs.cache
 C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.AssemblyInfo.cs
-C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.csprojAssemblyReference.cache
 C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren\bin\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.pdb
 C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.dll
 C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.pdb
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.csprojAssemblyReference.cache
