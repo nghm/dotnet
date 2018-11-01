@@ -29,11 +29,10 @@
                 .ToArray();
 
             return actionDescriptorsItems
+                .GroupBy(d => d.ControllerTypeInfo.AsType())
                 .ToDictionary(
-                    i => i.ControllerTypeInfo.AsType(),
-                    i => actionDescriptorsItems
-                        .Where(d => d.ControllerTypeInfo == i.ControllerTypeInfo)
-                        .ToDictionary(d => d.MethodInfo, d => d)
+                    i => i.Key,
+                    i => i.ToDictionary(k => k.MethodInfo, k => k)
                 );
         }
 

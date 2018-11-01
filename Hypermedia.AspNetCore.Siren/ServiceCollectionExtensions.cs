@@ -11,7 +11,8 @@
 
             services.AddSingleton<IControllerTypeChecker, ControllerTypeChecker>();
             services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
-            services.AddSingleton<IProxyCollector, CachedProxyCollector>();
+            services.AddSingleton<IProxyCollector, CastleProxyCollector>();
+            services.AddSingleton<IEndpointDescriptorProvider, EndpointDescriptorProvider>();
             services.AddSingleton<IHypermedia, Hypermedia>();
 
             return mvcBuilder;

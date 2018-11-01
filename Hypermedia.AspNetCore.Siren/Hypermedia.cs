@@ -5,16 +5,16 @@ namespace Hypermedia.AspNetCore.Siren
 {
     class Hypermedia : IHypermedia
     {
-        private readonly IProxyCollector proxyCollector;
+        private readonly IEndpointDescriptorProvider _endpointDescriptorProvider;
 
-        public Hypermedia(IProxyCollector proxyCollector)
+        public Hypermedia(IEndpointDescriptorProvider endpointDescriptorProvider)
         {
-            this.proxyCollector = proxyCollector;
+            this._endpointDescriptorProvider = endpointDescriptorProvider;
         }
 
         public IEntityBuilder Make()
         {
-            return new EntityBuilder(proxyCollector, null);
+            return new EntityBuilder(this._endpointDescriptorProvider, null);
         }
     }
 }

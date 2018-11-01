@@ -77,7 +77,7 @@ namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
                 var value = this._arguments[index];
                 var info = parameters[index] as ControllerParameterDescriptor;
 
-                if (value == null || info.ParameterInfo.DefaultValue.Equals(value))
+                if (info != null && (value == null || info.ParameterInfo.DefaultValue.Equals(value)))
                 {
                     continue;
                 }
@@ -101,6 +101,18 @@ namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
             href = href.InterpolateQueryParameters(queryParameters);
             
             return href;
+        }
+
+        public bool IsLink() => AllowsGetMethod() && HasNoBody();
+
+        private bool HasNoBody()
+        {
+            return this.Body == null;
+        }
+
+        private bool AllowsGetMethod()
+        {
+            return this.Method == "GET";
         }
     }
 }

@@ -6,58 +6,65 @@ namespace Hypermedia.WebApi.Services
 {
     public class MockCrudService<T> where T: class
     {
-        readonly IDictionary<int, T> Stored;
-        public Func<T, int> GetIndex { get; }
-        public Action<int, T> SetIndex { get; }
+        private readonly IDictionary<int, T> _stored;
+        private readonly Action<int, T> _setIndex;
+        private readonly Func<T, int> _getIndex;
 
         public MockCrudService(
             Func<int, T> makeOne, 
             Func<T, int> getIndex, 
             Action<int, T> setIndex)
         {
-            Stored = Infinite()
+            this._stored = Infinite()
                 .Take(40)
                 .Select(makeOne)
-                .ToDictionary(kvp => getIndex(kvp), kvp => kvp);
-            GetIndex = getIndex;
-            SetIndex = setIndex;
+                .ToDictionary(getIndex, kvp => kvp);
+            this._getIndex = getIndex;
+            this._setIndex = setIndex;
         }
 
         internal IQueryable<T> All() =>
-            Stored
+            this._stored
                 .Select(kvp => kvp.Value)
                 .AsQueryable();
 
         internal void Update(int id, T entity)
         {
-            if (!Stored.ContainsKey(id))
+            if (!this._stored.ContainsKey(id))
             {
-                throw new Exception("The entity was not found");
+                throw new InvalidOperationException("The entity was not found");
             }
 
-            Stored[id] = entity;
+            this._stored[id] = entity;
         }
+
         internal void Create(T entity)
         {
-            var id = Stored.Max(kvp => GetIndex(kvp.Value)) + 1;
+            var id = this._stored.Max(kvp => this._getIndex(kvp.Value)) + 1;
 
-            SetIndex(id, entity) ;
+            this._setIndex(id, entity) ;
 
-            Stored[GetIndex(entity)] = entity;
+            this._stored[this._getIndex(entity)] = entity;
         }
 
         internal T One(int id)
         {
-            return Stored.ContainsKey(id) ? Stored[id] : null as T;
+            this._stored.TryGetValue(id, out var returnedValue);
+
+            return returnedValue;
         }
 
-        IEnumerable<int> Infinite()
+        IEnumerable<int> Infinite(int value = 0)
         {
-            int value = 0;
-            while (true)
+            while (value++ > 0)
             {
-                yield return value++;
+                yield return value;
             }
+        }
+
+        public int Count()
+        {
+            return this._stored.Count;
         }
     }
 }

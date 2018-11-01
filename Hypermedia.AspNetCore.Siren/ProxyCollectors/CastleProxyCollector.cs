@@ -1,28 +1,17 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 {
-    using Castle.DynamicProxy;
-    using Moq.AutoMock;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Castle.DynamicProxy;
+    using Moq.AutoMock;
 
-    internal class CachedProxyCollector : IProxyCollector
+    internal class CastleProxyCollector : IProxyCollector
     {
         private readonly IDictionary<Type, object> _cache = new Dictionary<Type, object>();
 
         private readonly ProxyGenerator _generator = new ProxyGenerator();
         private readonly AutoMocker _mocker = new AutoMocker();
-        private readonly IControllerTypeChecker _controllerTypeChecker;
-        private readonly IActionDescriptorResolver _actionDescriptorResolver;
-
-        public CachedProxyCollector(
-            IControllerTypeChecker controllerTypeChecker,
-            IActionDescriptorResolver actionDescriptorResolver
-        )
-        {
-            this._controllerTypeChecker = controllerTypeChecker;
-            this._actionDescriptorResolver = actionDescriptorResolver;
-        }
         
         public CollectedMethodCall ProxyCollectOne<T>(Action<T> select) where T : class
         {
@@ -44,7 +33,7 @@
 
             try
             {
-                select.Invoke(proxy as T);
+                @select.Invoke(proxy as T);
             }
             catch (CallCollectionFinishedException collectionResult)
             {
@@ -52,24 +41,6 @@
             }
 
             return null;
-        }
-        
-        public EndpointDescriptor GetEndpointDescriptor<T>(Action<T> select) where T : class
-        {
-            var methodCall = ProxyCollectOne(select);
-
-            if (methodCall == null)
-            {
-                return null;
-            }
-
-            var arguments = methodCall.Arguments;
-            var controllerType = methodCall.Target;
-            var actionMethodInfo = methodCall.Method;
-
-            var actionDescriptor = this._actionDescriptorResolver.Resolve(controllerType, actionMethodInfo);
-
-            return new EndpointDescriptor(actionDescriptor, arguments, "localhost:54287", "http");
         }
     }
 }

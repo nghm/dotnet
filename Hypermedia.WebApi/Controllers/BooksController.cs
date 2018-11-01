@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace Hypermedia.WebApi.Controllers
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     [Route("api/[controller]")]
     [ApiController]
     public class BooksController : ControllerBase
@@ -15,51 +18,51 @@ namespace Hypermedia.WebApi.Controllers
 
         public BooksController(IHypermedia hypermedia, BooksService books)
         {
-            Hypermedia = hypermedia;
-            Books = books;
+            this.Hypermedia = hypermedia;
+            this.Books = books;
         }
 
         [HttpGet]
-        public virtual IActionResult Get(int pageNo = 0, int perPage = 12)
+        public virtual IActionResult Get(
+            int pageNo = 0, 
+            int perPage = 12
+        )
         {
-            var all = Books.All();
-            var allCount = all.Count();
+            var books = Books.Paginate(perPage, pageNo);
+            var allCount = Books.Count();
 
             var hasPrevious = pageNo > 0;
             var hasNext = (float) allCount / perPage > pageNo + 1;
 
-            var books = all
-                .Skip(perPage * pageNo)
-                .Take(perPage);
-
             return Ok(
-                Hypermedia.Make()
+                this.Hypermedia
+                    .Make()
                     .AddClasses("books")
                     .AddProperties(new { name = "Books", pageNo, perPage })
-                    .AddFrom<BooksController>(builder => builder
-                        .AddEntity(c => c.GetOne(0), "book-latest")
-                        .AddEntities(books, (bookBuilder, book) => bookBuilder
-                            .AddClasses("recent-book", "book-embedded", book.Id % 2 == 0 ? "even" : "odd")
-                            .AddProperties(book)
-                            .AddLink<BooksController>(c => c.GetOne(book.Id, pageNo, perPage), "details"))
-                        .AddLink(c =>
+                    .AddFrom<BooksController>(builder =>
+                    {
+                        builder
+                            .AddEntity(c => c.GetOne(0), "book-latest")
+                            .AddEntities(books, (bookBuilder, book) => bookBuilder
+                                .AddClasses("recent-book", "book-embedded", book.Id % 2 == 0 ? "even" : "odd")
+                                .AddProperties(book)
+                                .AddLink<BooksController>(c => c.GetOne(book.Id, pageNo, perPage), "details"))
+                            .AddLink(c => c.Get(pageNo, perPage), "self")
+                            .AddLink(c => c.Get(0, perPage), "first")
+                            .AddLink(c => c.Get(allCount / perPage, perPage), "last")
+                            .AddAction(c => c.Create(new NewBookModel {Title = "(empty)", Description = "(empty)"}),
+                                "create");
+
+                        if (hasNext)
                         {
-                            if (hasNext)
-                            {
-                                c.Get(pageNo + 1, perPage);
-                            }
-                        }, "next")
-                        .AddLink(c =>
+                            builder.AddLink(c => c.Get(pageNo + 1, perPage), "next");
+                        }
+
+                        if (hasPrevious)
                         {
-                            if (hasPrevious)
-                            {
-                                c.Get(pageNo - 1, perPage);
-                            }
-                        }, "previous")
-                        .AddLink(c => c.Get(pageNo, perPage), "self")
-                        .AddLink(c => c.Get(0, perPage), "first")
-                        .AddLink(c => c.Get(allCount / perPage, perPage), "last")
-                        .AddAction(c => c.Create(new NewBookModel { Title = "(empty)", Description = "(empty)" }), "create"))
+                            builder.AddLink(c => c.Get(pageNo - 1, perPage), "previous");
+                        }
+                    })
                     .Build()
             );
         }

@@ -4,6 +4,6 @@ namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 {
     internal interface IProxyCollector
     {
-        EndpointDescriptor GetEndpointDescriptor<T>(Action<T> select) where T : class;
+        CollectedMethodCall ProxyCollectOne<T>(Action<T> collect) where T : class;
     }
 }

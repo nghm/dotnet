@@ -5,25 +5,27 @@ using Xunit;
 
 namespace Hypermedia.AspNetCore.Siren.Test
 {
+    using System.Collections.Generic;
+
     public class QueryParametersInterpolatorExtensionsTests
     {
-        public static object[][] InterpolationCases => new object[][]
-           {
-            new object[] { "", new { }, "" },
-            new object[] { "a", new { }, "a" },
-            new object[] { "a", new { a = "guid" }, "a?a=guid" },
-            new object[] { "a", new { a = "guid", b = "guid2" }, "a?a=guid&b=guid2" },
+        public static object[][] InterpolationCases => new[]
+        {
+            new object[] { "", new Dictionary<string, string>(), "" },
+            new object[] { "a", new Dictionary<string, string>(), "a" },
+            new object[] { "a", new Dictionary<string, string> { ["a"] = "guid" }, "a?a=guid" },
+            new object[] { "a", new Dictionary<string, string> { ["a"] = "guid", ["b"] = "guid2" }, "a?a=guid&b=guid2" },
            };
 
         [Theory]
         [MemberAutoMockData(nameof(InterpolationCases))]
-        void ShouldInterpolateParameters(string template, object parameters, string expected)
+        private void ShouldInterpolateParameters(string template, Dictionary<string, string> parameters, string expected)
         {
             Assert.Equal(template.InterpolateQueryParameters(parameters), expected);
         }
 
         [Fact]
-        void ShouldHandleNullTarget()
+        private void ShouldHandleNullTarget()
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
