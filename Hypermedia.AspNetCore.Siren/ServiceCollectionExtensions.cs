@@ -1,5 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.Siren
 {
+    using System;
     using Microsoft.Extensions.DependencyInjection;
     using ProxyCollectors;
 
@@ -14,6 +15,8 @@
             services.AddSingleton<IProxyCollector, CastleProxyCollector>();
             services.AddSingleton<IEndpointDescriptorProvider, EndpointDescriptorProvider>();
             services.AddSingleton<IHypermedia, Hypermedia>();
+
+            mvcBuilder.AddMvcOptions(options => { options.Filters.Add(typeof(HypermediaResourceFilter)); });
 
             return mvcBuilder;
         }

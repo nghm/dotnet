@@ -40,7 +40,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             );
         }
         
-        public IEntityBuilder AddLink<T>(Action<T> select, params string[] rel) where T : class
+        public IEntityBuilder WithLink<T>(string name, Action<T> @select, params string[] rel) where T : class
         {
             var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(select);
 
@@ -53,6 +53,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
                 this._links.Add(new Link
                 {
                     Href = descriptor.Href,
+                    Name = name,
                     Rel = rel
                 });
             }
@@ -60,11 +61,21 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public IEntityBuilder AddLinks<T>(string[] rel, params Action<T>[] selectors) where T : class
+        public IEntityBuilder WithLinks<T>(string[] rel, IDictionary<string, Action<T>> links) where T : class
         {
-            foreach(var selector in selectors)
+            foreach(var link in links)
             {
-                AddLink(selector, rel);
+                WithLink(link.Key, link.Value, rel);
+            }
+
+            return this;
+        }
+
+        public IEntityBuilder WithLinks<T>(IDictionary<string, Action<T>> links) where T : class
+        {
+            foreach (var link in links)
+            {
+                WithLink(link.Key, link.Value);
             }
 
             return this;
@@ -84,7 +95,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
                 .ForEach(action => entityBuilder._actions.Add(action));
         }
 
-        public IEntityBuilder AddClasses(params string[] classes)
+        public IEntityBuilder WithClasses(params string[] classes)
         {
             foreach (var @class in classes)
             {
@@ -94,7 +105,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public IEntityBuilder AddProperties(object properties)
+        public IEntityBuilder WithProperties(object properties)
         {
             foreach (var property in properties.AsPropertyEnumerable())
             {
@@ -104,7 +115,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public IEntityBuilder AddAction<T>(Action<T> select, string name) where T : class
+        public IEntityBuilder WithAction<T>(string name, Action<T> @select) where T : class
         {
             var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(select);
 
@@ -128,7 +139,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public IEntityBuilder AddFrom<T>(Action<ITypedEntityBuilder<T>> entityBuilderConfiguration) where T : class
+        public IEntityBuilder With<T>(Action<ITypedEntityBuilder<T>> entityBuilderConfiguration) where T : class
         {
             var builder = new TypedEntityBuilder<T>(this._endpointDescriptorProvider, this._claimsPrincipal);
 
@@ -139,14 +150,14 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public IEntityBuilder AddProperties<T>(T properties)
+        public IEntityBuilder WithProperties<T>(T properties)
         {
-            AddProperties(properties as object);
+            WithProperties(properties as object);
 
             return this;
         }
 
-        public IEntityBuilder AddEntity<T>(Action<T> select, params string[] classes) where T : class
+        public IEntityBuilder WithEntity<T>(Action<T> select, params string[] classes) where T : class
         {
             var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(select);
 
@@ -166,7 +177,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public IEntityBuilder AddEntity<T>(Action<IEntityBuilder> configure) where T : class
+        public IEntityBuilder WithEntity<T>(Action<IEntityBuilder> configure) where T : class
         {
             var builder = new EntityBuilder(this._endpointDescriptorProvider, this._claimsPrincipal);
 
@@ -177,7 +188,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public IEntityBuilder AddEntities<TM>(IEnumerable<TM> enumerable, Action<IEntityBuilder, TM> configureOne)
+        public IEntityBuilder WithEntities<TM>(IEnumerable<TM> enumerable, Action<IEntityBuilder, TM> configureOne)
         {
             foreach(var enumeration in enumerable)
             {
@@ -191,11 +202,11 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public IEntityBuilder AddEntities<T, TM>(IEnumerable<TM> enumerable, Action<T, TM> configureOne, string[] classes) where T: class
+        public IEntityBuilder WithEntities<T, TM>(IEnumerable<TM> enumerable, Action<T, TM> configureOne, string[] classes) where T: class
         {
             foreach(var enumeration in enumerable)
             {
-                AddEntity<T>(controller => configureOne(controller, enumeration), classes);
+                WithEntity<T>(controller => configureOne(controller, enumeration), classes);
             }
 
             return this;

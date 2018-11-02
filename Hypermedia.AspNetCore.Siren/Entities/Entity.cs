@@ -16,10 +16,10 @@ namespace Hypermedia.AspNetCore.Siren.Entities
 
         public Entity(
             string[] classes, 
-            IEntity[] entities, 
-            ILink[] links, 
-            IDictionary<string, object> properties, 
-            IAction[] actions
+            IEntity[] entities = null, 
+            ILink[] links = null, 
+            IDictionary<string, object> properties = null, 
+            IAction[] actions = null
         )
         {
             Classes = classes;

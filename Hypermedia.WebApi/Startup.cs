@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Hypermedia.WebApi
 {
+    using AutoMapper;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -24,6 +26,7 @@ namespace Hypermedia.WebApi
             services.AddMvc()
                 .AddHypermediaSiren()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddAutoMapper();
 
             services.AddSingleton<BooksService>();
         }

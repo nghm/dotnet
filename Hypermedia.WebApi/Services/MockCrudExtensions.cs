@@ -5,13 +5,14 @@
 
     public static class MockCrudExtensions
     {
-        public static IEnumerable<T> Paginate<T>(this MockCrudService<T> service, int perPage, int pageNo)
+        public static T[] Paginate<T>(this MockCrudService<T> service, int perPage, int pageNo)
             where T : class 
         {
             return service
                 .All()
                 .Skip(perPage * pageNo)
-                .Take(perPage);
+                .Take(perPage)
+                .ToArray();
         }
     }
 }

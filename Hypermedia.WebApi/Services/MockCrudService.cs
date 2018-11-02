@@ -54,12 +54,12 @@ namespace Hypermedia.WebApi.Services
             return returnedValue;
         }
 
-        IEnumerable<int> Infinite(int value = 0)
+        static IEnumerable<int> Infinite(int value = 0)
         {
-            while (value++ > 0)
+            do
             {
-                yield return value;
-            }
+                yield return value++;
+            } while (value > 0);
         }
 
         public int Count()

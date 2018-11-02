@@ -1,25 +1,22 @@
-﻿using Hypermedia.AspNetCore.Siren;
-using Hypermedia.WebApi.Models;
-using Hypermedia.WebApi.Services;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-
-namespace Hypermedia.WebApi.Controllers
+﻿namespace Hypermedia.WebApi.Controllers
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
+    using Models;
+    using Services;
+    using Microsoft.AspNetCore.Mvc;
+    using AspNetCore.Siren;
+    using AutoMapper;
 
     [Route("api/[controller]")]
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private IHypermedia Hypermedia { get; }
-        private BooksService Books { get; }
+        private readonly IMapper _mapper;
+        private readonly BooksService _books;
 
-        public BooksController(IHypermedia hypermedia, BooksService books)
+        public BooksController(IMapper mapper, BooksService books)
         {
-            this.Hypermedia = hypermedia;
-            this.Books = books;
+            this._mapper = mapper;
+            this._books = books;
         }
 
         [HttpGet]
@@ -28,132 +25,53 @@ namespace Hypermedia.WebApi.Controllers
             int perPage = 12
         )
         {
-            var books = Books.Paginate(perPage, pageNo);
-            var allCount = Books.Count();
-
-            var hasPrevious = pageNo > 0;
-            var hasNext = (float) allCount / perPage > pageNo + 1;
+            var books = this._books.Paginate(perPage, pageNo);
+            var totalCount = this._books.Count();
 
             return Ok(
-                this.Hypermedia
-                    .Make()
-                    .AddClasses("books")
-                    .AddProperties(new { name = "Books", pageNo, perPage })
-                    .AddFrom<BooksController>(builder =>
-                    {
-                        builder
-                            .AddEntity(c => c.GetOne(0), "book-latest")
-                            .AddEntities(books, (bookBuilder, book) => bookBuilder
-                                .AddClasses("recent-book", "book-embedded", book.Id % 2 == 0 ? "even" : "odd")
-                                .AddProperties(book)
-                                .AddLink<BooksController>(c => c.GetOne(book.Id, pageNo, perPage), "details"))
-                            .AddLink(c => c.Get(pageNo, perPage), "self")
-                            .AddLink(c => c.Get(0, perPage), "first")
-                            .AddLink(c => c.Get(allCount / perPage, perPage), "last")
-                            .AddAction(c => c.Create(new NewBookModel {Title = "(empty)", Description = "(empty)"}),
-                                "create");
-
-                        if (hasNext)
-                        {
-                            builder.AddLink(c => c.Get(pageNo + 1, perPage), "next");
-                        }
-
-                        if (hasPrevious)
-                        {
-                            builder.AddLink(c => c.Get(pageNo - 1, perPage), "previous");
-                        }
-                    })
-                    .Build()
-            );
+                new BooksResource(
+                    pageNo, perPage, 
+                    totalCount, books));
         }
 
         [HttpGet("{id}")]
         public virtual IActionResult GetOne(int id, int pageNo = 0, int perPage = 12)
         {
-            var oneBook = Books.One(id);
+            var book = this._books.One(id);
 
             return Ok(
-                Hypermedia.Make()
-                    .AddClasses("book", "details")
-                    .AddProperties(oneBook)
-                    .AddFrom<BooksController>(builder => builder
-                        .AddLink(c => c.Get(pageNo, perPage), "parent", "books")
-                        .AddLink(c => c.GetOne(id, pageNo, perPage), "self")
-                        .AddAction(c => c.Update(id, new EditBookModel
-                        {
-                            Title = oneBook.Title,
-                            Description = oneBook.Description,
-                            Status = oneBook.Status,
-                            IsFree = oneBook.IsFree
-                        }), "update")
-                    )
-                    .Build()
-            );
+                new BookResource(
+                    perPage, pageNo, 
+                    book));
         }
 
         [HttpPatch("{id}")]
         public virtual IActionResult Update(int id, [FromBody] EditBookModel editBookModel)
         {
-            if (id >= 0 && ModelState.IsValid)
+            if (id < 0 || !this.ModelState.IsValid)
             {
-                Books.Update(id, new Book
-                {
-                    Id = id,
-                    Title = editBookModel.Title,
-                    Description = editBookModel.Description,
-                    Status = editBookModel.Status,
-                    IsFree = editBookModel.IsFree
-                });
-
-                return NoContent();
+                return BadRequest(this.ModelState.ToResource());
             }
 
-            return BadRequest(
-                new
-                {
-                    @class = new[] { "error" },
-                    properties = ModelState
-                        .ToDictionary(
-                            modelError => modelError
-                                .Key,
-                            modelError => modelError
-                                .Value
-                                .Errors
-                                .Select(error => error.ErrorMessage)
-                        )
-                }
-            );
+            var mappedBook = this._mapper.Map<Book>(editBookModel);
+            this._books.Update(id, mappedBook);
+
+            return NoContent();
+
         }
 
         [HttpPost]
         public virtual IActionResult Create([FromBody] NewBookModel newBookModel)
         {
-            if (ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                Books.Create(new Book
-                {
-                    Title = newBookModel.Title,
-                    Description = newBookModel.Description
-                });
-
-                return NoContent();
+                return BadRequest(this.ModelState.ToResource());
             }
 
-            return BadRequest(
-                new
-                {
-                    @class = new[] { "error" },
-                    properties = ModelState
-                        .ToDictionary(
-                            modelError => modelError
-                                .Key,
-                            modelError => modelError
-                                .Value
-                                .Errors
-                                .Select(error => error.ErrorMessage)
-                        )
-                }
-            );
+            var mappedBook = this._mapper.Map<Book>(newBookModel);
+            this._books.Create(mappedBook);
+
+            return NoContent();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Hypermedia.AspNetCore.Siren
             this._endpointDescriptorProvider = endpointDescriptorProvider;
         }
 
-        public IEntityBuilder Make()
+        public IEntityBuilder MakeEntity()
         {
             return new EntityBuilder(this._endpointDescriptorProvider, null);
         }

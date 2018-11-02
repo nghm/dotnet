@@ -14,47 +14,74 @@ namespace Hypermedia.AspNetCore.Siren.Entities
         {
         }
 
-        public ITypedEntityBuilder<T> AddAction(Action<T> select, string name)
+        public ITypedEntityBuilder<T> WithAction(string name, Action<T> @select)
         {
-            AddAction<T>(select, name);
+            WithAction<T>(name, @select);
 
             return this;
         }
 
-        public ITypedEntityBuilder<T> AddEntity(Action<T> select, params string[] classes)
+        public ITypedEntityBuilder<T> WithEntity(Action<T> select, params string[] classes)
         {
-            AddEntity<T>(select, classes);
+            WithEntity<T>(select, classes);
 
             return this;
         }
 
-        public ITypedEntityBuilder<T> AddEntity(Action<IEntityBuilder> select)
+        public ITypedEntityBuilder<T> WithEntity(Action<IEntityBuilder> select)
         {
-            AddEntity<T>(select);
+            WithEntity<T>(select);
 
             return this;
         }
         
-        public ITypedEntityBuilder<T> AddLink(Action<T> select, params string[] rel)
+        public ITypedEntityBuilder<T> WithLink(string name, Action<T> @select, params string[] rel)
         {
-            AddLink<T>(select, rel);
+            WithLink<T>(name, @select, rel);
 
             return this;
         }
 
-        public ITypedEntityBuilder<T> AddEntities<M>(IEnumerable<M> enumerable, Action<T, M> configureOne, params string[] classes)
+        public ITypedEntityBuilder<T> WithEntities<TM>(IEnumerable<TM> enumerable, Action<T, TM> configureOne, params string[] classes)
         {
-            base.AddEntities(enumerable, configureOne, classes);
+            base.WithEntities(enumerable, configureOne, classes);
 
             return this;
         }
 
-        public new ITypedEntityBuilder<T> AddEntities<M>(IEnumerable<M> enumerable, Action<IEntityBuilder, M> configureOne)
+        public new ITypedEntityBuilder<T> WithEntities<TM>(IEnumerable<TM> enumerable, Action<IEntityBuilder, TM> configureOne)
         {
-            base.AddEntities(enumerable, configureOne);
+            base.WithEntities(enumerable, configureOne);
 
             return this;
         }
 
+        public ITypedEntityBuilder<T> WithLinks(string[] rel, Dictionary<string, Action<T>> links)
+        {
+            base.WithLinks(rel, links);
+
+            return this;
+        }
+
+        public ITypedEntityBuilder<T> WithLinks(Dictionary<string, Action<T>> links)
+        {
+            base.WithLinks(links);
+
+            return this;
+        }
+
+        public new ITypedEntityBuilder<T> WithClasses(params string[] classes)
+        {
+            base.WithClasses(classes);
+
+            return this;
+        }
+
+        public new ITypedEntityBuilder<T> WithProperties(object properties)
+        {
+            base.WithProperties(properties);
+
+            return this;
+        }
     }
 }

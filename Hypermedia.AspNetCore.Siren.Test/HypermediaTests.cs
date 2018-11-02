@@ -14,7 +14,7 @@ namespace Hypermedia.AspNetCore.Siren.Test
             Hypermedia hypermedia
         )
         {
-            var builder = hypermedia.Make();
+            var builder = hypermedia.MakeEntity();
 
             Assert.NotNull(builder);
             Assert.IsType<EntityBuilder>(builder);
