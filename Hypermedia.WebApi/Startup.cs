@@ -8,13 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Hypermedia.WebApi
 {
+    using System;
     using AutoMapper;
 
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -27,8 +28,10 @@ namespace Hypermedia.WebApi
                 .AddHypermediaSiren()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAutoMapper();
-
-            services.AddSingleton<BooksService>();
+            
+            services.AddSingleton(typeof(ICrudServiceSeed<,>), typeof(AutoMockCrudServiceSeed<,>));
+            services.AddSingleton(typeof(IGuidGenerator<>), typeof(AutoMockGuidGenerator<>));
+            services.AddSingleton(typeof(ICrudService<,>), typeof(InMemoryCrudService<,>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +48,8 @@ namespace Hypermedia.WebApi
                 options.AllowAnyMethod();
             });
             app.UseMvc();
+
+            app.UseMockSeeds<Book, Guid>(40);
         }
     }
 }

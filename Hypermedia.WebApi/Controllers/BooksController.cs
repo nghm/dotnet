@@ -1,5 +1,6 @@
 ﻿namespace Hypermedia.WebApi.Controllers
 {
+    using System;
     using Models;
     using Services;
     using Microsoft.AspNetCore.Mvc;
@@ -11,9 +12,9 @@
     public class BooksController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly BooksService _books;
+        private readonly ICrudService<Book, Guid> _books;
 
-        public BooksController(IMapper mapper, BooksService books)
+        public BooksController(IMapper mapper, ICrudService<Book, Guid> books)
         {
             this._mapper = mapper;
             this._books = books;
@@ -28,27 +29,26 @@
             var books = this._books.Paginate(perPage, pageNo);
             var totalCount = this._books.Count();
 
-            return Ok(
-                new BooksResource(
-                    pageNo, perPage, 
-                    totalCount, books));
+            return Ok(new BooksResource(pageNo, perPage, totalCount, books));
         }
 
         [HttpGet("{id}")]
-        public virtual IActionResult GetOne(int id, int pageNo = 0, int perPage = 12)
+        public virtual IActionResult GetOne(Guid id, int pageNo = 0, int perPage = 12)
         {
             var book = this._books.One(id);
 
-            return Ok(
-                new BookResource(
-                    perPage, pageNo, 
-                    book));
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new BookResource(perPage, pageNo, book));
         }
 
         [HttpPatch("{id}")]
-        public virtual IActionResult Update(int id, [FromBody] EditBookModel editBookModel)
+        public virtual IActionResult Update(Guid id, [FromBody] EditBookModel editBookModel)
         {
-            if (id < 0 || !this.ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 return BadRequest(this.ModelState.ToResource());
             }
@@ -57,7 +57,6 @@
             this._books.Update(id, mappedBook);
 
             return NoContent();
-
         }
 
         [HttpPost]

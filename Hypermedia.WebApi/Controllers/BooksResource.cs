@@ -39,9 +39,8 @@
             builder
                 .WithClasses("books")
                 .WithProperties(new { name = "Books" })
-                .WithEntity(c => c.GetOne(0), "book-latest")
                 .WithEntities(this._books, (b, book) => b
-                    .WithClasses("recent-book", "book-embedded", OddOrEvenClass(book))
+                    .WithClasses("recent-book", "book-embedded")
                     .WithProperties(book)
                     .WithLink<BooksController>("details", c => c.GetOne(book.Id, this._pageNo, this._perPage)))
                 .WithAction("create", c => c.Create(this.NewBookModel))
@@ -69,17 +68,6 @@
             }
 
             return links;
-        }
-
-        private static string OddOrEvenClass(Book book)
-        {
-            switch (book.Id % 2)
-            {
-                case 0:
-                    return "even";
-                default:
-                    return "odd";
-            }
         }
     }
 }

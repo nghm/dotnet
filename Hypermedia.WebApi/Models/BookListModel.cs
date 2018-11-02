@@ -1,8 +1,10 @@
 ﻿namespace Hypermedia.WebApi.Models
 {
+    using System;
+
     internal class BookListModel
     {
-        public int Id { get; internal set; }
+        public Guid Id { get; internal set; }
         public string Title { get; internal set; }
     }
 }

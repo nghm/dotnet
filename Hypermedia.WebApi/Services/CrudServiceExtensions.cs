@@ -1,12 +1,15 @@
 ﻿namespace Hypermedia.WebApi.Services
 {
-    using System.Collections.Generic;
     using System.Linq;
 
-    public static class MockCrudExtensions
+    public static class CrudServiceExtensions
     {
-        public static T[] Paginate<T>(this MockCrudService<T> service, int perPage, int pageNo)
-            where T : class 
+        public static T[] Paginate<T, TKey>(
+            this ICrudService<T, TKey> service, 
+            int perPage, 
+            int pageNo
+        )
+            where T : class, IEntity<TKey>
         {
             return service
                 .All()

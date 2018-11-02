@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Threading.Tasks;
-
-namespace Hypermedia.WebApi.Services
+﻿namespace Hypermedia.WebApi.Services
 {
-    public class Book
+    using System;
+
+    public class Book : IEntity<Guid>
     {
-        public string Title { get; internal set; }
-        public int Id { get; internal set; }
-        public string Description { get; internal set; }
+        public Guid Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
         public BookStatus Status { get; set; }
         public bool IsFree { get; set; }
     }
