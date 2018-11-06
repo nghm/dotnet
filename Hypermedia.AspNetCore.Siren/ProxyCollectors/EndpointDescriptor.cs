@@ -85,6 +85,11 @@
 
         public bool CanAccess(ClaimsPrincipal user)
         {
+            if (this._policies.Length == 0)
+            {
+                return true;
+            }
+
             return this._policies
                .Any(authorizationPolicy => IsAuthorized(user, authorizationPolicy));
         }

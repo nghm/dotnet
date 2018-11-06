@@ -22,7 +22,7 @@
         }
 
         [HttpGet]
-        public virtual IActionResult Get(int pageNo = 0, int perPage = 12)
+        public IActionResult Get(int pageNo = 0, int perPage = 12)
         {
             var books = this._books.Paginate(perPage, pageNo);
             var totalCount = this._books.Count();
@@ -32,7 +32,7 @@
 
         [HttpGet("{id}")]
         [Authorize("CanEditBooks")]
-        public virtual IActionResult GetOne(Guid id, int pageNo = 0, int perPage = 12)
+        public IActionResult GetOne(Guid id, int pageNo = 0, int perPage = 12)
         {
             var book = this._books.One(id);
 
@@ -45,7 +45,7 @@
         }
 
         [HttpPatch("{id}")]
-        public virtual IActionResult Update(Guid id, [FromBody] EditBookModel editBookModel)
+        public IActionResult Update(Guid id, [FromBody] EditBookModel editBookModel)
         {
             if (!this.ModelState.IsValid)
             {
@@ -59,7 +59,7 @@
         }
 
         [HttpPost]
-        public virtual IActionResult Create([FromBody] NewBookModel newBookModel)
+        public IActionResult Create([FromBody] NewBookModel newBookModel)
         {
             if (!this.ModelState.IsValid)
             {
