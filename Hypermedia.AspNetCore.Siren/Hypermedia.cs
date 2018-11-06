@@ -3,6 +3,8 @@ using Hypermedia.AspNetCore.Siren.ProxyCollectors;
 
 namespace Hypermedia.AspNetCore.Siren
 {
+    using System.Security.Claims;
+
     class Hypermedia : IHypermedia
     {
         private readonly IEndpointDescriptorProvider _endpointDescriptorProvider;
@@ -14,7 +16,12 @@ namespace Hypermedia.AspNetCore.Siren
 
         public IEntityBuilder MakeEntity()
         {
-            return new EntityBuilder(this._endpointDescriptorProvider, null);
+            return MakeEntity(null);
+        }
+
+        public IEntityBuilder MakeEntity(ClaimsPrincipal user)
+        {
+            return new EntityBuilder(this._endpointDescriptorProvider, user);
         }
     }
 }

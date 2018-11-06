@@ -39,6 +39,20 @@ namespace Hypermedia.AspNetCore.Siren.Entities
                 this._actions.ToArray()
             );
         }
+
+        private void BuildOver(EntityBuilder entityBuilder)
+        {
+            this._classes.ToList()
+                .ForEach(@class => entityBuilder._classes.Add(@class));
+            this._links.ToList()
+                .ForEach(link => entityBuilder._links.Add(link));
+            this._entities.ToList()
+                .ForEach(entity => entityBuilder._entities.Add(entity));
+            this._properties.ToList()
+                .ForEach(property => entityBuilder._properties.Add(property));
+            this._actions.ToList()
+                .ForEach(action => entityBuilder._actions.Add(action));
+        }
         
         public IEntityBuilder WithLink<T>(string name, Action<T> @select, params string[] rel) where T : class
         {
@@ -48,15 +62,22 @@ namespace Hypermedia.AspNetCore.Siren.Entities
                 return this;
             }
 
-            if (descriptor.IsLink())
+            if (!descriptor.CanAccess(this._claimsPrincipal))
             {
-                this._links.Add(new Link
-                {
-                    Href = descriptor.Href,
-                    Name = name,
-                    Rel = rel
-                });
+                return this;
             }
+
+            if (!descriptor.IsLink())
+            {
+                return this;
+            }
+
+            this._links.Add(new Link
+            {
+                Href = descriptor.Href,
+                Name = name,
+                Rel = rel
+            });
 
             return this;
         }
@@ -79,20 +100,6 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             }
 
             return this;
-        }
-
-        private void BuildOver(EntityBuilder entityBuilder)
-        {
-            this._classes.ToList()
-                .ForEach(@class => entityBuilder._classes.Add(@class));
-            this._links.ToList()
-                .ForEach(link => entityBuilder._links.Add(link));
-            this._entities.ToList()
-                .ForEach(entity => entityBuilder._entities.Add(entity));
-            this._properties.ToList()
-                .ForEach(property => entityBuilder._properties.Add(property));
-            this._actions.ToList()
-                .ForEach(action => entityBuilder._actions.Add(action));
         }
 
         public IEntityBuilder WithClasses(params string[] classes)
@@ -120,6 +127,11 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(select);
 
             if (descriptor == null)
+            {
+                return this;
+            }
+
+            if (!descriptor.CanAccess(this._claimsPrincipal))
             {
                 return this;
             }
@@ -162,6 +174,11 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(select);
 
             if (descriptor == null)
+            {
+                return this;
+            }
+
+            if (!descriptor.CanAccess(this._claimsPrincipal))
             {
                 return this;
             }

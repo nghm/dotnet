@@ -40,6 +40,11 @@
                 {
                     policy.RequireClaim(ClaimTypes.Role, "Admin");
                 });
+
+                options.AddPolicy("CanCreateBooks", policy =>
+                {
+                    policy.RequireClaim(ClaimTypes.Role, "Admin");
+                });
             });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

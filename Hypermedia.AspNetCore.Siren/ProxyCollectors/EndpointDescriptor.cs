@@ -1,31 +1,41 @@
-﻿using Hypermedia.AspNetCore.Siren.Actions.Fields;
-using Hypermedia.AspNetCore.Siren.Util;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.Filters;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
+﻿namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 {
+    using System.Security.Claims;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc.Authorization;
+    using Microsoft.AspNetCore.Mvc.Abstractions;
+    using Microsoft.AspNetCore.Mvc.Controllers;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Actions.Fields;
+    using Util;
+
     internal class EndpointDescriptor
     {
-        private readonly ActionDescriptor _actionDescriptor;
+        private readonly IAuthorizationService _authorizationService;
+        private readonly ControllerActionDescriptor _actionDescriptor;
         private readonly object[] _arguments;
         private readonly string _host;
         private readonly string _protocol;
-        private readonly IAuthorizationFilter[] _auth;
+        private readonly AuthorizationPolicy[] _policies;
 
-        public EndpointDescriptor(ControllerActionDescriptor actionDescriptor, object[] arguments, string host, string protocol)
+        public EndpointDescriptor(
+            IAuthorizationService authorizationService,
+            ControllerActionDescriptor actionDescriptor, 
+            object[] arguments, 
+            string host, 
+            string protocol)
         {
+            this._authorizationService = authorizationService;
             this._actionDescriptor = actionDescriptor;
             this._arguments = arguments;
             this._host = host;
             this._protocol = protocol;
-
-            this._auth = actionDescriptor.FilterDescriptors
-                // ReSharper disable once SuspiciousTypeConversion.Global
-                .OfType<IAuthorizationFilter>()
+            this._policies =  actionDescriptor
+                .FilterDescriptors
+                .Select(f => f.Filter)
+                .OfType<AuthorizeFilter>()
+                .Select(filter => filter.Policy)
                 .ToArray();
         }
 
@@ -34,7 +44,7 @@ namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
         public object Query => this._actionDescriptor.BuildQueryObject(this._arguments);
         public object Route => this._actionDescriptor.BuildRouteObject(this._arguments);
         public string Href => ComputeHref();
-        public IEnumerable<IField> Fields { get => ComputeFields(); }
+        public IEnumerable<IField> Fields => ComputeFields();
 
         private IEnumerable<IField> ComputeFields()
         {
@@ -73,9 +83,18 @@ namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
             yield return new TypeMetadata(fieldGenerationContext);
         }
 
-        public bool CanAccess()
+        public bool CanAccess(ClaimsPrincipal user)
         {
-            _auth.All(auth => auth.)
+            return this._policies
+               .Any(authorizationPolicy => IsAuthorized(user, authorizationPolicy));
+        }
+
+        private bool IsAuthorized(ClaimsPrincipal user, AuthorizationPolicy authorizationPolicy)
+        {
+            return this._authorizationService
+                .AuthorizeAsync(user, authorizationPolicy)
+                .Result
+                .Succeeded;
         }
 
         private string ComputeHref()

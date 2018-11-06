@@ -6,5 +6,6 @@ namespace Hypermedia.AspNetCore.Siren
     public interface IHypermedia
     {
         IEntityBuilder MakeEntity();
+        IEntityBuilder MakeEntity(ClaimsPrincipal user);
     }
 }

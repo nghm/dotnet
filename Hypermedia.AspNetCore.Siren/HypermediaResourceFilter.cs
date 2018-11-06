@@ -24,7 +24,7 @@
                 return;
             }
 
-            var builder = this._hypermedia.MakeEntity();
+            var builder = this._hypermedia.MakeEntity(context.HttpContext.User);
 
             resource.Configure(builder);
 
