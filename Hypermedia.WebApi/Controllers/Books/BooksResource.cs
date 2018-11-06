@@ -1,12 +1,11 @@
-﻿namespace Hypermedia.WebApi.Controllers
+﻿namespace Hypermedia.WebApi.Controllers.Books
 {
+    using System;
+    using System.Collections.Generic;
     using AspNetCore.Siren;
     using AspNetCore.Siren.Entities;
-    using System.Collections.Generic;
     using Models;
     using Services;
-    using System;
-
 
     internal class BooksResource : TypedHypermediaResource<BooksController>
     {

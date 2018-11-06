@@ -1,15 +1,16 @@
-﻿using Hypermedia.AspNetCore.Siren;
-using Hypermedia.WebApi.Services;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Hypermedia.WebApi
+﻿namespace Hypermedia.WebApi
 {
     using System;
+    using Services;
     using AutoMapper;
+    using AspNetCore.Siren;
+    using System.Security.Claims;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
 
     public class Startup
     {
@@ -32,6 +33,21 @@ namespace Hypermedia.WebApi
             services.AddSingleton(typeof(ICrudServiceSeed<,>), typeof(AutoMockCrudServiceSeed<,>));
             services.AddSingleton(typeof(IGuidGenerator<>), typeof(AutoMockGuidGenerator<>));
             services.AddSingleton(typeof(ICrudService<,>), typeof(InMemoryCrudService<,>));
+            
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CanEditBooks", policy =>
+                {
+                    policy.RequireClaim(ClaimTypes.Role, "Admin");
+                });
+            });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "https://localhost:44363";
+                    options.Audience = "api";
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +58,7 @@ namespace Hypermedia.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAuthentication();
             app.UseCors(options => {
                 options.AllowAnyOrigin();
                 options.AllowAnyHeader();

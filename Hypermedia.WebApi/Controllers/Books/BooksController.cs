@@ -1,11 +1,12 @@
-﻿namespace Hypermedia.WebApi.Controllers
+﻿namespace Hypermedia.WebApi.Controllers.Books
 {
     using System;
-    using Models;
-    using Services;
-    using Microsoft.AspNetCore.Mvc;
     using AspNetCore.Siren;
     using AutoMapper;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models;
+    using Services;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -21,10 +22,7 @@
         }
 
         [HttpGet]
-        public virtual IActionResult Get(
-            int pageNo = 0, 
-            int perPage = 12
-        )
+        public virtual IActionResult Get(int pageNo = 0, int perPage = 12)
         {
             var books = this._books.Paginate(perPage, pageNo);
             var totalCount = this._books.Count();
@@ -33,6 +31,7 @@
         }
 
         [HttpGet("{id}")]
+        [Authorize("CanEditBooks")]
         public virtual IActionResult GetOne(Guid id, int pageNo = 0, int perPage = 12)
         {
             var book = this._books.One(id);

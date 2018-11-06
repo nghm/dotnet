@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.WebApi.Controllers
+﻿namespace Hypermedia.WebApi.Controllers.Books
 {
     using AspNetCore.Siren;
     using AspNetCore.Siren.Entities;

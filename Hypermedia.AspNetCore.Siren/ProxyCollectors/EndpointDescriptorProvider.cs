@@ -37,9 +37,4 @@
             return new EndpointDescriptor(actionDescriptor, arguments, "localhost:54287", "http");
         }
     }
-
-    internal interface IEndpointDescriptorProvider
-    {
-        EndpointDescriptor GetEndpointDescriptor<T>(Action<T> select) where T : class;
-    }
 }

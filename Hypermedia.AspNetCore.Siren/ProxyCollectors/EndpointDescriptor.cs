@@ -2,6 +2,7 @@
 using Hypermedia.AspNetCore.Siren.Util;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,13 +14,19 @@ namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
         private readonly object[] _arguments;
         private readonly string _host;
         private readonly string _protocol;
+        private readonly IAuthorizationFilter[] _auth;
 
-        public EndpointDescriptor(ActionDescriptor actionDescriptor, object[] arguments, string host, string protocol)
+        public EndpointDescriptor(ControllerActionDescriptor actionDescriptor, object[] arguments, string host, string protocol)
         {
             this._actionDescriptor = actionDescriptor;
             this._arguments = arguments;
             this._host = host;
             this._protocol = protocol;
+
+            this._auth = actionDescriptor.FilterDescriptors
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                .OfType<IAuthorizationFilter>()
+                .ToArray();
         }
 
         public string Method => this._actionDescriptor.GetHttpMethod().ToUpper();
@@ -64,6 +71,11 @@ namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
         private IEnumerable<IFieldMetadata> GetSupportedFieldMetadata(FieldGenerationContext fieldGenerationContext)
         {
             yield return new TypeMetadata(fieldGenerationContext);
+        }
+
+        public bool CanAccess()
+        {
+            _auth.All(auth => auth.)
         }
 
         private string ComputeHref()
