@@ -10,26 +10,26 @@
         private readonly IControllerTypeChecker _controllerTypeChecker;
         private readonly IActionDescriptorResolver _actionDescriptorResolver;
         private readonly IFieldMetadataProviderCollection _fieldMetadataProviderCollection;
-        private readonly IProxyCollector _proxyCollector;
+        private readonly ICallCollector _callCollector;
         private readonly IAuthorizationService _authService;
 
         public EndpointDescriptorProvider(
             IControllerTypeChecker controllerTypeChecker,
             IActionDescriptorResolver actionDescriptorResolver,
             IFieldMetadataProviderCollection fieldMetadataProviderCollection,
-            IProxyCollector proxyCollector,
+            ICallCollector callCollector,
             IAuthorizationService authService)
         {
             this._controllerTypeChecker = controllerTypeChecker;
             this._actionDescriptorResolver = actionDescriptorResolver;
             this._fieldMetadataProviderCollection = fieldMetadataProviderCollection;
-            this._proxyCollector = proxyCollector;
+            this._callCollector = callCollector;
             this._authService = authService;
         }
 
         public EndpointDescriptor GetEndpointDescriptor<T>(Expression<Action<T>> @select) where T : class
         {
-            var methodCall = this._proxyCollector.ProxyCollectOne(select);
+            var methodCall = this._callCollector.CollectCall(select);
 
             if (methodCall == null)
             {

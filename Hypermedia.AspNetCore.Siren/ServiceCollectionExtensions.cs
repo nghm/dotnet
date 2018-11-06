@@ -15,7 +15,7 @@
 
             services.AddSingleton<IControllerTypeChecker, ControllerTypeChecker>();
             services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
-            services.AddSingleton<IProxyCollector, ExpressionProxyCollector>();
+            services.AddSingleton<ICallCollector, ExpressionCallCollector>();
             services.AddSingleton<IEndpointDescriptorProvider, EndpointDescriptorProvider>();
             services.AddSingleton<IEntityBuilderFactory, EntityBuilderFactory>();
 

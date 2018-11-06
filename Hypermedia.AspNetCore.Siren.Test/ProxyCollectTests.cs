@@ -8,11 +8,11 @@
     {
         [Theory]
         [AutoMockData]
-        private void TestPerformanceOld(ExpressionProxyCollector sut)
+        private void TestPerformanceOld(ExpressionCallCollector sut)
         {
             for (var i = 0; i < 10000; i++)
             {
-                sut.ProxyCollectOne<ProxyCollectTests>(e => ComplexMethod(i + 1, i + 2, i * i));
+                sut.CollectCall<ProxyCollectTests>(e => ComplexMethod(i + 1, i + 2, i * i));
             }
         }
         

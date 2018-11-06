@@ -4,9 +4,9 @@
     using System.Linq;
     using System.Linq.Expressions;
 
-    internal class ExpressionProxyCollector : IProxyCollector
+    internal class ExpressionCallCollector : ICallCollector
     {
-        public CollectedMethodCall ProxyCollectOne<T>(Expression<Action<T>> select) where T : class
+        public CollectedMethodCall CollectCall<T>(Expression<Action<T>> select) where T : class
         {
             if (select.Body is MethodCallExpression methodCall)
             {
