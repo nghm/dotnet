@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Hypermedia.Identity
+﻿namespace Books.Identity
 {
     using System.Collections.Generic;
     using System.Security.Claims;
     using IdentityServer4.Models;
     using IdentityServer4.Test;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.DependencyInjection;
 
     public class Startup
     {

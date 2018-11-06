@@ -1,12 +1,12 @@
-﻿namespace Hypermedia.WebApi.Controllers.Books
+﻿namespace Books.WebApi.Controllers.Books
 {
     using System;
-    using AspNetCore.Siren;
     using AutoMapper;
+    using Hypermedia.AspNetCore.Siren;
+    using Infrastructure.Services;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models;
-    using Services;
 
     [Route("api/[controller]")]
     [ApiController]

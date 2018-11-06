@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypermedia.WebApi", "Hypermedia.WebApi\Hypermedia.WebApi.csproj", "{F008393E-9B79-4AA3-98D8-7B83A90D9304}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.WebApi", "Hypermedia.WebApi\Books.WebApi.csproj", "{F008393E-9B79-4AA3-98D8-7B83A90D9304}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypermedia.AspNetCore.Siren", "Hypermedia.AspNetCore.Siren\Hypermedia.AspNetCore.Siren.csproj", "{07C0764E-82D9-4C13-9750-147A2A30400A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypermedia.AspNetCore.Siren.Test", "Hypermedia.AspNetCore.Siren.Test\Hypermedia.AspNetCore.Siren.Test.csproj", "{AC5005B4-39A2-43AA-87CB-631488AD33FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermedia.Identity", "Hypermedia.Identity\Hypermedia.Identity.csproj", "{51DF544C-2CCB-447A-9FDA-CBA384B06730}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Identity", "Hypermedia.Identity\Books.Identity.csproj", "{51DF544C-2CCB-447A-9FDA-CBA384B06730}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Books", "Books", "{5040275C-0943-4C29-B487-CF878F2109C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Infrastructure", "Books.Infrastructure\Books.Infrastructure.csproj", "{EBCDBE9C-52F9-424F-955F-CBBDE9C0EC2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +37,18 @@ Global
 		{51DF544C-2CCB-447A-9FDA-CBA384B06730}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51DF544C-2CCB-447A-9FDA-CBA384B06730}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51DF544C-2CCB-447A-9FDA-CBA384B06730}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBCDBE9C-52F9-424F-955F-CBBDE9C0EC2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBCDBE9C-52F9-424F-955F-CBBDE9C0EC2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBCDBE9C-52F9-424F-955F-CBBDE9C0EC2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBCDBE9C-52F9-424F-955F-CBBDE9C0EC2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F008393E-9B79-4AA3-98D8-7B83A90D9304} = {5040275C-0943-4C29-B487-CF878F2109C2}
+		{51DF544C-2CCB-447A-9FDA-CBA384B06730} = {5040275C-0943-4C29-B487-CF878F2109C2}
+		{EBCDBE9C-52F9-424F-955F-CBBDE9C0EC2E} = {5040275C-0943-4C29-B487-CF878F2109C2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {078B1914-1774-4986-829B-74698F301995}

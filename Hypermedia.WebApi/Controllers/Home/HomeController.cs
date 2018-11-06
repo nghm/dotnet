@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.WebApi.Controllers.Home
+﻿namespace Books.WebApi.Controllers.Home
 {
     using Microsoft.AspNetCore.Mvc;
 

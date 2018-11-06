@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.WebApi.Models
+﻿namespace Books.WebApi.Models
 {
     using System;
 

@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Hypermedia.WebApi.Models
+﻿namespace Books.WebApi.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class NewBookModel
     {
         [Required]

@@ -1,7 +1,7 @@
-﻿namespace Hypermedia.WebApi
+﻿namespace Books.WebApi
 {
+    using Infrastructure.Services;
     using Microsoft.AspNetCore.Builder;
-    using Services;
 
     public static class ApplicationBuilderExtensions
     {

@@ -1,10 +1,10 @@
-﻿namespace Hypermedia.WebApi.Controllers.Home
+﻿namespace Books.WebApi.Controllers.Home
 {
     using System;
     using System.Collections.Generic;
-    using AspNetCore.Siren;
-    using AspNetCore.Siren.Entities;
     using Books;
+    using Hypermedia.AspNetCore.Siren;
+    using Hypermedia.AspNetCore.Siren.Entities;
     using Models;
 
     internal class HomeResource : HypermediaResource

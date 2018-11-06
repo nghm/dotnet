@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.WebApi.Services
+﻿namespace Books.Infrastructure.Services
 {
     using System.Collections.Generic;
     using System.Linq;

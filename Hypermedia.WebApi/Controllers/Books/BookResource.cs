@@ -1,9 +1,9 @@
-﻿namespace Hypermedia.WebApi.Controllers.Books
+﻿namespace Books.WebApi.Controllers.Books
 {
-    using AspNetCore.Siren;
-    using AspNetCore.Siren.Entities;
+    using Hypermedia.AspNetCore.Siren;
+    using Hypermedia.AspNetCore.Siren.Entities;
+    using Infrastructure.Services;
     using Models;
-    using Services;
 
     public class BookResource : TypedHypermediaResource<BooksController>
     {

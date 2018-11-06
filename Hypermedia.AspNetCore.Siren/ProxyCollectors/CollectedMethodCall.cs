@@ -1,12 +1,19 @@
-﻿using System;
-using System.Reflection;
-
-namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
+﻿namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 {
+    using System;
+    using System.Reflection;
+
     internal class CollectedMethodCall
     {
-        public object[] Arguments { get; internal set; }
-        public MethodInfo Method { get; internal set; }
-        public Type Target { get; internal set; }
+        public CollectedMethodCall(object[] arguments, MethodInfo method, Type target)
+        {
+            this.Arguments = arguments;
+            this.Method = method;
+            this.Target = target;
+        }
+
+        public object[] Arguments { get; }
+        public MethodInfo Method { get; }
+        public Type Target { get; }
     }
 }

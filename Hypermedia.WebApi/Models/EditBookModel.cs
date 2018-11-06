@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Hypermedia.WebApi.Services;
-
-namespace Hypermedia.WebApi.Models
+﻿namespace Books.WebApi.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using Infrastructure.Services;
+
     public class EditBookModel
     {
         [Required, MaxLength(255)]

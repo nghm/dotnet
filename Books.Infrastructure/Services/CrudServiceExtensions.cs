@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.WebApi.Services
+﻿namespace Books.Infrastructure.Services
 {
     using System.Linq;
 
@@ -11,9 +11,8 @@
         )
             where T : class, IEntity<TKey>
         {
-            return service
-                .All()
-                .Skip(perPage * pageNo)
+            return Queryable.Skip<T>(service
+                        .All(), perPage * pageNo)
                 .Take(perPage)
                 .ToArray();
         }

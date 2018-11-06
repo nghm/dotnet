@@ -82,7 +82,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public new ITypedEntityBuilder<T> WithProperties(object properties)
+        public new ITypedEntityBuilder<T> WithProperties<TProp>(TProp properties)
         {
             base.WithProperties(properties);
 

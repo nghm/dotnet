@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.WebApi
+﻿namespace Books.Infrastructure
 {
     using AutoFixture;
     using AutoFixture.AutoMoq;

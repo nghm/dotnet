@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Hypermedia.WebApi.Services
+﻿namespace Books.Infrastructure.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class InMemoryCrudService<T, TKey> : ICrudService<T, TKey> 
         where T: class, IEntity<TKey>
     {
@@ -12,8 +12,7 @@ namespace Hypermedia.WebApi.Services
 
         public IQueryable<T> All() =>
             this._stored
-                .Select(kvp => kvp.Value)
-                .AsQueryable();
+                .Select(kvp => kvp.Value).AsQueryable<T>();
 
         public InMemoryCrudService(IGuidGenerator<TKey> guidGenerator)
         {

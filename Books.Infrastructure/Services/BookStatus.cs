@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.WebApi.Services
+﻿namespace Books.Infrastructure.Services
 {
     public enum BookStatus
     {
