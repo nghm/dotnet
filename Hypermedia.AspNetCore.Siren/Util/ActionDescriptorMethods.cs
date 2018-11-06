@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Internal;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Hypermedia.AspNetCore.Siren.Util
+﻿namespace Hypermedia.AspNetCore.Siren.Util
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.AspNetCore.Mvc.Abstractions;
+    using Microsoft.AspNetCore.Mvc.Internal;
+
     internal static class ActionDescriptorMethods
     {
         public static string GetHttpMethod(this ActionDescriptor actionDescriptor)
@@ -37,30 +37,6 @@ namespace Hypermedia.AspNetCore.Siren.Util
         public static IEnumerable<object> PickQueryArguments(this ActionDescriptor descriptor, object[] arguments)
         {
             return descriptor.PickArguments(arguments, "Query");
-        }
-
-        public static object PickQueryArgument(this ActionDescriptor descriptor, object[] arguments)
-        {
-            return descriptor
-                .PickQueryArguments(arguments)
-                .SingleOrDefault();
-        }
-        public static IEnumerable<object> PickRouteArguments(this ActionDescriptor descriptor, object[] arguments)
-        {
-            return descriptor.PickArguments(arguments, "Route");
-        }
-
-        public static object PickRouteArgument(this ActionDescriptor descriptor, object[] arguments)
-        {
-            return descriptor
-                .PickRouteArguments(arguments)
-                .SingleOrDefault();
-        }
-        public static object MakeRoutedHref(this ActionDescriptor descriptor, object[] arguments)
-        {
-            return descriptor
-                .PickRouteArguments(arguments)
-                .SingleOrDefault();
         }
 
         public static object BuildQueryObject(this ActionDescriptor descriptor, object[] arguments)

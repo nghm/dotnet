@@ -1,12 +1,8 @@
-﻿using Hypermedia.AspNetCore.Siren.ProxyCollectors;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Hypermedia.AspNetCore.Siren.Test
+﻿namespace Hypermedia.AspNetCore.Siren.Test
 {
     using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
     using Xunit;
+    using ProxyCollectors;
 
     public class ProxyCollectTests
     {

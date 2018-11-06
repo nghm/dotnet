@@ -1,15 +1,14 @@
-﻿using Hypermedia.AspNetCore.Siren.Entities;
-using Hypermedia.AspNetCore.Siren.ProxyCollectors;
-
-namespace Hypermedia.AspNetCore.Siren
+﻿namespace Hypermedia.AspNetCore.Siren
 {
     using System.Security.Claims;
+    using Entities;
+    using ProxyCollectors;
 
-    class Hypermedia : IHypermedia
+    internal class EntityBuilderFactory : IEntityBuilderFactory
     {
         private readonly IEndpointDescriptorProvider _endpointDescriptorProvider;
 
-        public Hypermedia(IEndpointDescriptorProvider endpointDescriptorProvider)
+        public EntityBuilderFactory(IEndpointDescriptorProvider endpointDescriptorProvider)
         {
             this._endpointDescriptorProvider = endpointDescriptorProvider;
         }

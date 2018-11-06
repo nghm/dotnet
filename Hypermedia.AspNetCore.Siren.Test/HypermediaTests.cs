@@ -1,20 +1,16 @@
-using AutoFixture.Xunit2;
-using Hypermedia.AspNetCore.Siren.Entities;
-using Hypermedia.AspNetCore.Siren.ProxyCollectors;
-using Moq;
-using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
-using Xunit;
-
 namespace Hypermedia.AspNetCore.Siren.Test
 {
+    using Entities;
+    using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
+    using Xunit;
+
     public class HypermediaTests
     {
         [Theory, AutoMockData]
-        void CreatesConcreteEntityBuilder(
-            Hypermedia hypermedia
+        void CreatesConcreteEntityBuilder(EntityBuilderFactory entityBuilderFactory
         )
         {
-            var builder = hypermedia.MakeEntity();
+            var builder = entityBuilderFactory.MakeEntity();
 
             Assert.NotNull(builder);
             Assert.IsType<EntityBuilder>(builder);

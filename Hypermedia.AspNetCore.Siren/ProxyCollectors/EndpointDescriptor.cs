@@ -31,7 +31,7 @@
             this._arguments = arguments;
             this._host = host;
             this._protocol = protocol;
-            this._policies =  actionDescriptor
+            this._policies = actionDescriptor
                 .FilterDescriptors
                 .Select(f => f.Filter)
                 .OfType<AuthorizeFilter>()
@@ -51,14 +51,14 @@
             return this.Body
                 .AsPropertyEnumerable(true)
                 .Select(kvp => 
-                    MakeFieldField(
+                    MakeField(
                         kvp.Key,
                         kvp.Value,
                         this._actionDescriptor
                     ));
         }
 
-        internal IField MakeFieldField(string key, object value, ActionDescriptor descriptor)
+        internal IField MakeField(string key, object value, ActionDescriptor descriptor)
         {
             var bodyParameterInfo = descriptor
                 .Parameters
@@ -79,7 +79,7 @@
             return new Field(key, value, GetSupportedFieldMetadata(fieldGenerationContext));
         }
 
-        private IEnumerable<IFieldMetadata> GetSupportedFieldMetadata(FieldGenerationContext fieldGenerationContext)
+        private static IEnumerable<IFieldMetadata> GetSupportedFieldMetadata(FieldGenerationContext fieldGenerationContext)
         {
             yield return new TypeMetadata(fieldGenerationContext);
         }

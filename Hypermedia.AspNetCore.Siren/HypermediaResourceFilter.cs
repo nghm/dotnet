@@ -3,13 +3,13 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
 
-    public class HypermediaResourceFilter : IResultFilter
+    internal class HypermediaResourceFilter : IResultFilter
     {
-        private readonly IHypermedia _hypermedia;
+        private readonly IEntityBuilderFactory _entityBuilderFactory;
 
-        public HypermediaResourceFilter(IHypermedia hypermedia)
+        public HypermediaResourceFilter(IEntityBuilderFactory entityBuilderFactory)
         {
-            this._hypermedia = hypermedia;
+            this._entityBuilderFactory = entityBuilderFactory;
         }
 
         public void OnResultExecuting(ResultExecutingContext context)
@@ -24,7 +24,7 @@
                 return;
             }
 
-            var builder = this._hypermedia.MakeEntity(context.HttpContext.User);
+            var builder = this._entityBuilderFactory.MakeEntity(context.HttpContext.User);
 
             resource.Configure(builder);
 

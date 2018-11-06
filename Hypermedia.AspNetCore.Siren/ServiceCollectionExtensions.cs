@@ -14,7 +14,7 @@
             services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
             services.AddSingleton<IProxyCollector, ExpressionProxyCollector>();
             services.AddSingleton<IEndpointDescriptorProvider, EndpointDescriptorProvider>();
-            services.AddSingleton<IHypermedia, Hypermedia>();
+            services.AddSingleton<IEntityBuilderFactory, EntityBuilderFactory>();
 
             mvcBuilder.AddMvcOptions(options => { options.Filters.Add(typeof(HypermediaResourceFilter)); });
 

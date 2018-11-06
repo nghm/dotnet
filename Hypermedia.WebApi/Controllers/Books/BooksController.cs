@@ -49,7 +49,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return BadRequest(this.ModelState.ToResource());
+                return BadRequest(this.ModelState.AsResource());
             }
 
             var mappedBook = this._mapper.Map<Book>(editBookModel);
@@ -63,7 +63,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return BadRequest(this.ModelState.ToResource());
+                return BadRequest(this.ModelState.AsResource());
             }
 
             var mappedBook = this._mapper.Map<Book>(newBookModel);
