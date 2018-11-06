@@ -1,34 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
-
-namespace Hypermedia.AspNetCore.Siren.Actions.Fields
+﻿namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Reflection;
+
     internal class TypeMetadata : IFieldMetadata
     {
-        private FieldGenerationContext fieldGenerationContext;
+        private readonly FieldGenerationContext _fieldGenerationContext;
 
         public TypeMetadata(FieldGenerationContext fieldGenerationContext)
         {
-            this.fieldGenerationContext = fieldGenerationContext;
+            this._fieldGenerationContext = fieldGenerationContext;
         }
 
         public IEnumerable<KeyValuePair<string, object>> GetMetadata()
         {
-            PropertyInfo propertyInfo = fieldGenerationContext
+            var propertyInfo = this._fieldGenerationContext
                 .ParameterInfo
                 .ParameterType
-                .GetProperty(fieldGenerationContext.Name);
-            Type propertyType = propertyInfo
+                .GetProperty(this._fieldGenerationContext.Name);
+            var propertyType = propertyInfo
                 .PropertyType;
 
             var unguarded = GetMetadataNotNullGuarded(propertyInfo, propertyType);
             
             foreach(var kvp in unguarded)
             {
-                if (fieldGenerationContext.Value == null && kvp.Key == "type")
+                if (this._fieldGenerationContext.Value == null && kvp.Key == "type")
                 {
                     var type = kvp.Value.ToString();
                     
@@ -44,7 +44,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
                         case "number":
                             yield return KeyValuePair.Create("value", 0 as object); break;
                         case "option":
-                            yield return KeyValuePair.Create("value", Enum.GetValues(propertyType).GetValue(0) as object); break;
+                            yield return KeyValuePair.Create("value", Enum.GetValues(propertyType).GetValue(0)); break;
                         case "options":
                             yield return KeyValuePair.Create("value", new object[] { } as object); break;
                     }
@@ -56,7 +56,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 
         public IEnumerable<KeyValuePair<string, object>> GetMetadataNotNullGuarded(PropertyInfo propertyInfo, Type propertyType)
         {
-            string type = "";
+            var type = "";
 
             if (propertyType.IsEnum)
             {
@@ -92,7 +92,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
                 yield break;
             }
 
-            if (typeof(string).Equals(propertyType))
+            if (typeof(string) == propertyType)
             {
                 var dataType = propertyInfo.GetCustomAttribute<DataTypeAttribute>();
 
@@ -146,13 +146,15 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
                 yield break;
             }
 
-            if (typeof(IEnumerable<>).IsAssignableFrom(propertyType))
+            if (!typeof(IEnumerable<>).IsAssignableFrom(propertyType))
             {
-                yield return KeyValuePair.Create("type", "options" as object);
-                yield break;
+                throw new InvalidOperationException(
+                    "Cannot generate type metadata for field " +
+                    this._fieldGenerationContext.Name
+                );
             }
 
-            throw new InvalidOperationException("Cannot generate type metadata for field " + fieldGenerationContext.Name);
+            yield return KeyValuePair.Create("type", "options" as object);
         }
     }
 }

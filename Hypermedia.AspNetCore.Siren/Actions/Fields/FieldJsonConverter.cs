@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Hypermedia.AspNetCore.Siren.Util;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
-namespace Hypermedia.AspNetCore.Siren.Actions.Fields
+﻿namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
+    using Util;
+    using System;
+    using System.Linq;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     internal class FieldJsonConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
@@ -21,11 +20,16 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var field = value as IField;
+            if (!(value is IField field))
+            {
+                throw new InvalidCastException("Object is not IField!");
+            }
 
-            JObject o = new JObject();
+            var o = new JObject
+            {
+                new JProperty("name", field.Name.ToCamelCase())
+            };
 
-            o.Add(new JProperty("name", field.Name.ToCamelCase()));
 
             if (field.Value != null)
             {
@@ -34,7 +38,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 
             foreach (var meta in field.Metadata.SelectMany(meta => meta.GetMetadata()))
             {
-                JToken valueObj = JToken.FromObject(meta.Value); 
+                var valueObj = JToken.FromObject(meta.Value); 
 
                 o.AddFirst(new JProperty(meta.Key, valueObj));
             }
