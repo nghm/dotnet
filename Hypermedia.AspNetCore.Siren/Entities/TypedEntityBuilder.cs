@@ -5,6 +5,8 @@ using System.Security.Claims;
 
 namespace Hypermedia.AspNetCore.Siren.Entities
 {
+    using System.Linq.Expressions;
+
     internal class TypedEntityBuilder<T> : EntityBuilder, ITypedEntityBuilder<T> where T : class
     {
         public TypedEntityBuilder(
@@ -14,16 +16,16 @@ namespace Hypermedia.AspNetCore.Siren.Entities
         {
         }
 
-        public ITypedEntityBuilder<T> WithAction(string name, Action<T> @select)
+        public ITypedEntityBuilder<T> WithAction(string name, Expression<Action<T>> @select)
         {
             WithAction<T>(name, @select);
 
             return this;
         }
 
-        public ITypedEntityBuilder<T> WithEntity(Action<T> select, params string[] classes)
+        public ITypedEntityBuilder<T> WithEntity(Expression<Action<T>> @select, params string[] classes)
         {
-            WithEntity<T>(select, classes);
+            WithEntity<T>(@select, classes);
 
             return this;
         }
@@ -35,14 +37,17 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
         
-        public ITypedEntityBuilder<T> WithLink(string name, Action<T> @select, params string[] rel)
+        public ITypedEntityBuilder<T> WithLink(string name, Expression<Action<T>> @select, params string[] rel)
         {
             WithLink<T>(name, @select, rel);
 
             return this;
         }
 
-        public ITypedEntityBuilder<T> WithEntities<TM>(IEnumerable<TM> enumerable, Action<T, TM> configureOne, params string[] classes)
+        public ITypedEntityBuilder<T> WithEntities<TM>(
+            IEnumerable<TM> enumerable,
+            Action<T, TM> configureOne, 
+            params string[] classes)
         {
             base.WithEntities(enumerable, configureOne, classes);
 
@@ -56,14 +61,14 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public ITypedEntityBuilder<T> WithLinks(string[] rel, Dictionary<string, Action<T>> links)
+        public ITypedEntityBuilder<T> WithLinks(string[] rel, Dictionary<string, Expression<Action<T>>> links)
         {
             base.WithLinks(rel, links);
 
             return this;
         }
 
-        public ITypedEntityBuilder<T> WithLinks(Dictionary<string, Action<T>> links)
+        public ITypedEntityBuilder<T> WithLinks(Dictionary<string, Expression<Action<T>>> links)
         {
             base.WithLinks(links);
 

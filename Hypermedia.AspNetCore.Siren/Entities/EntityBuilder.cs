@@ -9,6 +9,9 @@ using Hypermedia.AspNetCore.Siren.Actions;
 
 namespace Hypermedia.AspNetCore.Siren.Entities
 {
+    using System.Linq.Expressions;
+    using Action = System.Action;
+
     internal class EntityBuilder : IEntityBuilder
     {
         private readonly ISet<string> _classes = new HashSet<string>();
@@ -54,9 +57,9 @@ namespace Hypermedia.AspNetCore.Siren.Entities
                 .ForEach(action => entityBuilder._actions.Add(action));
         }
         
-        public IEntityBuilder WithLink<T>(string name, Action<T> @select, params string[] rel) where T : class
+        public IEntityBuilder WithLink<T>(string name, Expression<Action<T>> @select, params string[] rel) where T : class
         {
-            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(select);
+            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(@select);
 
             if (descriptor == null) {
                 return this;
@@ -82,7 +85,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public IEntityBuilder WithLinks<T>(string[] rel, IDictionary<string, Action<T>> links) where T : class
+        public IEntityBuilder WithLinks<T>(string[] rel, IDictionary<string, Expression<Action<T>>> links) where T : class
         {
             foreach(var link in links)
             {
@@ -92,7 +95,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public IEntityBuilder WithLinks<T>(IDictionary<string, Action<T>> links) where T : class
+        public IEntityBuilder WithLinks<T>(IDictionary<string, Expression<Action<T>>> links) where T : class
         {
             foreach (var link in links)
             {
@@ -122,9 +125,9 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public IEntityBuilder WithAction<T>(string name, Action<T> @select) where T : class
+        public IEntityBuilder WithAction<T>(string name, Expression<Action<T>> @select) where T : class
         {
-            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(select);
+            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(@select);
 
             if (descriptor == null)
             {
@@ -169,9 +172,9 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public IEntityBuilder WithEntity<T>(Action<T> select, params string[] classes) where T : class
+        public IEntityBuilder WithEntity<T>(Expression<Action<T>> @select, params string[] classes) where T : class
         {
-            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(select);
+            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(@select);
 
             if (descriptor == null)
             {
@@ -223,7 +226,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
         {
             foreach(var enumeration in enumerable)
             {
-                WithEntity<T>(controller => configureOne(controller, enumeration), classes);
+                this.WithEntity((T controller) => configureOne(controller, enumeration), classes);
             }
 
             return this;

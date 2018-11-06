@@ -1,6 +1,7 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 {
     using System;
+    using System.Linq.Expressions;
     using Microsoft.AspNetCore.Authorization;
 
     internal class EndpointDescriptorProvider : IEndpointDescriptorProvider
@@ -22,7 +23,7 @@
             this._authService = authService;
         }
 
-        public EndpointDescriptor GetEndpointDescriptor<T>(Action<T> select) where T : class
+        public EndpointDescriptor GetEndpointDescriptor<T>(Expression<Action<T>> @select) where T : class
         {
             var methodCall = this._proxyCollector.ProxyCollectOne(select);
 

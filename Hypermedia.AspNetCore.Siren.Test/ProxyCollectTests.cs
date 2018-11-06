@@ -12,7 +12,7 @@ namespace Hypermedia.AspNetCore.Siren.Test
     {
         [Theory]
         [AutoMockData]
-        private void TestPerformanceOld(CastleProxyCollector sut)
+        private void TestPerformanceOld(ExpressionProxyCollector sut)
         {
             for (var i = 0; i < 10000; i++)
             {

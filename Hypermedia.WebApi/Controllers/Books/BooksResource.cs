@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq.Expressions;
     using AspNetCore.Siren;
     using AspNetCore.Siren.Entities;
     using Models;
@@ -43,7 +44,7 @@
                     .WithProperties(book)
                     .WithLink<BooksController>("details", c => c.GetOne(book.Id, this._pageNo, this._perPage)))
                 .WithAction("create", c => c.Create(this.NewBookModel))
-                .WithLinks(new Dictionary<string, Action<BooksController>>
+                .WithLinks(new Dictionary<string, Expression<Action<BooksController>>>
                 {
                     ["self"] = c => c.Get(this._pageNo, this._perPage),
                     ["first"] = c => c.Get(0, this._perPage),
@@ -52,9 +53,9 @@
                 .WithLinks(GetOptionalLinks());
         }
 
-        private Dictionary<string, Action<BooksController>> GetOptionalLinks()
+        private Dictionary<string, Expression<Action<BooksController>>> GetOptionalLinks()
         {
-            var links = new Dictionary<string, Action<BooksController>>();
+            var links = new Dictionary<string, Expression<Action<BooksController>>>();
 
             if (this._hasNext)
             {

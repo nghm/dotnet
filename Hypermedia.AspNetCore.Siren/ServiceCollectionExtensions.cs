@@ -12,7 +12,7 @@
 
             services.AddSingleton<IControllerTypeChecker, ControllerTypeChecker>();
             services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
-            services.AddSingleton<IProxyCollector, CastleProxyCollector>();
+            services.AddSingleton<IProxyCollector, ExpressionProxyCollector>();
             services.AddSingleton<IEndpointDescriptorProvider, EndpointDescriptorProvider>();
             services.AddSingleton<IHypermedia, Hypermedia>();
 

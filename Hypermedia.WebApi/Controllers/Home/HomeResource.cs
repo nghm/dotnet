@@ -27,11 +27,11 @@
                     title = "Home page, Hello World!",
                     description = "The entry point to the application"
                 })
-                .WithLink<BooksController>("books", c => c.Get(), "menu")
-                .WithLink<BooksController>("topRatedBook", c => c.GetOne(this._topRatedBookId))
+                .WithLink<BooksController>("books", c => c.Get(0, 12), "menu")
+                .WithLink<BooksController>("topRatedBook", c => c.GetOne(this._topRatedBookId, 0, 12))
                 .WithEntities(
                     this._latestBooks, 
-                    (BooksController c, BookListModel book) => c.GetOne(book.Id), 
+                    (BooksController c, BookListModel book) => c.GetOne(book.Id, 0, 12), 
                     new [] { "latest-book" }
                 );
         }
