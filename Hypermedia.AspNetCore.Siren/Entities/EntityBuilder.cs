@@ -68,7 +68,7 @@
                 return this;
             }
 
-            if (!descriptor.IsLink())
+            if (!(descriptor.Body == null && descriptor.Method == "GET"))
             {
                 return this;
             }

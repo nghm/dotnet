@@ -8,12 +8,12 @@
 
     internal class FieldJsonConverter : JsonConverter
     {
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(System.Type objectType)
         {
             return typeof(IField).IsAssignableFrom(objectType);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, System.Type objectType, object existingValue, JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }
@@ -38,7 +38,12 @@
 
             foreach (var meta in field.Metadata)
             {
-                var valueObj = JToken.FromObject(meta.Value); 
+                var valueObj = JToken.FromObject(meta.Value);
+
+                if (meta.Key == "value" && field.Value != null)
+                {
+                    continue;
+                }
 
                 o.AddFirst(new JProperty(meta.Key, valueObj));
             }

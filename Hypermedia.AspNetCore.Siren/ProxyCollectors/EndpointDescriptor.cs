@@ -1,18 +1,19 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 {
-    using System.Security.Claims;
+    using Actions.Fields;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc.Authorization;
-    using Microsoft.AspNetCore.Mvc.Abstractions;
     using Microsoft.AspNetCore.Mvc.Controllers;
     using System.Collections.Generic;
     using System.Linq;
-    using Actions.Fields;
+    using System.Security.Claims;
+    using Actions;
     using Util;
 
     internal class EndpointDescriptor
     {
         private readonly IAuthorizationService _authorizationService;
+        private readonly FieldMetadataProviderCollection _metadataProviderCollection;
         private readonly ControllerActionDescriptor _actionDescriptor;
         private readonly object[] _arguments;
         private readonly string _host;
@@ -21,12 +22,14 @@
 
         public EndpointDescriptor(
             IAuthorizationService authorizationService,
+            FieldMetadataProviderCollection metadataProviderCollection,
             ControllerActionDescriptor actionDescriptor, 
             object[] arguments, 
             string host, 
             string protocol)
         {
             this._authorizationService = authorizationService;
+            this._metadataProviderCollection = metadataProviderCollection;
             this._actionDescriptor = actionDescriptor;
             this._arguments = arguments;
             this._host = host;
@@ -58,7 +61,7 @@
                     ));
         }
 
-        internal IField MakeField(string key, object value, ActionDescriptor descriptor)
+        internal IField MakeField(string key, object value, ControllerActionDescriptor descriptor)
         {
             var bodyParameterInfo = descriptor
                 .Parameters
@@ -68,7 +71,7 @@
             {
                 return null;
             }
-
+            
             var fieldGenerationContext = new FieldGenerationContext
             {
                 Name = key,
@@ -76,15 +79,11 @@
                 ParameterInfo = bodyParameterInfo
             };
 
-            var metadata = GetSupportedFieldMetadataProviders()
+            var metadata = this._metadataProviderCollection
+                .GetMetadataProviders()
                 .SelectMany(metaProvider => metaProvider.GetMetadata(fieldGenerationContext));
 
             return new Field(key, value, metadata);
-        }
-
-        private static IEnumerable<IFieldMetadataProvider> GetSupportedFieldMetadataProviders()
-        {
-            yield return new TypeMetadataProvider();
         }
 
         public bool CanAccess(ClaimsPrincipal user)
@@ -143,18 +142,6 @@
             href = href.InterpolateQueryParameters(queryParameters);
             
             return href;
-        }
-
-        public bool IsLink() => AllowsGetMethod() && HasNoBody();
-
-        private bool HasNoBody()
-        {
-            return this.Body == null;
-        }
-
-        private bool AllowsGetMethod()
-        {
-            return this.Method == "GET";
         }
     }
 }

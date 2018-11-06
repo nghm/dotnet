@@ -11,4 +11,8 @@
     <PackageReference Include="Moq.AutoMock" Version="1.2.0.111" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Actions\Fields\Value\" />
+  </ItemGroup>
+
 </Project>

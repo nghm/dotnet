@@ -9,6 +9,7 @@ namespace Hypermedia.WebApi.Models
         public string Title { get; set; }
         [Required]
         [MaxLength(255)]
+        [RegularExpression("Test")]
         public string Description { get; set; }
     }
 }

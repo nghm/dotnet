@@ -2,23 +2,27 @@
 {
     using System;
     using System.Linq.Expressions;
+    using Actions;
     using Microsoft.AspNetCore.Authorization;
 
     internal class EndpointDescriptorProvider : IEndpointDescriptorProvider
     {
         private readonly IControllerTypeChecker _controllerTypeChecker;
         private readonly IActionDescriptorResolver _actionDescriptorResolver;
+        private readonly FieldMetadataProviderCollection _fieldMetadataProviderCollection;
         private readonly IProxyCollector _proxyCollector;
         private readonly IAuthorizationService _authService;
 
         public EndpointDescriptorProvider(
             IControllerTypeChecker controllerTypeChecker,
             IActionDescriptorResolver actionDescriptorResolver,
+            FieldMetadataProviderCollection fieldMetadataProviderCollection,
             IProxyCollector proxyCollector,
             IAuthorizationService authService)
         {
             this._controllerTypeChecker = controllerTypeChecker;
             this._actionDescriptorResolver = actionDescriptorResolver;
+            this._fieldMetadataProviderCollection = fieldMetadataProviderCollection;
             this._proxyCollector = proxyCollector;
             this._authService = authService;
         }
@@ -38,7 +42,7 @@
 
             var actionDescriptor = this._actionDescriptorResolver.Resolve(controllerType, actionMethodInfo);
 
-            return new EndpointDescriptor(this._authService, actionDescriptor, arguments, "localhost:54287", "http");
+            return new EndpointDescriptor(this._authService, this._fieldMetadataProviderCollection, actionDescriptor, arguments, "localhost:54287", "http");
         }
     }
 }
