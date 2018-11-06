@@ -9,6 +9,6 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
         string Name { get; }
         object Value { get; }
         [JsonIgnore]
-        IEnumerable<IFieldMetadata> Metadata { get; }
+        IEnumerable<KeyValuePair<string, object>> Metadata { get; }
     }
 }

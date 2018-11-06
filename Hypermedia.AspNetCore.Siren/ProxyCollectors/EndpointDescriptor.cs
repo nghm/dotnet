@@ -76,12 +76,15 @@
                 ParameterInfo = bodyParameterInfo
             };
 
-            return new Field(key, value, GetSupportedFieldMetadata(fieldGenerationContext));
+            var metadata = GetSupportedFieldMetadataProviders()
+                .SelectMany(metaProvider => metaProvider.GetMetadata(fieldGenerationContext));
+
+            return new Field(key, value, metadata);
         }
 
-        private static IEnumerable<IFieldMetadata> GetSupportedFieldMetadata(FieldGenerationContext fieldGenerationContext)
+        private static IEnumerable<IFieldMetadataProvider> GetSupportedFieldMetadataProviders()
         {
-            yield return new TypeMetadata(fieldGenerationContext);
+            yield return new TypeMetadataProvider();
         }
 
         public bool CanAccess(ClaimsPrincipal user)

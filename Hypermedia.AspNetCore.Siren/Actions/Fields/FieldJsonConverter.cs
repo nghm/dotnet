@@ -36,7 +36,7 @@
                 o.Add(new JProperty("value", field.Value));
             }
 
-            foreach (var meta in field.Metadata.SelectMany(meta => meta.GetMetadata()))
+            foreach (var meta in field.Metadata)
             {
                 var valueObj = JToken.FromObject(meta.Value); 
 

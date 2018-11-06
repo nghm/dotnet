@@ -6,29 +6,22 @@
     using System.Linq;
     using System.Reflection;
 
-    internal class TypeMetadata : IFieldMetadata
+    internal class TypeMetadataProvider : IFieldMetadataProvider
     {
-        private readonly FieldGenerationContext _fieldGenerationContext;
-
-        public TypeMetadata(FieldGenerationContext fieldGenerationContext)
+        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
         {
-            this._fieldGenerationContext = fieldGenerationContext;
-        }
-
-        public IEnumerable<KeyValuePair<string, object>> GetMetadata()
-        {
-            var propertyInfo = this._fieldGenerationContext
+            var propertyInfo = fieldGenerationContext
                 .ParameterInfo
                 .ParameterType
-                .GetProperty(this._fieldGenerationContext.Name);
+                .GetProperty(fieldGenerationContext.Name);
             var propertyType = propertyInfo
                 .PropertyType;
 
-            var unguarded = GetMetadataNotNullGuarded(propertyInfo, propertyType);
+            var unguarded = GetMetadataNotNullGuarded(propertyInfo, propertyType, fieldGenerationContext);
             
             foreach(var kvp in unguarded)
             {
-                if (this._fieldGenerationContext.Value == null && kvp.Key == "type")
+                if (fieldGenerationContext.Value == null && kvp.Key == "type")
                 {
                     var type = kvp.Value.ToString();
                     
@@ -54,7 +47,10 @@
             }
         }
 
-        public IEnumerable<KeyValuePair<string, object>> GetMetadataNotNullGuarded(PropertyInfo propertyInfo, Type propertyType)
+        public IEnumerable<KeyValuePair<string, object>> GetMetadataNotNullGuarded(
+            PropertyInfo propertyInfo, 
+            Type propertyType,
+            FieldGenerationContext fieldGenerationContext)
         {
             var type = "";
 
@@ -150,7 +146,7 @@
             {
                 throw new InvalidOperationException(
                     "Cannot generate type metadata for field " +
-                    this._fieldGenerationContext.Name
+                    fieldGenerationContext.Name
                 );
             }
 
