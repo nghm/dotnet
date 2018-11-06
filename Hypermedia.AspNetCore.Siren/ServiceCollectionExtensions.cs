@@ -12,8 +12,7 @@
         public static IMvcBuilder AddHypermediaSiren(this IMvcBuilder mvcBuilder)
         {
             var services = mvcBuilder.Services;
-
-            services.AddSingleton<IControllerTypeChecker, ControllerTypeChecker>();
+            
             services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
             services.AddSingleton<ICallCollector, ExpressionCallCollector>();
             services.AddSingleton<IEndpointDescriptorProvider, EndpointDescriptorProvider>();

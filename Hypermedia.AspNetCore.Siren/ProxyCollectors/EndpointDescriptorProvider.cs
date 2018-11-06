@@ -7,20 +7,17 @@
 
     internal class EndpointDescriptorProvider : IEndpointDescriptorProvider
     {
-        private readonly IControllerTypeChecker _controllerTypeChecker;
         private readonly IActionDescriptorResolver _actionDescriptorResolver;
         private readonly IFieldMetadataProviderCollection _fieldMetadataProviderCollection;
         private readonly ICallCollector _callCollector;
         private readonly IAuthorizationService _authService;
 
         public EndpointDescriptorProvider(
-            IControllerTypeChecker controllerTypeChecker,
             IActionDescriptorResolver actionDescriptorResolver,
             IFieldMetadataProviderCollection fieldMetadataProviderCollection,
             ICallCollector callCollector,
             IAuthorizationService authService)
         {
-            this._controllerTypeChecker = controllerTypeChecker;
             this._actionDescriptorResolver = actionDescriptorResolver;
             this._fieldMetadataProviderCollection = fieldMetadataProviderCollection;
             this._callCollector = callCollector;
