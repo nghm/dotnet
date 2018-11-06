@@ -7,7 +7,7 @@
     using Hypermedia.AspNetCore.Siren.Entities;
     using Models;
 
-    internal class HomeResource : HypermediaResource
+    internal class HomeResource : IHypermediaResource
     {
         private readonly IEnumerable<BookListModel> _latestBooks;
         private readonly Guid _topRatedBookId;

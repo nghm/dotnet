@@ -105,16 +105,25 @@
 
         private string ComputeHref()
         {
-            var parameters = this._actionDescriptor.Parameters;
+            var parameters = this._actionDescriptor
+                .Parameters
+                .OfType<ControllerParameterDescriptor>()
+                .ToArray();
+
             var queryParameters = new Dictionary<string, string>();
             var routeParameters = new Dictionary<string, string>();
 
-            for (var index = 0; index < parameters.Count; index++)
+            for (var index = 0; index < parameters.Count(); index++)
             {
                 var value = this._arguments[index];
-                var info = parameters[index] as ControllerParameterDescriptor;
+                var info = parameters[index];
 
-                if (info != null && (value == null || info.ParameterInfo.DefaultValue.Equals(value)))
+                if (info == null)
+                {
+                    continue;
+                }
+
+                if (value == null || info.ParameterInfo.DefaultValue.Equals(value))
                 {
                     continue;
                 }

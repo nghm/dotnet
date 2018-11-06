@@ -1,5 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.Siren
 {
+    using Entities;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -19,7 +20,7 @@
                 return;
             }
 
-            if (!(objectResult.Value is HypermediaResource resource))
+            if (!(objectResult.Value is IHypermediaResource resource))
             {
                 return;
             }

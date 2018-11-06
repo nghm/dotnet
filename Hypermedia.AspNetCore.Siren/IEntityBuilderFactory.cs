@@ -5,7 +5,7 @@
 
     internal interface IEntityBuilderFactory
     {
-        IEntityBuilder MakeEntity();
-        IEntityBuilder MakeEntity(ClaimsPrincipal user);
+        EntityBuilder MakeEntity();
+        EntityBuilder MakeEntity(ClaimsPrincipal user);
     }
 }

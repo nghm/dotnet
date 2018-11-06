@@ -13,12 +13,12 @@
             this._endpointDescriptorProvider = endpointDescriptorProvider;
         }
 
-        public IEntityBuilder MakeEntity()
+        public EntityBuilder MakeEntity()
         {
             return MakeEntity(null);
         }
 
-        public IEntityBuilder MakeEntity(ClaimsPrincipal user)
+        public EntityBuilder MakeEntity(ClaimsPrincipal user)
         {
             return new EntityBuilder(this._endpointDescriptorProvider, user);
         }

@@ -23,7 +23,5 @@ namespace Hypermedia.AspNetCore.Siren.Entities
         IEntityBuilder WithLinks<T>(IDictionary<string, Expression<Action<T>>> links) where T : class;
 
         IEntityBuilder With<T>(Action<ITypedEntityBuilder<T>> entityBuilderConfiguration) where T: class;
-
-        IEntity Build();
     }
 }

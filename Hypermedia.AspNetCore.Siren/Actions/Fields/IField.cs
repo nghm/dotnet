@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
     [JsonConverter(typeof(FieldJsonConverter))]
-    public interface IField
+    internal interface IField
     {
         string Name { get; }
         object Value { get; }

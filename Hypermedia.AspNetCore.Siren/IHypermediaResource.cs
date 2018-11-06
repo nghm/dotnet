@@ -2,7 +2,7 @@
 {
     using Entities;
 
-    public interface HypermediaResource
+    public interface IHypermediaResource
     {
         void Configure(IEntityBuilder builder);
     }

@@ -4,7 +4,7 @@
     using Entities;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-    internal class InvalidModelStateResource : HypermediaResource
+    internal class InvalidModelStateResource : IHypermediaResource
     {
         private readonly ModelStateDictionary _modelState;
 

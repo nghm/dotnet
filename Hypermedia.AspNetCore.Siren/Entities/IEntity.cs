@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Hypermedia.AspNetCore.Siren.Entities
 {
-    public interface IEntity
+    internal interface IEntity
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         string Href { get; }

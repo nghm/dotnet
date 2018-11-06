@@ -4,7 +4,7 @@
 
     public static class ModelStateExtensionMethods
     {
-        public static HypermediaResource AsResource(this ModelStateDictionary modelState)
+        public static IHypermediaResource AsResource(this ModelStateDictionary modelState)
         {
             return new InvalidModelStateResource(modelState);
         }

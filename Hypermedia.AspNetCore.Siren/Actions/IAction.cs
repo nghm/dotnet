@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Hypermedia.AspNetCore.Siren.Actions
 {
-    public interface IAction
+    internal interface IAction
     {
         string Href { get; }
         string Method { get; }
