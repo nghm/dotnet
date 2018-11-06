@@ -18,7 +18,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
         public IEnumerable<KeyValuePair<string, object>> GetMetadata()
         {
             PropertyInfo propertyInfo = fieldGenerationContext
-                .ParamterInfo
+                .ParameterInfo
                 .ParameterType
                 .GetProperty(fieldGenerationContext.Name);
             Type propertyType = propertyInfo

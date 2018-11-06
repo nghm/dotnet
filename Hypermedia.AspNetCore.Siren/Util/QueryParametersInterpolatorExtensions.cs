@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Web;
-
-namespace Hypermedia.AspNetCore.Siren.Util
+﻿namespace Hypermedia.AspNetCore.Siren.Util
 {
+    using System;
+    using System.Web;
     using System.Collections.Generic;
 
     static class QueryParametersInterpolatorExtensions

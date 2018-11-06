@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using Hypermedia.AspNetCore.Siren.Links;
-using Hypermedia.AspNetCore.Siren.ProxyCollectors;
-using Hypermedia.AspNetCore.Siren.Util;
-using Hypermedia.AspNetCore.Siren.Actions;
-
-namespace Hypermedia.AspNetCore.Siren.Entities
+﻿namespace Hypermedia.AspNetCore.Siren.Entities
 {
+    using Links;
+    using ProxyCollectors;
+    using Actions;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Claims;
     using System.Linq.Expressions;
-    using Action = System.Action;
+    using Newtonsoft.Json.Linq;
 
     internal class EntityBuilder : IEntityBuilder
     {
@@ -75,12 +73,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
                 return this;
             }
 
-            this._links.Add(new Link
-            {
-                Href = descriptor.Href,
-                Name = name,
-                Rel = rel
-            });
+            this._links.Add(new Link(name, descriptor.Href, rel));
 
             return this;
         }
@@ -115,11 +108,20 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public IEntityBuilder WithProperties(object properties)
+        public IEntityBuilder WithProperties<TProp>(TProp properties)
         {
-            foreach (var property in properties.AsPropertyEnumerable())
+            var propDictionary = JObject
+                .FromObject(properties)
+                .ToObject<IDictionary<string, object>>();
+
+            return WithProperties(propDictionary.AsEnumerable());
+        }
+
+        private IEntityBuilder WithProperties(IEnumerable<KeyValuePair<string, object>> properties)
+        {
+            foreach (var property in properties)
             {
-                this._properties.Add(property);
+                this._properties.Add(property.Key, property.Value);
             }
 
             return this;
@@ -141,13 +143,12 @@ namespace Hypermedia.AspNetCore.Siren.Entities
 
             var method = descriptor.Method;
             
-            var action = new Actions.Action
-            {
-                Name = name,
-                Href = descriptor.Href,
-                Method = method,
-                Fields = descriptor.Fields
-            };
+            var action = new Actions.Action(
+                name,
+                descriptor.Href,
+                method,
+                descriptor.Fields
+            );
 
             this._actions.Add(action);
 
@@ -164,14 +165,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
 
             return this;
         }
-
-        public IEntityBuilder WithProperties<T>(T properties)
-        {
-            WithProperties(properties as object);
-
-            return this;
-        }
-
+        
         public IEntityBuilder WithEntity<T>(Expression<Action<T>> @select, params string[] classes) where T : class
         {
             var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(@select);

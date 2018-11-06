@@ -1,17 +1,17 @@
-﻿using Hypermedia.AspNetCore.Siren.Actions;
-using Hypermedia.AspNetCore.Siren.Links;
-using Hypermedia.AspNetCore.Siren.Util;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Hypermedia.AspNetCore.Siren.Entities
+﻿namespace Hypermedia.AspNetCore.Siren.Entities
 {
-    class Entity : IEntity
+    using Actions;
+    using Links;
+    using Util;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    internal class Entity : IEntity
     {
         public Entity(string[] classes, string href)
         {
-            Href = href;
-            Classes = classes;
+            this.Href = href;
+            this.Classes = classes;
         }
 
         public Entity(
@@ -22,13 +22,13 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             IAction[] actions = null
         )
         {
-            Classes = classes;
-            Entities = entities;
-            Links = links;
-            Properties = properties
+            this.Classes = classes;
+            this.Entities = entities;
+            this.Links = links;
+            this.Properties = properties
                 .AsEnumerable()
                 .ToDictionary(kvp => kvp.Key.ToCamelCase(), kvp => kvp.Value);
-            Actions = actions;
+            this.Actions = actions;
         }
 
         public string[] Classes { get; set; }

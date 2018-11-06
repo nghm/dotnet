@@ -1,9 +1,18 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Links
 {
-    class Link : ILink
+    using System;
+
+    internal class Link : ILink
     {
-        public string Name { get; set; }
-        public string Href { get; set; }
-        public string[] Rel { get; set; }
+        public Link(string name, string href, string[] rel = null)
+        {
+            this.Name = name;
+            this.Href = href;
+            this.Rel = rel ?? Array.Empty<string>();
+        }
+
+        public string Name { get; }
+        public string Href { get; }
+        public string[] Rel { get; }
     }
 }

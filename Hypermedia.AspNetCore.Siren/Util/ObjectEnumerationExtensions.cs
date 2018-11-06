@@ -1,33 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Hypermedia.AspNetCore.Siren.Util
+﻿namespace Hypermedia.AspNetCore.Siren.Util
 {
-    static class ObjectEnumerationExtensions
+    using System.Collections.Generic;
+    
+    internal static class ObjectEnumerationExtensions
     {
-        public static IEnumerable<KeyValuePair<string, T>> AsPropertyEnumerable<T>(this object obj, bool keepNullValues = false)
-        {
-            return obj
-                .AsPropertyEnumerable(keepNullValues)
-                .Where(kvp => kvp.Value is T)
-                .Select(kvp => KeyValuePair.Create(kvp.Key, (T) kvp.Value));
-        }
-
         public static IEnumerable<KeyValuePair<string, object>> AsPropertyEnumerable(this object obj, bool keepNullValues = false)
         {
-            if (obj is IEnumerable<KeyValuePair<string, object>>)
+            switch (obj)
             {
-                foreach (var kvp in obj as IEnumerable<KeyValuePair<string, object>>)
+                case IEnumerable<KeyValuePair<string, object>> pairs:
                 {
-                    yield return kvp;
+                    foreach (var kvp in pairs)
+                    {
+                        yield return kvp;
+                    }
+
+                    yield break;
                 }
-
-                yield break;
-            }
-
-            if (obj == null)
-            {
-                yield break;
+                case null:
+                    yield break;
             }
 
             var props = obj

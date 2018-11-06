@@ -8,8 +8,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
     public interface IEntityBuilder
     {
         IEntityBuilder WithClasses(params string[] classes);
-        IEntityBuilder WithProperties(object properties);
-        IEntityBuilder WithProperties<T>(T properties);
+        IEntityBuilder WithProperties<TProp>(TProp properties);
 
         IEntityBuilder WithAction<T>(string name, Expression<Action<T>> @select) where T : class;
 

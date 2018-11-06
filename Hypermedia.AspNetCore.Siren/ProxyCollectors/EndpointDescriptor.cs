@@ -48,7 +48,8 @@
 
         private IEnumerable<IField> ComputeFields()
         {
-            return this.Body.AsPropertyEnumerable(true)
+            return this.Body
+                .AsPropertyEnumerable(true)
                 .Select(kvp => 
                     MakeFieldField(
                         kvp.Key,
@@ -72,7 +73,7 @@
             {
                 Name = key,
                 Value = value,
-                ParamterInfo = bodyParameterInfo
+                ParameterInfo = bodyParameterInfo
             };
 
             return new Field(key, value, GetSupportedFieldMetadata(fieldGenerationContext));
@@ -126,6 +127,8 @@
                     case "Path":
                         routeParameters[info.Name] = value.ToString();
                         break;
+                    default:
+                        continue;
                 }
             }
 
