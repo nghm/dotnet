@@ -38,7 +38,19 @@
 
         public ControllerActionDescriptor Resolve(Type controllerType, MethodInfo actionMethodInfo)
         {
-            return this.DescriptorDictionary[controllerType][actionMethodInfo];
+            if (!this.DescriptorDictionary.ContainsKey(controllerType))
+            {
+                return null;
+            }
+
+            var controllerActionDescriptors = this.DescriptorDictionary[controllerType];
+
+            if (!controllerActionDescriptors.ContainsKey(actionMethodInfo))
+            {
+                return null;
+            }
+
+            return controllerActionDescriptors[actionMethodInfo];
         }
     }
 }

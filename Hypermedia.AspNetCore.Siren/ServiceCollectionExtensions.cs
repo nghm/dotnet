@@ -35,7 +35,7 @@
 
             services.AddSingleton<TypeMetadataProvider>();
             services.AddSingleton<ValidationMetadataProvider>();
-            services.AddSingleton<FieldMetadataProviderCollection>();
+            services.AddSingleton<IFieldMetadataProviderCollection, FieldMetadataProviderCollection>();
 
             mvcBuilder.AddMvcOptions(options => { options.Filters.Add(typeof(HypermediaResourceFilter)); });
 

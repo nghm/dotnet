@@ -13,7 +13,7 @@
     internal class EndpointDescriptor
     {
         private readonly IAuthorizationService _authorizationService;
-        private readonly FieldMetadataProviderCollection _metadataProviderCollection;
+        private readonly IFieldMetadataProviderCollection _metadataProviderCollection;
         private readonly ControllerActionDescriptor _actionDescriptor;
         private readonly object[] _arguments;
         private readonly string _host;
@@ -22,7 +22,7 @@
 
         public EndpointDescriptor(
             IAuthorizationService authorizationService,
-            FieldMetadataProviderCollection metadataProviderCollection,
+            IFieldMetadataProviderCollection metadataProviderCollection,
             ControllerActionDescriptor actionDescriptor, 
             object[] arguments, 
             string host, 
@@ -44,8 +44,6 @@
 
         public string Method => this._actionDescriptor.GetHttpMethod().ToUpper();
         public object Body => this._actionDescriptor.PickBodyArgument(this._arguments);
-        public object Query => this._actionDescriptor.BuildQueryObject(this._arguments);
-        public object Route => this._actionDescriptor.BuildRouteObject(this._arguments);
         public string Href => ComputeHref();
         public IEnumerable<IField> Fields => ComputeFields();
 

@@ -9,14 +9,14 @@
     {
         private readonly IControllerTypeChecker _controllerTypeChecker;
         private readonly IActionDescriptorResolver _actionDescriptorResolver;
-        private readonly FieldMetadataProviderCollection _fieldMetadataProviderCollection;
+        private readonly IFieldMetadataProviderCollection _fieldMetadataProviderCollection;
         private readonly IProxyCollector _proxyCollector;
         private readonly IAuthorizationService _authService;
 
         public EndpointDescriptorProvider(
             IControllerTypeChecker controllerTypeChecker,
             IActionDescriptorResolver actionDescriptorResolver,
-            FieldMetadataProviderCollection fieldMetadataProviderCollection,
+            IFieldMetadataProviderCollection fieldMetadataProviderCollection,
             IProxyCollector proxyCollector,
             IAuthorizationService authService)
         {
@@ -41,6 +41,11 @@
             var actionMethodInfo = methodCall.Method;
 
             var actionDescriptor = this._actionDescriptorResolver.Resolve(controllerType, actionMethodInfo);
+
+            if (actionDescriptor == null)
+            {
+                throw new InvalidOperationException("Expression does not call application action");
+            }
 
             return new EndpointDescriptor(this._authService, this._fieldMetadataProviderCollection, actionDescriptor, arguments, "localhost:54287", "http");
         }

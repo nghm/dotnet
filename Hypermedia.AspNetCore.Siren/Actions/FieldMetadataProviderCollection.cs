@@ -4,7 +4,7 @@
     using Fields;
     using Fields.Type;
 
-    internal class FieldMetadataProviderCollection
+    internal class FieldMetadataProviderCollection : IFieldMetadataProviderCollection
     {
         private readonly TypeMetadataProvider _typeMetadataProvider;
         private readonly ValidationMetadataProvider _validationMetaProvider;

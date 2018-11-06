@@ -9,11 +9,6 @@
 
     internal class ExpressionProxyCollector : IProxyCollector
     {
-        private readonly IDictionary<Type, object> _cache = new Dictionary<Type, object>();
-
-        private readonly ProxyGenerator _generator = new ProxyGenerator();
-        private readonly AutoMocker _mocker = new AutoMocker();
-        
         public CollectedMethodCall ProxyCollectOne<T>(Expression<Action<T>> select) where T : class
         {
             if (select.Body is MethodCallExpression methodCall)
