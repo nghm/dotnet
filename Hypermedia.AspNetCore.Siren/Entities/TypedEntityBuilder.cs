@@ -6,14 +6,27 @@ using System.Security.Claims;
 namespace Hypermedia.AspNetCore.Siren.Entities
 {
     using System.Linq.Expressions;
+    using AutoMapper;
 
     internal class TypedEntityBuilder<T> : EntityBuilder, ITypedEntityBuilder<T> where T : class
     {
+        private readonly IHrefGenerator _hrefGenerator;
+
         public TypedEntityBuilder(
+            IMapper mapper,
             IEndpointDescriptorProvider endpointDescriptorProvider,
+            IHrefGenerator hrefGenerator,
             ClaimsPrincipal claimsPrincipal)
-            : base(endpointDescriptorProvider, claimsPrincipal)
+            : base(mapper, endpointDescriptorProvider, hrefGenerator, claimsPrincipal)
         {
+            this._hrefGenerator = hrefGenerator;
+        }
+
+        public new ITypedEntityBuilder<T> WithProperties<TProp, TSource>(TSource properties)
+        {
+            base.WithProperties<TProp, TSource>(properties);
+
+            return this;
         }
 
         public ITypedEntityBuilder<T> WithAction(string name, Expression<Action<T>> @select)
@@ -30,9 +43,9 @@ namespace Hypermedia.AspNetCore.Siren.Entities
             return this;
         }
 
-        public ITypedEntityBuilder<T> WithEntity(Action<IEntityBuilder> select)
+        public new ITypedEntityBuilder<T> WithEntity(Action<IEntityBuilder> select)
         {
-            WithEntity<T>(select);
+            WithEntity(select);
 
             return this;
         }

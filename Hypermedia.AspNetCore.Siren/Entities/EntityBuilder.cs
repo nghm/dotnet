@@ -8,6 +8,7 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Linq.Expressions;
+    using AutoMapper;
     using Newtonsoft.Json.Linq;
 
     internal class EntityBuilder : IEntityBuilder
@@ -18,15 +19,21 @@
         private readonly IList<ILink> _links = new List<ILink>();
         private readonly IList<IAction> _actions = new List<IAction>();
 
+        private readonly IMapper _mapper;
         private readonly IEndpointDescriptorProvider _endpointDescriptorProvider;
+        private readonly IHrefGenerator _hrefGenerator;
         private readonly ClaimsPrincipal _claimsPrincipal;
 
         public EntityBuilder(
+            IMapper mapper,
             IEndpointDescriptorProvider endpointDescriptorProvider, 
+            IHrefGenerator hrefGenerator,
             ClaimsPrincipal user
         )
         {
+            this._mapper = mapper;
             this._endpointDescriptorProvider = endpointDescriptorProvider;
+            this._hrefGenerator = hrefGenerator;
             this._claimsPrincipal = user;
         }
 
@@ -73,7 +80,7 @@
                 return this;
             }
 
-            this._links.Add(new Link(name, descriptor.Href, rel));
+            this._links.Add(new Link(name, this._hrefGenerator.ComputeHref(descriptor), rel));
 
             return this;
         }
@@ -117,6 +124,13 @@
             return WithProperties(propDictionary.AsEnumerable());
         }
 
+        public IEntityBuilder WithProperties<TProp, TSource>(TSource properties)
+        {
+            WithProperties(this._mapper.Map<TProp>(properties));
+
+            return this;
+        }
+
         private IEntityBuilder WithProperties(IEnumerable<KeyValuePair<string, object>> properties)
         {
             foreach (var property in properties)
@@ -145,7 +159,7 @@
             
             var action = new Actions.Action(
                 name,
-                descriptor.Href,
+                this._hrefGenerator.ComputeHref(descriptor),
                 method,
                 descriptor.Fields
             );
@@ -157,7 +171,7 @@
 
         public IEntityBuilder With<T>(Action<ITypedEntityBuilder<T>> entityBuilderConfiguration) where T : class
         {
-            var builder = new TypedEntityBuilder<T>(this._endpointDescriptorProvider, this._claimsPrincipal);
+            var builder = new TypedEntityBuilder<T>(this._mapper, this._endpointDescriptorProvider, this._hrefGenerator, this._claimsPrincipal);
 
             entityBuilderConfiguration.Invoke(builder);
 
@@ -181,7 +195,7 @@
             }
 
             var method = descriptor.Method;
-            var href = descriptor.Href;
+            var href = this._hrefGenerator.ComputeHref(descriptor);
 
             if (method == "GET")
             {
@@ -191,9 +205,9 @@
             return this;
         }
 
-        public IEntityBuilder WithEntity<T>(Action<IEntityBuilder> configure) where T : class
+        public IEntityBuilder WithEntity(Action<IEntityBuilder> configure)
         {
-            var builder = new EntityBuilder(this._endpointDescriptorProvider, this._claimsPrincipal);
+            var builder = new EntityBuilder(this._mapper, this._endpointDescriptorProvider,  this._hrefGenerator, this._claimsPrincipal);
 
             configure.Invoke(builder);
 
@@ -206,7 +220,7 @@
         {
             foreach(var enumeration in enumerable)
             {
-                var builder = new EntityBuilder(this._endpointDescriptorProvider, this._claimsPrincipal);
+                var builder = new EntityBuilder(this._mapper, this._endpointDescriptorProvider, this._hrefGenerator, this._claimsPrincipal);
 
                 configureOne.Invoke(builder, enumeration);
 

@@ -1,5 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.Siren
 {
+    using System.Linq;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -24,9 +25,21 @@
                 return;
             }
 
+            var partialResources = context
+                .ActionDescriptor
+                .FilterDescriptors
+                .Select(filter => filter.Filter)
+                .OfType<IPartialResource>()
+                .Select(filter => filter.PartialResource);
+
             var builder = this._entityBuilderFactory.MakeEntity(context.HttpContext.User);
 
             resource.Configure(builder);
+
+            foreach (var partialResource in partialResources)
+            {
+                partialResource.Configure(builder);
+            }
 
             var actualResponse = builder.Build();
 

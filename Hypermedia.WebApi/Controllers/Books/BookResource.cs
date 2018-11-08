@@ -1,5 +1,6 @@
 ﻿namespace Books.WebApi.Controllers.Books
 {
+    using AutoMapper;
     using Hypermedia.AspNetCore.Siren;
     using Hypermedia.AspNetCore.Siren.Entities;
     using Infrastructure.Services;
@@ -15,7 +16,6 @@
         {
             Title = this._book.Title,
             Description = this._book.Description,
-            Status = this._book.Status,
             IsFree = this._book.IsFree
         };
 
@@ -30,7 +30,7 @@
         {
             builder
                 .WithClasses("book", "details")
-                .WithProperties(this._book)
+                .WithProperties<BookDetailsModel, Book>(this._book)
                 .WithLink("books", c => c.Get(this._pageNo, this._perPage), "parent")
                 .WithLink("self", c => c.GetOne(this._book.Id, this._pageNo, this._perPage))
                 .WithAction("update", c => c.Update(this._book.Id, this.EditBookModel));

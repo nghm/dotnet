@@ -9,6 +9,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
     {
         ITypedEntityBuilder<T> WithClasses(params string[] classes);
         ITypedEntityBuilder<T> WithProperties<TProp>(TProp properties);
+        ITypedEntityBuilder<T> WithProperties<TProp, TSource>(TSource properties);
 
         ITypedEntityBuilder<T> WithAction(string name, Expression<Action<T>> @select);
 

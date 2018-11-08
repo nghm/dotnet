@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
+﻿namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
 {
+    using System;
     using System.Linq.Expressions;
 
     internal interface ICallCollector

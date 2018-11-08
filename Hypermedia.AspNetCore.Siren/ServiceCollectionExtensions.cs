@@ -12,11 +12,12 @@
         public static IMvcBuilder AddHypermediaSiren(this IMvcBuilder mvcBuilder)
         {
             var services = mvcBuilder.Services;
-            
+
+            services.AddScoped<IEntityBuilderFactory, EntityBuilderFactory>();
             services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
             services.AddSingleton<ICallCollector, ExpressionCallCollector>();
             services.AddSingleton<IEndpointDescriptorProvider, EndpointDescriptorProvider>();
-            services.AddSingleton<IEntityBuilderFactory, EntityBuilderFactory>();
+            services.AddSingleton<IHrefGenerator, HrefGenerator>();
 
             services.AddSingleton(_ => new IValidationMetaProvider[]
             {

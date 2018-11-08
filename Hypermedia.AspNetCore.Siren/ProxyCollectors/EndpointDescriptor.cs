@@ -15,9 +15,6 @@
         private readonly IAuthorizationService _authorizationService;
         private readonly IFieldMetadataProviderCollection _metadataProviderCollection;
         private readonly ControllerActionDescriptor _actionDescriptor;
-        private readonly object[] _arguments;
-        private readonly string _host;
-        private readonly string _protocol;
         private readonly AuthorizationPolicy[] _policies;
 
         public EndpointDescriptor(
@@ -31,9 +28,9 @@
             this._authorizationService = authorizationService;
             this._metadataProviderCollection = metadataProviderCollection;
             this._actionDescriptor = actionDescriptor;
-            this._arguments = arguments;
-            this._host = host;
-            this._protocol = protocol;
+            this.Arguments = arguments;
+            this.Host = host;
+            this.Protocol = protocol;
             this._policies = actionDescriptor
                 .FilterDescriptors
                 .Select(f => f.Filter)
@@ -41,11 +38,19 @@
                 .Select(filter => filter.Policy)
                 .ToArray();
         }
-
+        
+        public string Host { get; }
+        public string Protocol { get; }
+        public object[] Arguments { get; }
         public string Method => this._actionDescriptor.GetHttpMethod().ToUpper();
-        public object Body => this._actionDescriptor.PickBodyArgument(this._arguments);
-        public string Href => ComputeHref();
+        public object Body => this._actionDescriptor.PickBodyArgument(this.Arguments);
         public IEnumerable<IField> Fields => ComputeFields();
+        public string Template => _actionDescriptor.AttributeRouteInfo.Template.ToLower();
+
+        public ControllerParameterDescriptor[] Parameters => this._actionDescriptor
+            .Parameters
+            .OfType<ControllerParameterDescriptor>()
+            .ToArray();
 
         private IEnumerable<IField> ComputeFields()
         {
@@ -101,54 +106,6 @@
                 .AuthorizeAsync(user, authorizationPolicy)
                 .Result
                 .Succeeded;
-        }
-
-        private string ComputeHref()
-        {
-            var parameters = this._actionDescriptor
-                .Parameters
-                .OfType<ControllerParameterDescriptor>()
-                .ToArray();
-
-            var queryParameters = new Dictionary<string, string>();
-            var routeParameters = new Dictionary<string, string>();
-
-            for (var index = 0; index < parameters.Count(); index++)
-            {
-                var value = this._arguments[index];
-                var info = parameters[index];
-
-                if (info == null)
-                {
-                    continue;
-                }
-
-                if (value == null || info.ParameterInfo.DefaultValue.Equals(value))
-                {
-                    continue;
-                }
-
-                switch (info.BindingInfo.BindingSource.Id)
-                {
-                    case "Query":
-                        queryParameters[info.Name] = value.ToString();
-                        break;
-                    case "Path":
-                        routeParameters[info.Name] = value.ToString();
-                        break;
-                    default:
-                        continue;
-                }
-            }
-
-            var template = this._actionDescriptor.AttributeRouteInfo.Template.ToLower();
-
-            var href = $"{this._protocol}://{this._host}/{template}";
-
-            href = href.InterpolateRouteParameters(routeParameters);
-            href = href.InterpolateQueryParameters(queryParameters);
-            
-            return href;
         }
     }
 }

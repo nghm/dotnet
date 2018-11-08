@@ -39,10 +39,7 @@
             builder
                 .WithClasses("books")
                 .WithProperties(new { name = "Books" })
-                .WithEntities(this._books, (b, book) => b
-                    .WithClasses("recent-book", "book-embedded")
-                    .WithProperties(book)
-                    .WithLink<BooksController>("details", c => c.GetOne(book.Id, this._pageNo, this._perPage)))
+                .WithEntities(this._books, this.MakePreviewBook)
                 .WithAction("create", c => c.Create(this.NewBookModel))
                 .WithLinks(new Dictionary<string, Expression<Action<BooksController>>>
                 {
@@ -50,10 +47,18 @@
                     ["first"] = c => c.Get(0, this._perPage),
                     ["last"] = c => c.Get(this._totalCount / this._perPage, this._perPage)
                 })
-                .WithLinks(GetOptionalLinks());
+                .WithLinks(GetNextAndPreviousLinks());
         }
 
-        private Dictionary<string, Expression<Action<BooksController>>> GetOptionalLinks()
+        private void MakePreviewBook(IEntityBuilder builder, Book book)
+        {
+            builder
+                .WithClasses("recent-book")
+                .WithProperties(book)
+                .WithLink<BooksController>("details", c => c.GetOne(book.Id, this._pageNo, this._perPage));
+        }
+
+        private Dictionary<string, Expression<Action<BooksController>>> GetNextAndPreviousLinks()
         {
             var links = new Dictionary<string, Expression<Action<BooksController>>>();
 

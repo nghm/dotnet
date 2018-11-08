@@ -22,6 +22,7 @@
         }
 
         [HttpGet]
+        [HasMenu]
         public IActionResult Get(int pageNo = 0, int perPage = 12)
         {
             var books = this._books.Paginate(perPage, pageNo);
@@ -31,7 +32,8 @@
         }
 
         [HttpGet("{id}")]
-        [Authorize("CanEditBooks")]
+        [HasMenu]
+        //[Authorize("CanEditBooks")]
         public IActionResult GetOne(Guid id, int pageNo = 0, int perPage = 12)
         {
             var book = this._books.One(id);

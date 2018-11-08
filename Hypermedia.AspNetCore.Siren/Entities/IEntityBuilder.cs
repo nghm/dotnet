@@ -9,10 +9,11 @@ namespace Hypermedia.AspNetCore.Siren.Entities
     {
         IEntityBuilder WithClasses(params string[] classes);
         IEntityBuilder WithProperties<TProp>(TProp properties);
+        IEntityBuilder WithProperties<TProp, TSource>(TSource properties);
 
         IEntityBuilder WithAction<T>(string name, Expression<Action<T>> @select) where T : class;
 
-        IEntityBuilder WithEntity<T>(Action<IEntityBuilder> builder) where T : class;
+        IEntityBuilder WithEntity(Action<IEntityBuilder> builder);
         IEntityBuilder WithEntities<TM>(IEnumerable<TM> enumerable, Action<IEntityBuilder, TM> configureOne);
 
         IEntityBuilder WithEntity<T>(Expression<Action<T>> @select, params string[] classes) where T : class;

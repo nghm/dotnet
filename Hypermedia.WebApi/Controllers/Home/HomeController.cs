@@ -6,5 +6,11 @@
     [ApiController]
     public class HomeController : ControllerBase
     {
+        [HttpGet]
+        [HasMenu]
+        public IActionResult Get()
+        {
+            return Ok(new HomeResource());
+        }
     }
 }
