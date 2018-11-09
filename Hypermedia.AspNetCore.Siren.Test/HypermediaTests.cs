@@ -1,6 +1,7 @@
 namespace Hypermedia.AspNetCore.Siren.Test
 {
     using Entities;
+    using Entities.Builder;
     using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
     using Xunit;
 

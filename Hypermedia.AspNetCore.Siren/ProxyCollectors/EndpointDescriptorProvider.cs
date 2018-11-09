@@ -24,9 +24,9 @@
             this._authService = authService;
         }
 
-        public EndpointDescriptor GetEndpointDescriptor<T>(Expression<Action<T>> @select) where T : class
+        public EndpointDescriptor GetEndpointDescriptor<T>(Expression<Action<T>> endpointCapture) where T : class
         {
-            var methodCall = this._callCollector.CollectCall(select);
+            var methodCall = this._callCollector.CollectCall(endpointCapture);
 
             if (methodCall == null)
             {
@@ -44,7 +44,7 @@
                 throw new InvalidOperationException("Expression does not call application action");
             }
 
-            return new EndpointDescriptor(this._authService, this._fieldMetadataProviderCollection, actionDescriptor, arguments, "localhost:54287", "http");
+            return new EndpointDescriptor(actionDescriptor, arguments, "localhost:54287", "http");
         }
     }
 }

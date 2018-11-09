@@ -2,6 +2,7 @@
 {
     using System.Security.Claims;
     using Entities;
+    using Entities.Builder;
 
     internal interface IEntityBuilderFactory
     {

@@ -5,10 +5,11 @@
     using System.Linq.Expressions;
     using Hypermedia.AspNetCore.Siren;
     using Hypermedia.AspNetCore.Siren.Entities;
+    using Hypermedia.AspNetCore.Siren.Entities.Builder;
     using Infrastructure.Services;
     using Models;
 
-    internal class BooksResource : TypedHypermediaResource<BooksController>
+    internal class BooksResource : HypermediaResource<BooksController>
     {
         private readonly int _totalCount;
         private readonly bool _hasPrevious;
@@ -53,9 +54,9 @@
         private void MakePreviewBook(IEntityBuilder builder, Book book)
         {
             builder
-                .WithClasses("recent-book")
-                .WithProperties(book)
-                .WithLink<BooksController>("details", c => c.GetOne(book.Id, this._pageNo, this._perPage));
+                .WithClasses("preview-book")
+                .WithProperties<BookPreviewModel, Book>(book)
+                .WithLink<BooksController>("details", c => c.GetOne(book.Id, this._pageNo, this._perPage), "details");
         }
 
         private Dictionary<string, Expression<Action<BooksController>>> GetNextAndPreviousLinks()

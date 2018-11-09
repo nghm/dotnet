@@ -4,6 +4,7 @@
     using Home;
     using Hypermedia.AspNetCore.Siren;
     using Hypermedia.AspNetCore.Siren.Entities;
+    using Hypermedia.AspNetCore.Siren.Entities.Builder;
 
     public class MenuPartialResource : IHypermediaResource
     {

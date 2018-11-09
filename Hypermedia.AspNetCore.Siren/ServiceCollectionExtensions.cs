@@ -14,10 +14,12 @@
             var services = mvcBuilder.Services;
 
             services.AddScoped<IEntityBuilderFactory, EntityBuilderFactory>();
+            services.AddSingleton<IAccessValidator, AccessValidator>();
             services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
             services.AddSingleton<ICallCollector, ExpressionCallCollector>();
             services.AddSingleton<IEndpointDescriptorProvider, EndpointDescriptorProvider>();
-            services.AddSingleton<IHrefGenerator, HrefGenerator>();
+            services.AddSingleton<IHrefFactory, HrefFactory>();
+            services.AddSingleton<IFieldsFactory, FieldsFactory>();
 
             services.AddSingleton(_ => new IValidationMetaProvider[]
             {

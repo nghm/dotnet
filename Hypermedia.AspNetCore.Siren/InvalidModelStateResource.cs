@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using Entities;
+    using Entities.Builder;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
     internal class InvalidModelStateResource : IHypermediaResource

@@ -7,19 +7,22 @@ namespace Hypermedia.AspNetCore.Siren.Entities
 {
     using System.Linq.Expressions;
     using AutoMapper;
+    using Builder;
 
     internal class TypedEntityBuilder<T> : EntityBuilder, ITypedEntityBuilder<T> where T : class
     {
-        private readonly IHrefGenerator _hrefGenerator;
+        private readonly IHrefFactory _hrefFactory;
 
         public TypedEntityBuilder(
             IMapper mapper,
             IEndpointDescriptorProvider endpointDescriptorProvider,
-            IHrefGenerator hrefGenerator,
+            IHrefFactory hrefFactory,
+            IAccessValidator accessValidator,
+            IFieldsFactory fieldsFactory,
             ClaimsPrincipal claimsPrincipal)
-            : base(mapper, endpointDescriptorProvider, hrefGenerator, claimsPrincipal)
+            : base(mapper, endpointDescriptorProvider, hrefFactory, fieldsFactory, accessValidator, claimsPrincipal)
         {
-            this._hrefGenerator = hrefGenerator;
+            this._hrefFactory = hrefFactory;
         }
 
         public new ITypedEntityBuilder<T> WithProperties<TProp, TSource>(TSource properties)
@@ -45,7 +48,7 @@ namespace Hypermedia.AspNetCore.Siren.Entities
 
         public new ITypedEntityBuilder<T> WithEntity(Action<IEntityBuilder> select)
         {
-            WithEntity(select);
+            base.WithEntity(select);
 
             return this;
         }

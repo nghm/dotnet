@@ -6,7 +6,7 @@
     using Infrastructure.Services;
     using Models;
 
-    public class BookResource : TypedHypermediaResource<BooksController>
+    public class BookResource : HypermediaResource<BooksController>
     {
         private readonly int _perPage;
         private readonly int _pageNo;

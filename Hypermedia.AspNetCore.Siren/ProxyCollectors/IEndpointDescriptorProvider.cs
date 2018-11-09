@@ -5,6 +5,6 @@
 
     internal interface IEndpointDescriptorProvider
     {
-        EndpointDescriptor GetEndpointDescriptor<T>(Expression<Action<T>> @select) where T : class;
+        EndpointDescriptor GetEndpointDescriptor<T>(Expression<Action<T>> endpointCapture) where T : class;
     }
 }

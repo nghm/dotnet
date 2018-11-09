@@ -6,9 +6,17 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 
     public class FieldGenerationContext
     {
-        public ParameterDescriptor ParameterInfo { get; internal set; }
-        public object Value { get; internal set; }
-        public string Name { get; internal set; }
-        public PropertyInfo PropertyInfo => this.ParameterInfo.ParameterType.GetProperty(this.Name);
+
+        public FieldGenerationContext(string fieldName, object fieldValue, ParameterDescriptor bodyBodyParameterDescriptor)
+        {
+            this.Name = fieldName;
+            this.Value = fieldValue;
+            this.BodyParameterDescriptor = bodyBodyParameterDescriptor;
+        }
+
+        public ParameterDescriptor BodyParameterDescriptor { get; }
+        public object Value { get; }
+        public string Name { get; }
+        public PropertyInfo PropertyInfo => this.BodyParameterDescriptor.ParameterType.GetProperty(this.Name);
     }
 }
