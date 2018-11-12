@@ -27,7 +27,8 @@
             this.Links = links;
             this.Properties = properties
                 .AsEnumerable()
-                .ToDictionary(kvp => kvp.Key.ToCamelCase(), kvp => kvp.Value);
+                .GroupBy(kvp => kvp.Key.ToCamelCase())
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Last().Value);
             this.Actions = actions;
         }
 

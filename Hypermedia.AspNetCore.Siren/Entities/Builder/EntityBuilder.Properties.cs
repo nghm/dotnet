@@ -26,7 +26,14 @@
         {
             foreach (var property in properties)
             {
-                this._properties.Add(property.Key, property.Value);
+                if (!this._properties.ContainsKey(property.Key))
+                {
+                    this._properties.Add(property.Key, property.Value);
+                }
+                else
+                {
+                    this._properties[property.Key] = property.Value;
+                }
             }
 
             return this;
