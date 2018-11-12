@@ -23,19 +23,20 @@
         private readonly IFieldsFactory _fieldsFactory;
         private readonly ClaimsPrincipal _claimsPrincipal;
 
-        public EntityBuilder(IMapper mapper,
+        public EntityBuilder(
+            IMapper mapper,
             IEndpointDescriptorProvider endpointDescriptorProvider,
             IHrefFactory hrefFactory,
             IFieldsFactory fieldsFactory,
             IAccessValidator accessValidator,
-            ClaimsPrincipal user)
+            ClaimsPrincipal claimsPrincipal)
         {
             this._mapper = mapper;
             this._endpointDescriptorProvider = endpointDescriptorProvider;
             this._hrefFactory = hrefFactory;
             this._accessValidator = accessValidator;
             this._fieldsFactory = fieldsFactory;
-            this._claimsPrincipal = user;
+            this._claimsPrincipal = claimsPrincipal;
         }
 
         public IEntityBuilder With<T>(Action<ITypedEntityBuilder<T>> entityBuilderConfiguration) where T : class

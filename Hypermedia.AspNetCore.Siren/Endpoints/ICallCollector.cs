@@ -5,6 +5,6 @@
 
     internal interface ICallCollector
     {
-        CollectedMethodCall CollectCall<T>(Expression<Action<T>> collect) where T : class;
+        CollectedMethodCall CollectMethodCall<T>(Expression<Action<T>> collect) where T : class;
     }
 }

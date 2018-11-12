@@ -23,9 +23,9 @@
         [AutoMockData]
         private void TestPerformanceOld(ExpressionCallCollector sut)
         {
-            var callCollected = sut.CollectCall<Collectable>(e => e.CollectMe(1, 2, 3 + 2));
+            var callCollected = sut.CollectMethodCall<Collectable>(e => e.CollectMe(1, 2, 3 + 2));
 
-            Assert.Equal(callCollected.Target, GetType());
+            Assert.Equal(typeof(Collectable), callCollected.Target);
             Assert.Equal(callCollected.Method, this.CollectMeMethodInfo);
             Assert.Equal(callCollected.Arguments.OfType<int>(), new [] { 1, 2, 5 });
         }

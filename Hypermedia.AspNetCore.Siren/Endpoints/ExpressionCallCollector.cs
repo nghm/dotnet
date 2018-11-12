@@ -6,7 +6,7 @@
 
     internal class ExpressionCallCollector : ICallCollector
     {
-        public CollectedMethodCall CollectCall<T>(Expression<Action<T>> select) where T : class
+        public CollectedMethodCall CollectMethodCall<T>(Expression<Action<T>> select) where T : class
         {
             if (select.Body is MethodCallExpression methodCall)
             {

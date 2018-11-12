@@ -26,7 +26,7 @@
 
         public EndpointDescriptor GetEndpointDescriptor<T>(Expression<Action<T>> endpointCapture) where T : class
         {
-            var methodCall = this._callCollector.CollectCall(endpointCapture);
+            var methodCall = this._callCollector.CollectMethodCall(endpointCapture);
 
             if (methodCall == null)
             {
