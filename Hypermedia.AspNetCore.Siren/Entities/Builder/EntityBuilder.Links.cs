@@ -17,9 +17,14 @@
                 return this;
             }
 
-            if (!(descriptor.Body == null && descriptor.Method == "GET"))
+            if (descriptor.Body != null)
             {
-                return this;
+                throw new InvalidOperationException("Cannot add link, body is not null!");
+            }
+
+            if (descriptor.Method != "GET")
+            {
+                throw new InvalidOperationException("Cannot add link, method is not GET!");
             }
 
             this._links.Add(new Link(name, this._hrefFactory.MakeHref(descriptor), rel));
