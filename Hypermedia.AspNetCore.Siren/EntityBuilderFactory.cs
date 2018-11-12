@@ -10,20 +10,17 @@
         private readonly IMapper _mapper;
         private readonly IEndpointDescriptorProvider _endpointDescriptorProvider;
         private readonly IHrefFactory _hrefFactory;
-        private readonly IAccessValidator _accessValidator;
         private readonly IFieldsFactory _fieldsFactory;
 
         public EntityBuilderFactory(
             IMapper mapper,
             IEndpointDescriptorProvider endpointDescriptorProvider,
             IHrefFactory hrefFactory,
-            IAccessValidator accessValidator, 
             IFieldsFactory fieldsFactory)
         {
             this._mapper = mapper;
             this._endpointDescriptorProvider = endpointDescriptorProvider;
             this._hrefFactory = hrefFactory;
-            this._accessValidator = accessValidator;
             this._fieldsFactory = fieldsFactory;
         }
 
@@ -39,7 +36,6 @@
                 this._endpointDescriptorProvider, 
                 this._hrefFactory, 
                 this._fieldsFactory,
-                this._accessValidator, 
                 user);
         }
     }

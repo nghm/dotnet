@@ -8,7 +8,6 @@
                 this._mapper,
                 this._endpointDescriptorProvider,
                 this._hrefFactory,
-                this._accessValidator,
                 this._fieldsFactory,
                 this._claimsPrincipal);
         }
@@ -20,7 +19,6 @@
                 this._endpointDescriptorProvider,
                 this._hrefFactory,
                 this._fieldsFactory,
-                this._accessValidator,
                 this._claimsPrincipal
             );
         }

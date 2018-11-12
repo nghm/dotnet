@@ -1,23 +1,23 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
     using System.Collections.Generic;
-    using System.Linq;
-    using Actions.Fields;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc.Authorization;
     using Microsoft.AspNetCore.Mvc.Controllers;
+    using System.Linq;
+    using Microsoft.AspNetCore.Mvc.Abstractions;
     using Util;
 
     internal class EndpointDescriptor
     {
 
         public EndpointDescriptor(
-            ControllerActionDescriptor actionDescriptor,
+            ActionDescriptor actionDescriptor,
             object[] arguments,
             string host,
             string protocol)
         {
-            this.Policies = this.ComputePolicies(actionDescriptor);
+            this.Policies = ComputePolicies(actionDescriptor);
 
             var parameters = actionDescriptor
                 .Parameters
@@ -43,9 +43,7 @@
         public KeyValuePair<ControllerParameterDescriptor, object> BodyArgument { get; }
         public ArgumentsCollection ArgumentsCollection { get; }
 
-        private AuthorizationPolicy[] ComputePolicies(
-            ControllerActionDescriptor actionDescriptor
-        )
+        private static AuthorizationPolicy[] ComputePolicies(ActionDescriptor actionDescriptor)
         {
             return actionDescriptor
                 .FilterDescriptors

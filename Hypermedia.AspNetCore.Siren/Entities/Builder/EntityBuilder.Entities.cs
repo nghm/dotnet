@@ -9,14 +9,9 @@
         public IEntityBuilder WithEntity<T>(Expression<Action<T>> endpointCapture, params string[] classes)
             where T : class
         {
-            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(endpointCapture);
+            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(endpointCapture, this._claimsPrincipal);
 
             if (descriptor == null)
-            {
-                return this;
-            }
-
-            if (!this._accessValidator.CanAccess(this._claimsPrincipal, descriptor.Policies))
             {
                 return this;
             }
@@ -36,7 +31,7 @@
         {
             var builder = EmptyClone();
 
-            configure.Invoke(builder);
+            configure(builder);
 
             this._entities.Add(builder.Build());
 
@@ -49,7 +44,7 @@
             {
                 var builder = EmptyClone();
 
-                configureOne.Invoke(builder, enumeration);
+                configureOne(builder, enumeration);
 
                 this._entities.Add(builder.Build());
             }

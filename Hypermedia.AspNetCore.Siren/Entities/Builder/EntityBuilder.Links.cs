@@ -10,14 +10,9 @@
         public IEntityBuilder WithLink<T>(string name, Expression<Action<T>> endpointCapture, params string[] rel)
             where T : class
         {
-            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(endpointCapture);
+            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(endpointCapture, this._claimsPrincipal);
 
             if (descriptor == null)
-            {
-                return this;
-            }
-
-            if (!this._accessValidator.CanAccess(this._claimsPrincipal, descriptor.Policies))
             {
                 return this;
             }

@@ -7,14 +7,9 @@
     {
         public IEntityBuilder WithAction<T>(string name, Expression<Action<T>> endpointCapture) where T : class
         {
-            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(endpointCapture);
+            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(endpointCapture, this._claimsPrincipal);
 
             if (descriptor == null)
-            {
-                return this;
-            }
-
-            if (!this._accessValidator.CanAccess(this._claimsPrincipal, descriptor.Policies))
             {
                 return this;
             }
@@ -38,18 +33,13 @@
         ) where T: class
           where TBody : class
         {
-            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(endpointCapture);
+            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(endpointCapture, this._claimsPrincipal);
 
             if (descriptor == null)
             {
                 return this;
             }
-
-            if (!this._accessValidator.CanAccess(this._claimsPrincipal, descriptor.Policies))
-            {
-                return this;
-            }
-
+            
             var method = descriptor.Method;
 
             var href = this._hrefFactory.MakeHref(descriptor);

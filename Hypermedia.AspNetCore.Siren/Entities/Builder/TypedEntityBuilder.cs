@@ -15,10 +15,9 @@
             IMapper mapper,
             IEndpointDescriptorProvider endpointDescriptorProvider,
             IHrefFactory hrefFactory,
-            IAccessValidator accessValidator,
             IFieldsFactory fieldsFactory,
             ClaimsPrincipal claimsPrincipal)
-            : base(mapper, endpointDescriptorProvider, hrefFactory, fieldsFactory, accessValidator, claimsPrincipal)
+            : base(mapper, endpointDescriptorProvider, hrefFactory, fieldsFactory, claimsPrincipal)
         {
             this._hrefFactory = hrefFactory;
         }

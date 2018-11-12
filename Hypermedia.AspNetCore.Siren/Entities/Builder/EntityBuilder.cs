@@ -19,7 +19,6 @@
         private readonly IMapper _mapper;
         private readonly IEndpointDescriptorProvider _endpointDescriptorProvider;
         private readonly IHrefFactory _hrefFactory;
-        private readonly IAccessValidator _accessValidator;
         private readonly IFieldsFactory _fieldsFactory;
         private readonly ClaimsPrincipal _claimsPrincipal;
 
@@ -28,13 +27,11 @@
             IEndpointDescriptorProvider endpointDescriptorProvider,
             IHrefFactory hrefFactory,
             IFieldsFactory fieldsFactory,
-            IAccessValidator accessValidator,
             ClaimsPrincipal claimsPrincipal)
         {
             this._mapper = mapper;
             this._endpointDescriptorProvider = endpointDescriptorProvider;
             this._hrefFactory = hrefFactory;
-            this._accessValidator = accessValidator;
             this._fieldsFactory = fieldsFactory;
             this._claimsPrincipal = claimsPrincipal;
         }
