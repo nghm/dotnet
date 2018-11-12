@@ -48,23 +48,23 @@
             return this;
         }
 
-        public ITypedEntityBuilder<T> WithEntity(Expression<Action<T>> @select, params string[] classes)
+        public ITypedEntityBuilder<T> WithEntity(Expression<Action<T>> collectEntity, params string[] classes)
         {
-            WithEntity<T>(@select, classes);
+            WithEntity<T>(collectEntity, classes);
 
             return this;
         }
 
-        public new ITypedEntityBuilder<T> WithEntity(Action<IEntityBuilder> select)
+        public new ITypedEntityBuilder<T> WithEntity(Action<IEntityBuilder> configure)
         {
-            base.WithEntity(select);
+            base.WithEntity(configure);
 
             return this;
         }
         
-        public ITypedEntityBuilder<T> WithLink(string name, Expression<Action<T>> @select, params string[] rel)
+        public ITypedEntityBuilder<T> WithLink(string name, Expression<Action<T>> captureLink, params string[] rel)
         {
-            WithLink<T>(name, @select, rel);
+            WithLink<T>(name, captureLink, rel);
 
             return this;
         }

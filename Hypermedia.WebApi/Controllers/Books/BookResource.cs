@@ -41,7 +41,8 @@
                 .WithAction<EditBookModel>(
                     "update",
                     c => c.Update(this._book.Id, this.EditBookModel),
-                    a => a.WithOptions(eb => eb.Tags, this._allowedTags));
+                    a => a.WithOptions(b => b.Tags, this._allowedTags)
+                );
         }
     }
 }
