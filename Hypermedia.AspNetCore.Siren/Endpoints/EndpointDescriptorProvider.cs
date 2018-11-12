@@ -3,7 +3,6 @@
     using System;
     using System.Linq.Expressions;
     using System.Security.Claims;
-    using Microsoft.AspNetCore.Authorization;
 
     internal class EndpointDescriptorProvider : IEndpointDescriptorProvider
     {
@@ -14,8 +13,7 @@
         public EndpointDescriptorProvider(
             IActionDescriptorResolver actionDescriptorResolver,
             ICallCollector callCollector,
-            IAccessValidator accessValidator,
-            IAuthorizationService authService)
+            IAccessValidator accessValidator)
         {
             this._actionDescriptorResolver = actionDescriptorResolver;
             this._callCollector = callCollector;
