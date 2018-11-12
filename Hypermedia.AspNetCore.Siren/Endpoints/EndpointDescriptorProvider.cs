@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
+﻿namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
     using System;
     using System.Linq.Expressions;
@@ -32,19 +32,15 @@
             {
                 return null;
             }
-
-            var arguments = methodCall.Arguments;
-            var controllerType = methodCall.Target;
-            var actionMethodInfo = methodCall.Method;
-
-            var actionDescriptor = this._actionDescriptorResolver.Resolve(controllerType, actionMethodInfo);
+            
+            var actionDescriptor = this._actionDescriptorResolver.Resolve(methodCall.Target, methodCall.Method);
 
             if (actionDescriptor == null)
             {
                 throw new InvalidOperationException("Expression does not call application action");
             }
 
-            return new EndpointDescriptor(actionDescriptor, arguments, "localhost:54287", "http");
+            return new EndpointDescriptor(actionDescriptor, methodCall.Arguments, "localhost:54287", "http");
         }
     }
 }

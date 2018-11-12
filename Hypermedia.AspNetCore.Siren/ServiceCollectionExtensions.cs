@@ -4,8 +4,8 @@
     using Actions.Fields;
     using Actions.Fields.Type;
     using Actions.Fields.Validation;
+    using Endpoints;
     using Microsoft.Extensions.DependencyInjection;
-    using ProxyCollectors;
 
     public static class ServiceCollectionExtensions
     {

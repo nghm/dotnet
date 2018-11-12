@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
+﻿namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
     using System;
     using System.Linq;

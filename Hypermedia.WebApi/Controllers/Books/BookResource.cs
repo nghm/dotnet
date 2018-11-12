@@ -1,8 +1,7 @@
 ﻿namespace Books.WebApi.Controllers.Books
 {
-    using AutoMapper;
     using Hypermedia.AspNetCore.Siren;
-    using Hypermedia.AspNetCore.Siren.Entities;
+    using Hypermedia.AspNetCore.Siren.Entities.Builder;
     using Infrastructure.Services;
     using Models;
 

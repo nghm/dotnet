@@ -1,23 +1,33 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Test
 {
+    using System.Linq;
+    using System.Reflection;
+    using Endpoints;
     using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
     using Xunit;
-    using ProxyCollectors;
+
+    public class Collectable
+    {
+        public void CollectMe(int a, int b, int c = 0)
+        {
+        }
+    }
 
     public class ProxyCollectTests
     {
+        protected internal MethodInfo CollectMeMethodInfo = typeof(Collectable)
+            .GetMethods()
+            .First(m => m.Name == nameof(Collectable.CollectMe));
+
         [Theory]
         [AutoMockData]
         private void TestPerformanceOld(ExpressionCallCollector sut)
         {
-            for (var i = 0; i < 10000; i++)
-            {
-                sut.CollectCall<ProxyCollectTests>(e => ComplexMethod(i + 1, i + 2, i * i));
-            }
-        }
-        
-        void ComplexMethod(int a, int b, int c = 0)
-        {
+            var callCollected = sut.CollectCall<Collectable>(e => e.CollectMe(1, 2, 3 + 2));
+
+            Assert.Equal(callCollected.Target, GetType());
+            Assert.Equal(callCollected.Method, this.CollectMeMethodInfo);
+            Assert.Equal(callCollected.Arguments.OfType<int>(), new [] { 1, 2, 5 });
         }
     }
 }

@@ -1,13 +1,11 @@
-﻿using Hypermedia.AspNetCore.Siren.ProxyCollectors;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-
-namespace Hypermedia.AspNetCore.Siren.Entities
+﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq.Expressions;
+    using System.Security.Claims;
     using AutoMapper;
-    using Builder;
+    using Endpoints;
 
     internal class TypedEntityBuilder<T> : EntityBuilder, ITypedEntityBuilder<T> where T : class
     {

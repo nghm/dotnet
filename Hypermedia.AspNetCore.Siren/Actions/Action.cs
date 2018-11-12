@@ -14,9 +14,9 @@
             this.Fields = fields ?? Array.Empty<IField>();
         }
 
-        public string Href { get; set; }
-        public string Method { get; set; }
-        public IEnumerable<IField> Fields { get; set; }
-        public string Name { get; set; }
+        public string Href { get; }
+        public string Method { get; }
+        public IEnumerable<IField> Fields { get; }
+        public string Name { get; }
     }
 }

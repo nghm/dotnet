@@ -1,12 +1,11 @@
-﻿namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
+﻿namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
-    using Actions;
+    using System.Collections.Generic;
+    using System.Linq;
     using Actions.Fields;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc.Authorization;
     using Microsoft.AspNetCore.Mvc.Controllers;
-    using System.Collections.Generic;
-    using System.Linq;
     using Util;
 
     internal class EndpointDescriptor
@@ -30,7 +29,7 @@
             this.Body = actionDescriptor.PickBodyArgument(arguments);
             this.Template = actionDescriptor.AttributeRouteInfo.Template.ToLower();
             this.Method = actionDescriptor.GetHttpMethod().ToUpper();
-            this.ArgumentsCollection = new EndpointArgumentsCollection(parameters, arguments);
+            this.ArgumentsCollection = new ArgumentsCollection(parameters, arguments);
 
             this.BodyArgument = this.ArgumentsCollection.SingleOrDefault(argument => argument.Key.BindingInfo.BindingSource.Id == "Body");
         }
@@ -40,12 +39,13 @@
         public string Protocol { get; }
         public string Method { get; }
         public object Body { get; }
-        public IEnumerable<IField> Fields { get; }
         public string Template { get; }
         public KeyValuePair<ControllerParameterDescriptor, object> BodyArgument { get; }
-        public EndpointArgumentsCollection ArgumentsCollection { get; }
+        public ArgumentsCollection ArgumentsCollection { get; }
 
-        private AuthorizationPolicy[] ComputePolicies(ControllerActionDescriptor actionDescriptor)
+        private AuthorizationPolicy[] ComputePolicies(
+            ControllerActionDescriptor actionDescriptor
+        )
         {
             return actionDescriptor
                 .FilterDescriptors

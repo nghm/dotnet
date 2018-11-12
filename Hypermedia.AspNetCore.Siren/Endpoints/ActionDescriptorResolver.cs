@@ -1,11 +1,11 @@
-﻿namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
+﻿namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
-    using Microsoft.AspNetCore.Mvc.Controllers;
-    using Microsoft.AspNetCore.Mvc.Infrastructure;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using Microsoft.AspNetCore.Mvc.Controllers;
+    using Microsoft.AspNetCore.Mvc.Infrastructure;
 
     internal class ActionDescriptorResolver : IActionDescriptorResolver
     {

@@ -2,9 +2,8 @@
 {
     using System.Security.Claims;
     using AutoMapper;
-    using Entities;
+    using Endpoints;
     using Entities.Builder;
-    using ProxyCollectors;
 
     internal class EntityBuilderFactory : IEntityBuilderFactory
     {

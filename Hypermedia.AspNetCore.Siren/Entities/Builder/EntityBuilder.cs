@@ -2,12 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq.Expressions;
     using System.Security.Claims;
     using Actions;
     using AutoMapper;
+    using Endpoints;
     using Links;
-    using ProxyCollectors;
 
     internal partial class EntityBuilder : IEntityBuilder
     {

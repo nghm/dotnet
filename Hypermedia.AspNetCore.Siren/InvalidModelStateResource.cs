@@ -1,7 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.Siren
 {
     using System.Linq;
-    using Entities;
     using Entities.Builder;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 

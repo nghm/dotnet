@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Hypermedia.AspNetCore.Siren.Entities
+﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq.Expressions;
-    using Builder;
 
     public interface ITypedEntityBuilder<T> where T : class
     {

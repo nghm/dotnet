@@ -1,12 +1,12 @@
-﻿namespace Hypermedia.AspNetCore.Siren.ProxyCollectors
+﻿namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.AspNetCore.Mvc.Controllers;
 
-    internal class EndpointArgumentsCollection : Dictionary<ControllerParameterDescriptor, object>
+    internal class ArgumentsCollection : Dictionary<ControllerParameterDescriptor, object>
     {
-        public EndpointArgumentsCollection(ControllerParameterDescriptor[] parameters, object[] endpointDescriptors)
+        public ArgumentsCollection(ControllerParameterDescriptor[] parameters, object[] endpointDescriptors)
             : base(parameters.ToDictionary(
                     parameter => parameter,
                     parameter => endpointDescriptors[parameter.ParameterInfo.Position]
