@@ -3,6 +3,7 @@
     using System;
     using Fields;
     using System.Collections.Generic;
+    using System.Linq;
 
     internal class Action : IAction
     {
@@ -11,12 +12,12 @@
             this.Href = href;
             this.Method = method;
             this.Name = name;
-            this.Fields = fields ?? Array.Empty<IField>();
+            this.Fields = (fields ?? Array.Empty<IField>()).ToList();
         }
 
         public string Href { get; }
         public string Method { get; }
-        public IEnumerable<IField> Fields { get; }
+        public IReadOnlyList<IField> Fields { get; }
         public string Name { get; }
     }
 }

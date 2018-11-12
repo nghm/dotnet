@@ -12,5 +12,7 @@
         public string Description { get; set; }
         //public BookStatus Status { get; set; }
         public bool IsFree { get; set; }
+
+        public string[] Tags { get; set; }
     }
 }

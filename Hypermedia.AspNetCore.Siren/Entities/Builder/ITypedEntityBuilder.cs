@@ -11,6 +11,11 @@
         ITypedEntityBuilder<T> WithProperties<TProp, TSource>(TSource properties);
 
         ITypedEntityBuilder<T> WithAction(string name, Expression<Action<T>> @select);
+        ITypedEntityBuilder<T> WithAction<TBody>(
+            string name,
+            Expression<Action<T>> endpointCapture,
+            Action<IActionBuilder<TBody>> configureAction
+        ) where TBody : class;
 
         ITypedEntityBuilder<T> WithEntity(Action<IEntityBuilder> select);
         ITypedEntityBuilder<T> WithEntity(Expression<Action<T>> @select, params string[] classes);

@@ -37,6 +37,17 @@
             return this;
         }
 
+        public ITypedEntityBuilder<T> WithAction<TBody>(
+            string name, 
+            Expression<Action<T>> endpointCapture, 
+            Action<IActionBuilder<TBody>> configureAction) 
+            where TBody : class
+        {
+            WithAction<T, TBody>(name, endpointCapture, configureAction);
+
+            return this;
+        }
+
         public ITypedEntityBuilder<T> WithEntity(Expression<Action<T>> @select, params string[] classes)
         {
             WithEntity<T>(@select, classes);

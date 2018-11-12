@@ -7,7 +7,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions
     {
         string Href { get; }
         string Method { get; }
-        IEnumerable<IField> Fields { get; }
+        IReadOnlyList<IField> Fields { get; }
         string Name { get; }
     }
 }

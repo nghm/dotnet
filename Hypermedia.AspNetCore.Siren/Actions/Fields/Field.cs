@@ -9,11 +9,18 @@
         {
             this.Name = name;
             this.Value = value;
-            this.Metadata = metadata ?? Enumerable.Empty<KeyValuePair<string, object>>();
+            this.Metadata = (metadata ?? Enumerable.Empty<KeyValuePair<string, object>>()).ToList();
         }
 
         public string Name { get; }
         public object Value { get; }
         public IEnumerable<KeyValuePair<string, object>> Metadata { get; }
+
+        public void AddMetadata(KeyValuePair<string, object> meta)
+        {
+            var metadata = this.Metadata as List<KeyValuePair<string, object>>;
+
+            metadata?.Add(meta);
+        }
     }
 }

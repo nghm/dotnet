@@ -11,6 +11,9 @@
         IEntityBuilder WithProperties<TProp, TSource>(TSource properties);
 
         IEntityBuilder WithAction<T>(string name, Expression<Action<T>> endpointCapture) where T : class;
+        IEntityBuilder WithAction<T, TBody>(string name, Expression<Action<T>> endpointCapture, Action<IActionBuilder<TBody>> actionBuilder)
+            where T : class
+            where TBody : class;
 
         IEntityBuilder WithEntity(Action<IEntityBuilder> builder);
         IEntityBuilder WithEntities<TM>(IEnumerable<TM> enumerable, Action<IEntityBuilder, TM> configureOne);
