@@ -7,14 +7,14 @@ namespace Hypermedia.AspNetCore.Siren.Test
 
     public class HypermediaTests
     {
-        [Theory, AutoMockData]
-        void CreatesConcreteEntityBuilder(EntityBuilderFactory entityBuilderFactory
-        )
-        {
-            var builder = entityBuilderFactory.MakeEntity();
+        //[Theory, AutoMockData]
+        //void CreatesConcreteEntityBuilder(EntityBuilderFactory entityBuilderFactory
+        //)
+        //{
+        //    var builder = entityBuilderFactory.MakeEntity();
 
-            Assert.NotNull(builder);
-            Assert.IsType<EntityBuilder>(builder);
-        }
+        //    Assert.NotNull(builder);
+        //    Assert.IsType<EntityBuilder>(builder);
+        //}
     }
 }

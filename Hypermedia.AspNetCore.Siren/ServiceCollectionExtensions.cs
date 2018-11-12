@@ -5,6 +5,7 @@
     using Actions.Fields.Type;
     using Actions.Fields.Validation;
     using Endpoints;
+    using Entities.Builder;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class ServiceCollectionExtensions
@@ -13,7 +14,7 @@
         {
             var services = mvcBuilder.Services;
 
-            services.AddScoped<IEntityBuilderFactory, EntityBuilderFactory>();
+            services.AddTransient<EntityBuilder>();
             services.AddSingleton<IAccessValidator, AccessValidator>();
             services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
             services.AddSingleton<ICallCollector, ExpressionCallCollector>();

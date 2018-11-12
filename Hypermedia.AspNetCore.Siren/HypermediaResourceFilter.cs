@@ -1,16 +1,17 @@
 ﻿namespace Hypermedia.AspNetCore.Siren
 {
     using System.Linq;
+    using Entities.Builder;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
 
     internal class HypermediaResourceFilter : IResultFilter
     {
-        private readonly IEntityBuilderFactory _entityBuilderFactory;
+        private readonly EntityBuilder _builder;
 
-        public HypermediaResourceFilter(IEntityBuilderFactory entityBuilderFactory)
+        public HypermediaResourceFilter(EntityBuilder builder)
         {
-            this._entityBuilderFactory = entityBuilderFactory;
+            this._builder = builder;
         }
 
         public void OnResultExecuting(ResultExecutingContext context)
@@ -32,16 +33,16 @@
                 .OfType<IPartialResource>()
                 .Select(filter => filter.PartialResource);
 
-            var builder = this._entityBuilderFactory.MakeEntity(context.HttpContext.User);
+            this._builder.WithClaimsPrincipal(context.HttpContext.User);
 
-            resource.Configure(builder);
+            resource.Configure(this._builder);
 
             foreach (var partialResource in partialResources)
             {
-                partialResource.Configure(builder);
+                partialResource.Configure(this._builder);
             }
 
-            var actualResponse = builder.Build();
+            var actualResponse = this._builder.Build();
 
             objectResult.DeclaredType = actualResponse.GetType();
             objectResult.Value = actualResponse;

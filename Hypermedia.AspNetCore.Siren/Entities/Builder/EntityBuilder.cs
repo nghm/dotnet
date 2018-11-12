@@ -20,7 +20,16 @@
         private readonly IEndpointDescriptorProvider _endpointDescriptorProvider;
         private readonly IHrefFactory _hrefFactory;
         private readonly IFieldsFactory _fieldsFactory;
-        private readonly ClaimsPrincipal _claimsPrincipal;
+        private ClaimsPrincipal _claimsPrincipal;
+
+        public EntityBuilder(
+            IMapper mapper,
+            IEndpointDescriptorProvider endpointDescriptorProvider,
+            IHrefFactory hrefFactory,
+            IFieldsFactory fieldsFactory
+        ) : this(mapper, endpointDescriptorProvider, hrefFactory, fieldsFactory, null)
+        {
+        }
 
         public EntityBuilder(
             IMapper mapper,
@@ -34,6 +43,13 @@
             this._hrefFactory = hrefFactory;
             this._fieldsFactory = fieldsFactory;
             this._claimsPrincipal = claimsPrincipal;
+        }
+
+        internal IEntityBuilder WithClaimsPrincipal(ClaimsPrincipal claimsPrincipal)
+        {
+            this._claimsPrincipal = claimsPrincipal;
+
+            return this;
         }
 
         public IEntityBuilder With<T>(Action<ITypedEntityBuilder<T>> entityBuilderConfiguration) where T : class

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
+    using System.Security.Claims;
 
     public interface IEntityBuilder
     {
@@ -26,5 +27,6 @@
         IEntityBuilder WithLinks<T>(IDictionary<string, Expression<Action<T>>> links) where T : class;
 
         IEntityBuilder With<T>(Action<ITypedEntityBuilder<T>> entityBuilderConfiguration) where T: class;
+
     }
 }
