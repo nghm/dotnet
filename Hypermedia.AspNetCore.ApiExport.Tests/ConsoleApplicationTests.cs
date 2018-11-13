@@ -24,6 +24,17 @@ namespace Hypermedia.AspNetCore.ApiExport.Tests
 
         [Theory]
         [AutoMockData]
+        void RunIsLoggingEnd(
+            [Frozen] Mock<ILogger<ConsoleApplication>> logger,
+            ConsoleApplication consoleApplication)
+        {
+            consoleApplication.Run();
+
+            logger.Verify(LogLevel.Information, "Application closed...", Times.Once());
+        }
+
+        [Theory]
+        [AutoMockData]
         void RunAnalyzesPathFromOptions(
             [Frozen] IOptions<ApplicationOptions> options,
             [Frozen] Mock<IAssemblyAnalyzer> analyzer,
@@ -61,7 +72,8 @@ namespace Hypermedia.AspNetCore.ApiExport.Tests
             ConsoleApplication consoleApplication
         )
         {
-            compiler.Setup(c => c.Compile(It.IsAny<IAssemblyAnalysisResult>()))
+            compiler
+                .Setup(c => c.Compile(It.IsAny<IAssemblyAnalysisResult>()))
                 .Returns(compilationResult);
 
             consoleApplication.Run();

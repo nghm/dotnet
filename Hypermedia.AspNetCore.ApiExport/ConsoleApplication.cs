@@ -8,18 +8,21 @@
         private readonly ILogger<ConsoleApplication> _logger;
         private readonly IAssemblyAnalyzer _analyzer;
         private readonly IPackageCompiler _compiler;
+        private readonly IFileOutputLogic _fileOutputLogic;
         private readonly ApplicationOptions _options;
 
         public ConsoleApplication(
             IOptions<ApplicationOptions> options,
             ILogger<ConsoleApplication> logger,
             IAssemblyAnalyzer analyzer,
-            IPackageCompiler compiler
+            IPackageCompiler compiler,
+            IFileOutputLogic fileOutputLogic
         )
         {
             this._logger = logger;
             this._analyzer = analyzer;
             this._compiler = compiler;
+            this._fileOutputLogic = fileOutputLogic;
             this._options = options.Value;
         }
 
@@ -32,6 +35,10 @@
             var result = this._analyzer.Analyze(path);
 
             var assemblyContent = this._compiler.Compile(result);
+
+            this._fileOutputLogic.Save(this._options.OutputPath, assemblyContent);
+
+            this._logger.LogInformation("Application closed...");
         }
     }
 }
