@@ -1,6 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.ApiExport
 {
-    public interface IPackageCompiler
+    internal interface IPackageCompiler
     {
         string Compile(IAssemblyAnalysisResult result);
     }

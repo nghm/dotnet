@@ -1,9 +1,10 @@
 ﻿namespace Hypermedia.AspNetCore.ApiExport
 {
+    using AssemblyAnalyzer;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
-    public class ConsoleApplication : IConsoleApplication
+    internal class ConsoleApplication : IConsoleApplication
     {
         private readonly ILogger<ConsoleApplication> _logger;
         private readonly IAssemblyAnalyzer _analyzer;

@@ -1,6 +1,7 @@
 
 namespace Hypermedia.AspNetCore.ApiExport.Tests
 {
+    using AssemblyAnalyzer;
     using Xunit;
 
     using AutoFixture.Xunit2;

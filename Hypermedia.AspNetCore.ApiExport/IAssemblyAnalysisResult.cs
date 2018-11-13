@@ -1,9 +1,10 @@
 ﻿namespace Hypermedia.AspNetCore.ApiExport
 {
     using System.Collections.Generic;
+    using AssemblyAnalyzer;
 
-    public interface IAssemblyAnalysisResult
+    internal interface IAssemblyAnalysisResult
     {
-        IEnumerable<IEndpoint> Endpoints { get; }
+        IEnumerable<ActionDescriptorContext> ActionDescriptorContexts { get; }
     }
 }
