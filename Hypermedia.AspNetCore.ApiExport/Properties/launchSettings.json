@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Hypermedia.AspNetCore.ApiExport": {
+      "commandName": "Project"
+    }
+  }
+}

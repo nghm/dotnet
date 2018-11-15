@@ -1,0 +1,6 @@
+{
+    "Input": "C:\\Users\\dan.patiu\\Documents\\Git\\Hypermedia\\Hypermedia.WebApi\\Hypermedia.WebApi",
+    "Output": "C:\\Users\\dan.patiu\\Documents\\Git\\Hypermedia\\Hypermedia.WebApi\\Hypermedia.WebApi",
+    "ControllerAssemblies": ["Books.WebApi"],
+    "ExportAssemblyName": "BooksApi"
+}

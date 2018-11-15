@@ -17,3 +17,5 @@ C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetC
 C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.ApiExport.Tests\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.ApiExport.Tests.csproj.CopyComplete
 C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.ApiExport.Tests\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.ApiExport.Tests.dll
 C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.ApiExport.Tests\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.ApiExport.Tests.pdb
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.ApiExport.Tests\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Mvc.Core.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.ApiExport.Tests\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Mvc.Core.xml

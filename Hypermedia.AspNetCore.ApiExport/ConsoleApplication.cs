@@ -1,43 +1,69 @@
 ﻿namespace Hypermedia.AspNetCore.ApiExport
 {
-    using AssemblyAnalyzer;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using Microsoft.AspNetCore.Mvc.Controllers;
+    using Microsoft.AspNetCore.Mvc.Infrastructure;
+    using Microsoft.AspNetCore.Mvc.Internal;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
     internal class ConsoleApplication : IConsoleApplication
     {
         private readonly ILogger<ConsoleApplication> _logger;
-        private readonly IAssemblyAnalyzer _analyzer;
-        private readonly IPackageCompiler _compiler;
-        private readonly IFileOutputLogic _fileOutputLogic;
-        private readonly ApplicationOptions _options;
+        private readonly IProjectBuilder _builder;
+        private readonly IControllerFactory _controllerFactory;
+        private readonly IActionFactory _actionFactory;
+        private readonly IExporter _exporter;
+        private readonly IOptions<ApplicationOptions> _options;
 
         public ConsoleApplication(
-            IOptions<ApplicationOptions> options,
             ILogger<ConsoleApplication> logger,
-            IAssemblyAnalyzer analyzer,
-            IPackageCompiler compiler,
-            IFileOutputLogic fileOutputLogic
-        )
+            IProjectBuilder builder,
+            IControllerFactory controllerFactory,
+            IActionFactory actionFactory, 
+            IExporter exporter, 
+            IOptions<ApplicationOptions> options)
         {
             this._logger = logger;
-            this._analyzer = analyzer;
-            this._compiler = compiler;
-            this._fileOutputLogic = fileOutputLogic;
-            this._options = options.Value;
+            this._builder = builder;
+            this._controllerFactory = controllerFactory;
+            this._actionFactory = actionFactory;
+            this._exporter = exporter;
+            this._options = options;
         }
 
         public void Run()
         {
+
             this._logger.LogInformation("Application started...");
 
-            var path = this._options.Path;
+            var mvc = this._builder.Build();
 
-            var result = this._analyzer.Analyze(path);
+            var collectionProvider = mvc.GetService<IActionDescriptorCollectionProvider>();
 
-            var assemblyContent = this._compiler.Compile(result);
+            var descriptors = collectionProvider.ActionDescriptors.Items.ToArray();
 
-            this._fileOutputLogic.Save(this._options.OutputPath, assemblyContent);
+            var controllers = new List<ControllerDefinition>();
+            
+            foreach (var controllerType in descriptors
+                .OfType<ControllerActionDescriptor>()
+                .GroupBy(c => c.ControllerTypeInfo))
+            {
+                var controllerDefinition = this._controllerFactory
+                    .Make(controllerType.Key, controllerType.ToArray());
+
+                controllers.Add(controllerDefinition);
+            }
+
+            var exportDefinition = new ExportDefinition
+            {
+                Controllers = controllers
+            };
+
+            this._exporter.Export(exportDefinition);
 
             this._logger.LogInformation("Application closed...");
         }
