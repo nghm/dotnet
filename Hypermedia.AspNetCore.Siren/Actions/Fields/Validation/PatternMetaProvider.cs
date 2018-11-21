@@ -6,16 +6,16 @@
 
     class PatternMetaProvider : IValidationMetaProvider
     {
-        public bool CanProvideMetadata(object attribute)
+        public IEnumerable<KeyValuePair<string, object>> GetMetadata(object attribute)
         {
-            return attribute is RegularExpressionAttribute;
-        }
+            if (attribute is null)
+            {
+                throw new ArgumentNullException(nameof(attribute));
+            }
 
-        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext, object attribute)
-        {
             if (!(attribute is RegularExpressionAttribute regularExpressionAttribute))
             {
-                throw new InvalidCastException();
+                yield break;
             }
 
             yield return KeyValuePair.Create("pattern", (object) regularExpressionAttribute.Pattern);

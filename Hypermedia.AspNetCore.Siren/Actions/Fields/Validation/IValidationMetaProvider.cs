@@ -4,8 +4,6 @@
 
     internal interface IValidationMetaProvider
     {
-        bool CanProvideMetadata(object attribute);
-
-        IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext, object attribute);
+        IEnumerable<KeyValuePair<string, object>> GetMetadata(object attribute);
     }
 }
