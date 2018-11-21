@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Abstractions;
+﻿using System;
 
 namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
@@ -6,17 +6,19 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 
     public class FieldGenerationContext
     {
-
-        public FieldGenerationContext(string fieldName, object fieldValue, ParameterDescriptor bodyBodyParameterDescriptor)
+        public FieldGenerationContext(object fieldValue, PropertyInfo propertyInfo)
         {
-            this.Name = fieldName;
+            if (propertyInfo == null)
+            {
+                throw new ArgumentNullException(nameof(propertyInfo));
+            }
+
             this.Value = fieldValue;
-            this.BodyParameterDescriptor = bodyBodyParameterDescriptor;
+            this.PropertyInfo = propertyInfo;
         }
 
-        public ParameterDescriptor BodyParameterDescriptor { get; }
         public object Value { get; }
-        public string Name { get; }
-        public PropertyInfo PropertyInfo => this.BodyParameterDescriptor.ParameterType.GetProperty(this.Name);
+
+        public PropertyInfo PropertyInfo { get; }
     }
 }

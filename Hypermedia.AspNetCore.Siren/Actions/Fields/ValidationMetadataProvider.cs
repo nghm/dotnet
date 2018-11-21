@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using Validation;
 
-    class ValidationMetadataProvider : IFieldMetadataProvider
+    internal class ValidationMetadataProvider : IFieldMetadataProvider
     {
         private readonly IValidationMetaProvider[] _validationMetaProviders;
 

@@ -1,11 +1,11 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Actions;
     using Actions.Fields;
     using Microsoft.AspNetCore.Mvc.Abstractions;
     using Microsoft.AspNetCore.Mvc.Controllers;
+    using System.Collections.Generic;
+    using System.Linq;
     using Util;
 
     internal class FieldsFactory : IFieldsFactory
@@ -29,12 +29,14 @@
 
         private IField ComputeField(string fieldName, object fieldValue, ParameterDescriptor bodyParameterDescriptor)
         {
-            if (bodyParameterDescriptor.ParameterType.GetProperty(fieldName) == null)
+            var property = bodyParameterDescriptor.ParameterType.GetProperty(fieldName);
+
+            if (property == null)
             {
                 return null;
             }
 
-            var fieldGenerationContext = new FieldGenerationContext(fieldName, fieldValue, bodyParameterDescriptor);
+            var fieldGenerationContext = new FieldGenerationContext(fieldValue, property);
 
             var metadata = this._fieldMetadataProviderCollection
                 .GetMetadataProviders()
