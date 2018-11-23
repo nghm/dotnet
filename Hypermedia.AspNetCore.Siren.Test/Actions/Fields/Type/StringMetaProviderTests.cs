@@ -1,125 +1,206 @@
-﻿//using Hypermedia.AspNetCore.Siren.Actions.Fields;
-//using Hypermedia.AspNetCore.Siren.Actions.Fields.Type;
-//using Hypermedia.AspNetCore.Siren.Test.Utils;
-//using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
-//using Xunit;
+﻿using AutoFixture.Xunit2;
+using Hypermedia.AspNetCore.Siren.Actions.Fields;
+using Hypermedia.AspNetCore.Siren.Actions.Fields.Type;
+using Moq;
+using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Xunit;
 
-//namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
-//{
-//    public class StringMetaProviderTests
-//    {
-//        [Theory]
-//        [AutoMockData]
-//        private void ShouldReturnMetadata_PasswordType(
-//            [MockCtorParams(null, nameof(GetPasswordTypePropertyInfo), StaticIndexes = new[] { 2 })]
-//            FieldGenerationContext fieldGenerationContext,
-//            StringMetaProvider stringMetaProvider)
-//        {
-//            var meta = stringMetaProvider.GetMetadata(fieldGenerationContext);
+namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
+{
+    public class StringMetaProviderTests
+    {
+        [Theory]
+        [AutoMockData]
+        private void ShouldThrowArgumentNullExceptionForStringPropertyTypeExtractor(
+            ITypeCodeExtractor typeCodeExtractor,
+            IDataTypeAttributeExtractor dataTypeAttributeExtractor
+            )
+        {
+            Assert.Throws<ArgumentNullException>(() => new StringMetaProvider(null, typeCodeExtractor, dataTypeAttributeExtractor));
+        }
 
-//            Assert.Contains(meta, mp =>
-//            {
-//                var (key, value) = mp;
+        [Theory]
+        [AutoMockData]
+        private void ShouldThrowArgumentNullExceptionForTypeCodeExtractor(
+            IStringPropertyTypeMap stringPropertyTypeMap,
+            IDataTypeAttributeExtractor dataTypeAttributeExtractor
+            )
+        {
+            Assert.Throws<ArgumentNullException>(() => new StringMetaProvider(stringPropertyTypeMap, null, dataTypeAttributeExtractor));
+        }
 
-//                return key == "type" && (value as string) == "password";
-//            });
-//        }
+        [Theory]
+        [AutoMockData]
+        private void ShouldThrowArgumentNullExceptionForDataTypeAtrtibuteExtractor(
+            ITypeCodeExtractor typeCodeExtractor,
+            IStringPropertyTypeMap stringPropertyTypeMap
+        )
+        {
+            Assert.Throws<ArgumentNullException>(() => new StringMetaProvider(stringPropertyTypeMap, typeCodeExtractor, null));
+        }
 
-//        [Theory]
-//        [AutoMockData]
-//        private void ShouldReturnMetadata_EmailType(
-//            [MockCtorParams(null, nameof(GetEmailTypePropertyInfo), StaticIndexes = new[] { 2 })]
-//            FieldGenerationContext fieldGenerationContext,
-//            StringMetaProvider stringMetaProvider)
-//        {
-//            var meta = stringMetaProvider.GetMetadata(fieldGenerationContext);
+        [Theory]
+        [AutoMockData]
+        private void ShouldCreateInstance(
+            IStringPropertyTypeMap stringPropertyTypeMap,
+            ITypeCodeExtractor typeCodeExtractor,
+            IDataTypeAttributeExtractor dataTypeAttributeExtractor
+            )
+        {
+            try
+            {
+                var _ = new StringMetaProvider(stringPropertyTypeMap, typeCodeExtractor, dataTypeAttributeExtractor);
+            }
+            catch
+            {
+                Assert.True(false, "Exception was thrown when none was expected!");
+            }
+        }
 
-//            Assert.Contains(meta, mp =>
-//            {
-//                var (key, value) = mp;
+        [Theory]
+        [AutoMockData]
+        private void ShouldThrowArgumentNullExceptionWhenGettingMetadata(
+            StringMetaProvider stringMetaProvider
+            )
+        {
+            Assert.Throws<ArgumentNullException>(() => stringMetaProvider.GetMetadata(null).ToArray());
+        }
 
-//                return key == "type" && (value as string) == "email";
-//            });
-//        }
+        [Theory]
+        [AutoMockData]
+        private void ShouldGetTypeCodeFromTypeCodeExtractor(
+            [Frozen] Mock<ITypeCodeExtractor> typeMock,
+            FieldGenerationContext fieldGenerationContext,
+            StringMetaProvider stringMetaProvider)
+        {
+            var _ = stringMetaProvider.GetMetadata(fieldGenerationContext)
+                .ToArray();
 
-//        [Theory]
-//        [AutoMockData]
-//        private void ShouldReturnMetadata_UrlType(
-//            [MockCtorParams(null, nameof(GetUrlTypePropertyInfo), StaticIndexes = new[] { 2 })]
-//            FieldGenerationContext fieldGenerationContext,
-//            StringMetaProvider stringMetaProvider)
-//        {
-//            var meta = stringMetaProvider.GetMetadata(fieldGenerationContext);
+            typeMock.Verify(t => t.GetTypeCode(fieldGenerationContext.FieldDescriptor.PropertyType), Times.Once);
+        }
 
-//            Assert.Contains(meta, mp =>
-//            {
-//                var (key, value) = mp;
+        [Theory]
+        [InlineAutoMockData(TypeCode.Byte)]
+        [InlineAutoMockData(TypeCode.SByte)]
+        [InlineAutoMockData(TypeCode.UInt16)]
+        [InlineAutoMockData(TypeCode.UInt32)]
+        [InlineAutoMockData(TypeCode.UInt64)]
+        [InlineAutoMockData(TypeCode.Int16)]
+        [InlineAutoMockData(TypeCode.Int32)]
+        [InlineAutoMockData(TypeCode.Int64)]
+        [InlineAutoMockData(TypeCode.Decimal)]
+        [InlineAutoMockData(TypeCode.Double)]
+        [InlineAutoMockData(TypeCode.Single)]
+        [InlineAutoMockData(TypeCode.Boolean)]
+        [InlineAutoMockData(TypeCode.Char)]
+        [InlineAutoMockData(TypeCode.DateTime)]
+        [InlineAutoMockData(TypeCode.DBNull)]
+        [InlineAutoMockData(TypeCode.Empty)]
+        [InlineAutoMockData(TypeCode.Object)]
+        private void ShouldReturnEmptyMetadata(
+            TypeCode typeCode,
+            FieldGenerationContext fieldGenerationContext,
+            [Frozen] Mock<ITypeCodeExtractor> typeMock,
+            StringMetaProvider stringMetaProvider)
+        {
+            typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
+                .Returns(typeCode);
 
-//                return key == "type" && (value as string) == "url";
-//            });
-//        }
+            var meta = stringMetaProvider.GetMetadata(fieldGenerationContext)
+                .ToArray();
 
-//        [Theory]
-//        [AutoMockData]
-//        private void ShouldReturnMetadata_PhoneNumberType(
-//            [MockCtorParams(null, nameof(GetPhoneTypePropertyInfo), StaticIndexes = new[] { 2 })]
-//            FieldGenerationContext fieldGenerationContext,
-//            StringMetaProvider stringMetaProvider)
-//        {
-//            var meta = stringMetaProvider.GetMetadata(fieldGenerationContext);
+            Assert.Empty(meta);
+        }
 
-//            Assert.Contains(meta, mp =>
-//            {
-//                var (key, value) = mp;
+        [Theory]
+        [AutoMockData]
+        private void ShouldGetDataTypeAttributeFromDataTypeAttributeExtractor(
+            [Frozen] Mock<ITypeCodeExtractor> typeMock,
+            [Frozen] Mock<IDataTypeAttributeExtractor> dataTypeMock,
+            FieldGenerationContext fieldGenerationContext,
+            StringMetaProvider stringMetaProvider)
+        {
+            typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
+                .Returns(TypeCode.String);
 
-//                return key == "type" && (value as string) == "phone";
-//            });
-//        }
+            var _ = stringMetaProvider.GetMetadata(fieldGenerationContext)
+                .ToArray();
 
-//        [Theory]
-//        [AutoMockData]
-//        private void ShouldReturnMetadata_TextType(
-//            [MockCtorParams(null, nameof(GetTextTypePropertyInfo), StaticIndexes = new[] { 2 })]
-//            FieldGenerationContext fieldGenerationContext,
-//            StringMetaProvider stringMetaProvider)
-//        {
-//            var meta = stringMetaProvider.GetMetadata(fieldGenerationContext);
+            dataTypeMock.Verify(t => t.GetDataTypeAttribute(fieldGenerationContext), Times.Once);
+        }
 
-//            Assert.Contains(meta, mp =>
-//            {
-//                var (key, value) = mp;
+        [Theory]
+        [AutoMockData]
+        private void ShouldFallbackToTypeText(
+            [Frozen] Mock<ITypeCodeExtractor> typeMock,
+            [Frozen] Mock<IDataTypeAttributeExtractor> dataTypeMock,
+            FieldGenerationContext fieldGenerationContext,
+            StringMetaProvider stringMetaProvider)
+        {
+            typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
+                .Returns(TypeCode.String);
+            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldGenerationContext))
+                .Returns(null as DataTypeAttribute);
 
-//                return key == "type" && (value as string) == "text";
-//            });
-//        }
+            var meta = stringMetaProvider.GetMetadata(fieldGenerationContext)
+                .ToArray();
 
-//        [Theory]
-//        [AutoMockData]
-//        private void ShouldReturnMetadata_Attributeless(
-//            [MockCtorParams(null, nameof(GetAttributelessTypePropertyInfo), StaticIndexes = new[] { 2 })]
-//            FieldGenerationContext fieldGenerationContext,
-//            StringMetaProvider stringMetaProvider)
-//        {
-//            var meta = stringMetaProvider.GetMetadata(fieldGenerationContext);
+            Assert.Equal(new[]
+            {
+                new KeyValuePair<string, object>("type", "text")
+            }, meta);
+        }
 
-//            Assert.Contains(meta, mp =>
-//            {
-//                var (key, value) = mp;
+        [Theory]
+        [AutoMockData]
+        private void ShouldPassDataTypeToStringPropertyTypeMap(
+            [Frozen] Mock<ITypeCodeExtractor> typeMock,
+            [Frozen] Mock<IDataTypeAttributeExtractor> dataTypeMock,
+            [Frozen] Mock<IStringPropertyTypeMap> stringPropertyTypeMap,
+            FieldGenerationContext fieldGenerationContext,
+            StringMetaProvider stringMetaProvider,
+            DataTypeAttribute expectedDataTypeAttribute)
+        {
+            typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
+                .Returns(TypeCode.String);
+            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldGenerationContext))
+                .Returns(expectedDataTypeAttribute);
 
-//                return key == "type" && (value as string) == "text";
-//            });
-//        }
+            var _ = stringMetaProvider.GetMetadata(fieldGenerationContext)
+                .ToArray();
 
-//        [Theory]
-//        [AutoMockData]
-//        private void ShouldReturnEmptyMetadata_OtherType(
-//            [MockCtorParams(1, nameof(GetNotMatchingTypePropertyInfo), StaticIndexes = new[] { 2 })]
-//            FieldGenerationContext fieldGenerationContext,
-//            StringMetaProvider stringMetaProvider)
-//        {
-//            var meta = stringMetaProvider.GetMetadata(fieldGenerationContext);
+            stringPropertyTypeMap.Verify(m => m.MapDataType(expectedDataTypeAttribute.DataType), Times.Once);
+        }
 
-//            Assert.Empty(meta);
-//        }
-//    }
-//}
+        [Theory]
+        [AutoMockData]
+        private void ShouldReturnMetadataFromTypeMap(
+            [Frozen] Mock<ITypeCodeExtractor> typeMock,
+            [Frozen] Mock<IDataTypeAttributeExtractor> dataTypeMock,
+            [Frozen] Mock<IStringPropertyTypeMap> stringPropertyTypeMap,
+            FieldGenerationContext fieldGenerationContext,
+            StringMetaProvider stringMetaProvider,
+            DataTypeAttribute expectedDataTypeAttribute,
+            string type)
+        {
+            typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
+                .Returns(TypeCode.String);
+            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldGenerationContext))
+                .Returns(expectedDataTypeAttribute);
+            stringPropertyTypeMap.Setup(m => m.MapDataType(expectedDataTypeAttribute.DataType))
+                .Returns(type);
+
+            var meta = stringMetaProvider.GetMetadata(fieldGenerationContext)
+                .ToArray();
+
+            Assert.Equal(new[]
+            {
+                new KeyValuePair<string, object>("type", type)
+            }, meta);
+        }
+    }
+}

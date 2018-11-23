@@ -30,7 +30,7 @@
 
             services.AddSingleton(serviceProvider => new ITypeMetaProvider[]
             {
-                new StringMetaProvider(),
+                serviceProvider.GetService<StringMetaProvider>(),
                 serviceProvider.GetService<NumberMetaProvider>(),
                 serviceProvider.GetService<OptionMetaProvider>(),
                 new OptionsMetaProvider()

@@ -42,7 +42,6 @@
                 var _ = numberMetaProvider.GetMetadata(null)
                     .ToArray();
             });
-
         }
 
         [Theory]
@@ -93,7 +92,7 @@
         [InlineAutoMockData(TypeCode.Empty)]
         [InlineAutoMockData(TypeCode.Object)]
         [InlineAutoMockData(TypeCode.String)]
-        private void ShouldReturnNotMetadata(
+        private void ShouldReturnEmptyMetadata(
             TypeCode typeCode,
             FieldGenerationContext fieldGenerationContext,
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
