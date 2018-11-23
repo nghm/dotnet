@@ -5,7 +5,6 @@ using Hypermedia.AspNetCore.Siren.Test.Utils;
 using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
 using System;
 using System.Linq;
-using System.Reflection;
 using Xunit;
 
 namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
@@ -20,25 +19,33 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
 
         private class TestBodyParameter
         {
-            public static TestEnum MatchingTypeProperty { get; set; }
+            public static TestEnum MatchingTypeProperty { get; set; } = TestEnum.None;
 
-            public static string NotMatchingTypeProperty { get; set; }
+            public static string NotMatchingTypeProperty { get; set; } = string.Empty;
         }
 
-        public static PropertyInfo GetMatchingTypePropertyInfo(IFixture fixture)
+        public static FieldDescriptor GetMatchingTypeFieldDescriptor(IFixture fixture)
         {
-            return typeof(TestBodyParameter).GetProperty(nameof(TestBodyParameter.MatchingTypeProperty));
+            return new FieldDescriptor(
+                nameof(TestBodyParameter.MatchingTypeProperty),
+                TestBodyParameter.MatchingTypeProperty,
+                TestBodyParameter.MatchingTypeProperty.GetType(),
+                TestBodyParameter.MatchingTypeProperty.GetType().GetCustomAttributes(true));
         }
 
-        public static PropertyInfo GetNotMatchingTypePropertyInfo(IFixture fixture)
+        public static FieldDescriptor GetNotMatchingTypeFieldDescriptor(IFixture fixture)
         {
-            return typeof(TestBodyParameter).GetProperty(nameof(TestBodyParameter.NotMatchingTypeProperty));
+            return new FieldDescriptor(
+                nameof(TestBodyParameter.NotMatchingTypeProperty),
+                TestBodyParameter.NotMatchingTypeProperty,
+                TestBodyParameter.NotMatchingTypeProperty.GetType(),
+                TestBodyParameter.NotMatchingTypeProperty.GetType().GetCustomAttributes(true));
         }
 
         [Theory]
         [AutoMockData]
         private void ShouldReturnMetadataWithAllOptions(
-            [MockCtorParams(TestEnum.None, nameof(GetMatchingTypePropertyInfo), StaticIndexes = new[] { 2 })]
+            [MockCtorParams(nameof(GetMatchingTypeFieldDescriptor), StaticIndexes = new[] { 1 })]
             FieldGenerationContext fieldGenerationContext,
             OptionMetaProvider optionMetaProvider)
         {
@@ -64,7 +71,7 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
         [Theory]
         [AutoMockData]
         private void ShouldReturnEmptyMetadata_OtherType(
-            [MockCtorParams(null, nameof(GetNotMatchingTypePropertyInfo), StaticIndexes = new[] { 2 })]
+            [MockCtorParams(nameof(GetNotMatchingTypeFieldDescriptor), StaticIndexes = new[] { 1 })]
             FieldGenerationContext fieldGenerationContext,
             NumberMetaProvider numberMetaProvider)
         {

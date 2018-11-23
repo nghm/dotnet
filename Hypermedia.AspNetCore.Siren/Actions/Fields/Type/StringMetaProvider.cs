@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
 {
     using System.ComponentModel.DataAnnotations;
-    using System.Reflection;
 
     internal class StringMetaProvider : ITypeMetaProvider
     {
         public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
         {
-            var propertyInfo = fieldGenerationContext.PropertyInfo;
-            var propertyType = propertyInfo.PropertyType;
+            var propertyType = fieldGenerationContext.FieldDescriptor.PropertyType;
 
             if (typeof(string) != propertyType)
             {
@@ -19,7 +18,9 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
 
             var type = "text";
 
-            var dataType = propertyInfo.GetCustomAttribute<DataTypeAttribute>();
+            var dataType = fieldGenerationContext.FieldDescriptor.CustomAttributes
+                .OfType<DataTypeAttribute>()
+                .SingleOrDefault();
 
             if (dataType == null)
             {

@@ -14,8 +14,7 @@
 
         public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
         {
-            var propertyInfo = fieldGenerationContext.PropertyInfo;
-            var attributes = propertyInfo.GetCustomAttributes(true);
+            var attributes = fieldGenerationContext.FieldDescriptor.CustomAttributes;
             var results = new List<KeyValuePair<string, object>>();
 
             foreach (var validationMetaProvider in this._validationMetaProviders)

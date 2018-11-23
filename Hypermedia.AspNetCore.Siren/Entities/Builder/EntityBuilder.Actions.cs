@@ -1,4 +1,6 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder
+﻿using Hypermedia.AspNetCore.Siren.Actions.Fields;
+
+namespace Hypermedia.AspNetCore.Siren.Entities.Builder
 {
     using System;
     using System.Linq.Expressions;
@@ -7,17 +9,17 @@
     {
         public IEntityBuilder WithAction<T>(string name, Expression<Action<T>> endpointCapture) where T : class
         {
-            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(endpointCapture, this._claimsPrincipal);
+            var endpointDescriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(endpointCapture, this._claimsPrincipal);
 
-            if (descriptor == null)
+            if (endpointDescriptor == null)
             {
                 return this;
             }
 
-            var method = descriptor.Method;
+            var method = endpointDescriptor.Method;
 
-            var href = this._hrefFactory.MakeHref(descriptor);
-            var fields = this._fieldsFactory.MakeFields(descriptor.BodyArgument);
+            var href = this._hrefFactory.MakeHref(endpointDescriptor);
+            var fields = this._fieldsFactory.MakeFields(new ActionArgument(endpointDescriptor.BodyArgument.Descriptor, endpointDescriptor.BodyArgument.Value));
 
             var action = new Actions.Action(name, href, method, fields);
 
@@ -30,20 +32,20 @@
             string name,
             Expression<Action<T>> endpointCapture,
             Action<IActionBuilder<TBody>> configureAction
-        ) where T: class
+        ) where T : class
           where TBody : class
         {
-            var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(endpointCapture, this._claimsPrincipal);
+            var endpointDescriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(endpointCapture, this._claimsPrincipal);
 
-            if (descriptor == null)
+            if (endpointDescriptor == null)
             {
                 return this;
             }
-            
-            var method = descriptor.Method;
 
-            var href = this._hrefFactory.MakeHref(descriptor);
-            var fields = this._fieldsFactory.MakeFields(descriptor.BodyArgument);
+            var method = endpointDescriptor.Method;
+
+            var href = this._hrefFactory.MakeHref(endpointDescriptor);
+            var fields = this._fieldsFactory.MakeFields(new ActionArgument(endpointDescriptor.BodyArgument.Descriptor, endpointDescriptor.BodyArgument.Value));
 
             var action = new Actions.Action(name, href, method, fields);
 

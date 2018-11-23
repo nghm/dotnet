@@ -8,7 +8,7 @@
     {
         public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
         {
-            var propertyType = fieldGenerationContext.PropertyInfo.PropertyType;
+            var propertyType = fieldGenerationContext.FieldDescriptor.PropertyType;
 
             if (!propertyType.IsEnum)
                 yield break;

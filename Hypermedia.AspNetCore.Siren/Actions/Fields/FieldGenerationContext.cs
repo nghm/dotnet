@@ -1,24 +1,16 @@
-﻿using System;
+﻿using Hypermedia.AspNetCore.Siren.Util;
 
 namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
-    using System.Reflection;
-
     public class FieldGenerationContext
     {
-        public FieldGenerationContext(object fieldValue, PropertyInfo propertyInfo)
+        public FieldDescriptor FieldDescriptor { get; }
+
+        public FieldGenerationContext(FieldDescriptor fieldDescriptor)
         {
-            if (propertyInfo == null)
-            {
-                throw new ArgumentNullException(nameof(propertyInfo));
-            }
+            ParameterUtils.NullCheck(fieldDescriptor, nameof(fieldDescriptor));
 
-            this.Value = fieldValue;
-            this.PropertyInfo = propertyInfo;
+            FieldDescriptor = fieldDescriptor;
         }
-
-        public object Value { get; }
-
-        public PropertyInfo PropertyInfo { get; }
     }
 }

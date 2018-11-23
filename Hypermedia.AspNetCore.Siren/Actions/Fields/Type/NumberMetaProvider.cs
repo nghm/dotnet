@@ -22,7 +22,7 @@
 
         public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
         {
-            var typeCode = Type.GetTypeCode(fieldGenerationContext.PropertyInfo.PropertyType);
+            var typeCode = Type.GetTypeCode(fieldGenerationContext.FieldDescriptor.PropertyType);
 
             if (this._numberTypeCodes.Contains(typeCode))
             {

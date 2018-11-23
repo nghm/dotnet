@@ -8,7 +8,7 @@
     {
         public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
         {
-            var propertyType = fieldGenerationContext.PropertyInfo.PropertyType;
+            var propertyType = fieldGenerationContext.FieldDescriptor.PropertyType;
 
             if (!propertyType.IsEnum)
             {
@@ -19,7 +19,7 @@
 
             yield return KeyValuePair.Create("type", "options" as object);
             yield return KeyValuePair.Create("options", options);
-            yield return KeyValuePair.Create("value", fieldGenerationContext.Value);
+            yield return KeyValuePair.Create("value", fieldGenerationContext.FieldDescriptor.Value);
         }
 
         private static object GetOptions(Type propertyType)

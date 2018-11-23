@@ -1,48 +1,56 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Endpoints
-{
-    using Actions;
-    using Actions.Fields;
-    using Microsoft.AspNetCore.Mvc.Abstractions;
-    using Microsoft.AspNetCore.Mvc.Controllers;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Util;
+﻿using Hypermedia.AspNetCore.Siren.Endpoints;
+using Hypermedia.AspNetCore.Siren.Util;
+using System.Collections.Generic;
+using System.Linq;
 
+namespace Hypermedia.AspNetCore.Siren.Actions.Fields
+{
     internal class FieldsFactory : IFieldsFactory
     {
+        #region Fields
+
         private readonly IFieldMetadataProviderCollection _fieldMetadataProviderCollection;
+
+        #endregion Fields
+
+        #region Constructors
 
         public FieldsFactory(IFieldMetadataProviderCollection fieldMetadataProviderCollection)
         {
+            ParameterUtils.NullCheck(fieldMetadataProviderCollection, nameof(fieldMetadataProviderCollection));
+
             this._fieldMetadataProviderCollection = fieldMetadataProviderCollection;
         }
 
-        public IEnumerable<IField> MakeFields(KeyValuePair<ControllerParameterDescriptor, object> bodyArgument)
-        {
-            var bodyArgumentValue = bodyArgument.Value.AsPropertyEnumerable(true);
+        #endregion Constructors
 
-            foreach (var kvp in bodyArgumentValue)
+        #region Public functions
+
+        public IEnumerable<IField> MakeFields(ActionArgument bodyArgument)
+        {
+            var argumentFields = bodyArgument.GetFieldDescriptors();
+
+            foreach (var field in argumentFields)
             {
-                yield return ComputeField(kvp.Key, kvp.Value, bodyArgument.Key);
+                yield return MakeField(field);
             }
         }
 
-        private IField ComputeField(string fieldName, object fieldValue, ParameterDescriptor bodyParameterDescriptor)
+        #endregion Public functions
+
+        #region Private functions
+
+        private IField MakeField(FieldDescriptor fieldDescriptor)
         {
-            var property = bodyParameterDescriptor.ParameterType.GetProperty(fieldName);
-
-            if (property == null)
-            {
-                return null;
-            }
-
-            var fieldGenerationContext = new FieldGenerationContext(fieldValue, property);
+            var fieldGenerationContext = new FieldGenerationContext(fieldDescriptor);
 
             var metadata = this._fieldMetadataProviderCollection
                 .GetMetadataProviders()
                 .SelectMany(metaProvider => metaProvider.GetMetadata(fieldGenerationContext));
 
-            return new Field(fieldName, fieldValue, metadata);
+            return new Field(fieldDescriptor.Name, fieldDescriptor.Value, metadata);
         }
+
+        #endregion Private functions
     }
 }
