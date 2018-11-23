@@ -2,9 +2,9 @@
 
 namespace Hypermedia.AspNetCore.Siren.Util
 {
-    internal static class ParameterUtils
+    internal static class Guard
     {
-        internal static void NullCheck(object value, string name)
+        internal static void EnsureIsNotNull(object value, string name)
         {
             if (value == null)
             {

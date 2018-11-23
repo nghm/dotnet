@@ -13,7 +13,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 
         public ActionArgument(ControllerParameterDescriptor descriptor, object value)
         {
-            ParameterUtils.NullCheck(descriptor, nameof(descriptor));
+            Guard.EnsureIsNotNull(descriptor, nameof(descriptor));
 
             Descriptor = descriptor;
             Value = value;

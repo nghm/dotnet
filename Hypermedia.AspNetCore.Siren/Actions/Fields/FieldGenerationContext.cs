@@ -8,7 +8,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 
         public FieldGenerationContext(FieldDescriptor fieldDescriptor)
         {
-            ParameterUtils.NullCheck(fieldDescriptor, nameof(fieldDescriptor));
+            Guard.EnsureIsNotNull(fieldDescriptor, nameof(fieldDescriptor));
 
             FieldDescriptor = fieldDescriptor;
         }

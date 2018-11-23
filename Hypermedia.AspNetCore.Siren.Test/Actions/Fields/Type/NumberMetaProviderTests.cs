@@ -1,57 +1,109 @@
-﻿using AutoFixture;
-using Hypermedia.AspNetCore.Siren.Actions.Fields;
-using Hypermedia.AspNetCore.Siren.Actions.Fields.Type;
-using Hypermedia.AspNetCore.Siren.Test.Utils;
-using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
-using Xunit;
-
-namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
+﻿namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
 {
+    using AutoFixture.Xunit2;
+    using Moq;
+    using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
+    using Siren.Actions.Fields;
+    using Siren.Actions.Fields.Type;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Xunit;
+
     public class NumberMetaProviderTests
     {
-        public static FieldDescriptor GetMatchingTypeFieldDescriptor(IFixture fixture)
+        [Fact]
+        private void ShouldThrowArgumentNullException()
         {
-            return new FieldDescriptor(
-                nameof(TestBodyParameter.MatchingTypeProperty),
-                TestBodyParameter.MatchingTypeProperty,
-                TestBodyParameter.MatchingTypeProperty.GetType(),
-                TestBodyParameter.MatchingTypeProperty.GetType().GetCustomAttributes(true));
-        }
-
-        public static FieldDescriptor GetNotMatchingTypeFieldDescriptor(IFixture fixture)
-        {
-            return new FieldDescriptor(
-                nameof(TestBodyParameter.NotMatchingTypeProperty),
-                TestBodyParameter.NotMatchingTypeProperty,
-                TestBodyParameter.NotMatchingTypeProperty.GetType(),
-                TestBodyParameter.NotMatchingTypeProperty.GetType().GetCustomAttributes(true));
+            Assert.Throws<ArgumentNullException>(() => new NumberMetaProvider(null));
         }
 
         [Theory]
         [AutoMockData]
-        private void ShouldReturnMetadata(
-            [MockCtorParams(nameof(GetMatchingTypeFieldDescriptor), StaticIndexes = new[] { 1 })]
-            FieldGenerationContext fieldGenerationContext,
-            NumberMetaProvider numberMetaProvider)
+        private void ShouldCreateInstance(ITypeCodeExtractor typeCodeExtractor)
         {
-            var meta = numberMetaProvider.GetMetadata(fieldGenerationContext);
-
-            Assert.Contains(meta, mp =>
+            try
             {
-                var (key, value) = mp;
-
-                return key == "type" && (value as string) == "number";
-            });
+                var _ = new NumberMetaProvider(typeCodeExtractor);
+            }
+            catch
+            {
+                Assert.True(false, "Exception was thrown when none was expected!");
+            }
         }
 
         [Theory]
         [AutoMockData]
-        private void ShouldReturnEmptyMetadata_OtherType(
-            [MockCtorParams(nameof(GetNotMatchingTypeFieldDescriptor), StaticIndexes = new[] { 1 })]
+        private void ShouldThrowArgumentNullExceptionWhenGettingMetadata(
+            NumberMetaProvider numberMetaProvider)
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var _ = numberMetaProvider.GetMetadata(null)
+                    .ToArray();
+            });
+
+        }
+
+        [Theory]
+        [AutoMockData]
+        private void ShouldGetTypeCodeFromTypeCodeExtractor(
+            [Frozen] Mock<ITypeCodeExtractor> typeMock,
             FieldGenerationContext fieldGenerationContext,
             NumberMetaProvider numberMetaProvider)
         {
-            var meta = numberMetaProvider.GetMetadata(fieldGenerationContext);
+            var _ = numberMetaProvider.GetMetadata(fieldGenerationContext)
+                .ToArray();
+
+            typeMock.Verify(t => t.GetTypeCode(fieldGenerationContext.FieldDescriptor.PropertyType), Times.Once);
+        }
+
+        [Theory]
+        [InlineAutoMockData(TypeCode.Byte)]
+        [InlineAutoMockData(TypeCode.SByte)]
+        [InlineAutoMockData(TypeCode.UInt16)]
+        [InlineAutoMockData(TypeCode.UInt32)]
+        [InlineAutoMockData(TypeCode.UInt64)]
+        [InlineAutoMockData(TypeCode.Int16)]
+        [InlineAutoMockData(TypeCode.Int32)]
+        [InlineAutoMockData(TypeCode.Int64)]
+        [InlineAutoMockData(TypeCode.Decimal)]
+        [InlineAutoMockData(TypeCode.Double)]
+        [InlineAutoMockData(TypeCode.Single)]
+        private void ShouldReturnMetadata(
+            TypeCode typeCode,
+            FieldGenerationContext fieldGenerationContext,
+            [Frozen] Mock<ITypeCodeExtractor> typeMock,
+            NumberMetaProvider numberMetaProvider)
+        {
+            typeMock.Setup(t => t.GetTypeCode(It.IsAny<Type>()))
+                .Returns(typeCode);
+
+            var meta = numberMetaProvider.GetMetadata(fieldGenerationContext)
+                .ToArray();
+
+            Assert.Equal(meta, new[] { new KeyValuePair<string, object>("type", "number"), });
+        }
+
+        [Theory]
+        [InlineAutoMockData(TypeCode.Boolean)]
+        [InlineAutoMockData(TypeCode.Char)]
+        [InlineAutoMockData(TypeCode.DateTime)]
+        [InlineAutoMockData(TypeCode.DBNull)]
+        [InlineAutoMockData(TypeCode.Empty)]
+        [InlineAutoMockData(TypeCode.Object)]
+        [InlineAutoMockData(TypeCode.String)]
+        private void ShouldReturnNotMetadata(
+            TypeCode typeCode,
+            FieldGenerationContext fieldGenerationContext,
+            [Frozen] Mock<ITypeCodeExtractor> typeMock,
+            NumberMetaProvider numberMetaProvider)
+        {
+            typeMock.Setup(t => t.GetTypeCode(It.IsAny<Type>()))
+                .Returns(typeCode);
+
+            var meta = numberMetaProvider.GetMetadata(fieldGenerationContext)
+                .ToArray();
 
             Assert.Empty(meta);
         }

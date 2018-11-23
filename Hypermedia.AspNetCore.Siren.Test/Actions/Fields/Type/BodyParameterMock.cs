@@ -25,15 +25,15 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
 
         public static string StringProperty { get; set; } = string.Empty;
 
-        public static FieldDescriptor GetFieldDescriptorOf(IFixture fixture, string propertyName)
-        {
-            var property = typeof(BodyParameterMock).GetProperty(propertyName);
+        //public static FieldDescriptor GetFieldDescriptorOf(IFixture fixture, string propertyName)
+        //{
+        //    var property = typeof(BodyParameterMock).GetProperty(propertyName);
 
-            return new FieldDescriptor(
-                property.Name,
-                property.GetValue(BodyParameterMock.),
-                TestBodyParameter.MatchingTypeProperty.GetType(),
-                TestBodyParameter.MatchingTypeProperty.GetType().GetCustomAttributes(true));
-        }
+        //    return new FieldDescriptor(
+        //        property.Name,
+        //        property.GetValue(BodyParameterMock.),
+        //        TestBodyParameter.MatchingTypeProperty.GetType(),
+        //        TestBodyParameter.MatchingTypeProperty.GetType().GetCustomAttributes(true));
+        //}
     }
 }

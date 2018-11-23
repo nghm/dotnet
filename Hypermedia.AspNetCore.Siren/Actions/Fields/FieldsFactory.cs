@@ -17,7 +17,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 
         public FieldsFactory(IFieldMetadataProviderCollection fieldMetadataProviderCollection)
         {
-            ParameterUtils.NullCheck(fieldMetadataProviderCollection, nameof(fieldMetadataProviderCollection));
+            Guard.EnsureIsNotNull(fieldMetadataProviderCollection, nameof(fieldMetadataProviderCollection));
 
             this._fieldMetadataProviderCollection = fieldMetadataProviderCollection;
         }

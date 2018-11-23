@@ -1,12 +1,11 @@
 ﻿namespace Books.WebApi.Controllers.Books
 {
-    using System;
     using AutoMapper;
     using Hypermedia.AspNetCore.Siren;
     using Infrastructure.Services;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models;
+    using System;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -33,7 +32,7 @@
 
         [HttpGet("{id}")]
         [HasMenu]
-        //[Authorize("CanEditBooks")]
+        // [Authorize("CanEditBooks")]
         public IActionResult GetOne(Guid id, int pageNo = 0, int perPage = 12)
         {
             var book = this._books.One(id);

@@ -28,10 +28,10 @@
                 new PatternMetaProvider()
             });
 
-            services.AddSingleton(_ => new ITypeMetaProvider[]
+            services.AddSingleton(serviceProvider => new ITypeMetaProvider[]
             { 
                 new StringMetaProvider(),
-                new NumberMetaProvider(),
+                serviceProvider.GetService<NumberMetaProvider>(),
                 new OptionMetaProvider(), 
                 new OptionsMetaProvider()
             });
