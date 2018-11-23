@@ -21,10 +21,7 @@
             {
                 foreach (var attribute in attributes)
                 {
-                    if (validationMetaProvider.CanProvideMetadata(attribute))
-                    {
-                        results.AddRange(validationMetaProvider.GetMetadata(fieldGenerationContext, attribute));
-                    }
+                    results.AddRange(validationMetaProvider.GetMetadata(attribute));
                 }
             }
 
