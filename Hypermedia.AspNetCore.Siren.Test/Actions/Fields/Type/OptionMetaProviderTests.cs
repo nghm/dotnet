@@ -1,83 +1,116 @@
-﻿using AutoFixture;
-using Hypermedia.AspNetCore.Siren.Actions.Fields;
-using Hypermedia.AspNetCore.Siren.Actions.Fields.Type;
-using Hypermedia.AspNetCore.Siren.Test.Utils;
-using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
-using System;
-using System.Linq;
-using Xunit;
-
+﻿
 namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
 {
+    using AutoFixture.Xunit2;
+    using Hypermedia.AspNetCore.Siren.Actions.Fields;
+    using Hypermedia.AspNetCore.Siren.Actions.Fields.Type;
+    using Moq;
+    using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Xunit;
+
     public class OptionMetaProviderTests
     {
-        private enum TestEnum
+        [Fact]
+        private void ShouldThrowArgumentNullException()
         {
-            None = 0,
-            Something = 1
-        }
-
-        private class TestBodyParameter
-        {
-            public static TestEnum MatchingTypeProperty { get; set; } = TestEnum.None;
-
-            public static string NotMatchingTypeProperty { get; set; } = string.Empty;
-        }
-
-        public static FieldDescriptor GetMatchingTypeFieldDescriptor(IFixture fixture)
-        {
-            return new FieldDescriptor(
-                nameof(TestBodyParameter.MatchingTypeProperty),
-                TestBodyParameter.MatchingTypeProperty,
-                TestBodyParameter.MatchingTypeProperty.GetType(),
-                TestBodyParameter.MatchingTypeProperty.GetType().GetCustomAttributes(true));
-        }
-
-        public static FieldDescriptor GetNotMatchingTypeFieldDescriptor(IFixture fixture)
-        {
-            return new FieldDescriptor(
-                nameof(TestBodyParameter.NotMatchingTypeProperty),
-                TestBodyParameter.NotMatchingTypeProperty,
-                TestBodyParameter.NotMatchingTypeProperty.GetType(),
-                TestBodyParameter.NotMatchingTypeProperty.GetType().GetCustomAttributes(true));
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var _ = new OptionMetaProvider(null);
+            });
         }
 
         [Theory]
         [AutoMockData]
-        private void ShouldReturnMetadataWithAllOptions(
-            [MockCtorParams(nameof(GetMatchingTypeFieldDescriptor), StaticIndexes = new[] { 1 })]
+        private void ShouldCreateInstance(IEnumOptionsExtractor enumOptionsExtractor)
+        {
+            try
+            {
+                var _ = new OptionMetaProvider(enumOptionsExtractor);
+            }
+            catch
+            {
+                Assert.True(false, "Exception was thrown when none was expected!");
+            }
+        }
+
+        [Theory]
+        [AutoMockData]
+        private void ShouldThrowArgumentNullExceptionWhenGettingMetadata(
+            OptionMetaProvider optionMetaProvider)
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var _ = optionMetaProvider.GetMetadata(null)
+                    .ToArray();
+            });
+        }
+
+        [Theory]
+        [AutoMockData]
+        private void ShouldGetOptionsFromEnumOptionsExtractor(
+            [Frozen] Mock<IEnumOptionsExtractor> enumOptionsExtractor,
             FieldGenerationContext fieldGenerationContext,
             OptionMetaProvider optionMetaProvider)
         {
-            var meta = optionMetaProvider.GetMetadata(fieldGenerationContext);
+            var _ = optionMetaProvider.GetMetadata(fieldGenerationContext).ToArray();
 
-            Assert.Contains(meta, mp =>
-            {
-                var (key, value) = mp;
+            FieldOption[] options;
+            enumOptionsExtractor
+                .Verify(e =>
+                        e.TryGetEnumOptions(
+                            fieldGenerationContext.FieldDescriptor.PropertyType,
+                            out options
+                        ), Times.Once);
 
-                return key == "type" && (value as string) == "option";
-            });
-
-            Assert.Contains(meta, mp =>
-            {
-                var (key, value) = mp;
-
-                return key == "options"
-                       && ((value as FieldOption[]) ?? throw new InvalidOperationException())
-                           .All(fo => Enum.GetName(typeof(TestEnum), fo.Value) == fo.Name);
-            });
         }
 
         [Theory]
         [AutoMockData]
-        private void ShouldReturnEmptyMetadata_OtherType(
-            [MockCtorParams(nameof(GetNotMatchingTypeFieldDescriptor), StaticIndexes = new[] { 1 })]
+        private void ShouldReturnEmptyMetadata(
+            [Frozen] Mock<IEnumOptionsExtractor> enumOptionsExtractor,
             FieldGenerationContext fieldGenerationContext,
-            NumberMetaProvider numberMetaProvider)
+            OptionMetaProvider optionMetaProvider)
         {
-            var meta = numberMetaProvider.GetMetadata(fieldGenerationContext);
+            FieldOption[] options;
+            enumOptionsExtractor
+                .Setup(e =>
+                    e.TryGetEnumOptions(
+                        fieldGenerationContext.FieldDescriptor.PropertyType,
+                        out options
+                    ))
+                .Returns(false);
 
-            Assert.Empty(meta);
+            var metadata = optionMetaProvider.GetMetadata(fieldGenerationContext).ToArray();
+
+            Assert.Empty(metadata);
+        }
+
+        [Theory]
+        [AutoMockData]
+        private void ShouldReturnMetadata(
+            [Frozen] Mock<IEnumOptionsExtractor> enumOptionsExtractor,
+            FieldGenerationContext fieldGenerationContext,
+#pragma warning disable xUnit1026 // Theory methods should use all of their parameters
+            FieldOption[] expectedFieldOptions,
+#pragma warning restore xUnit1026 // Theory methods should use all of their parameters
+            OptionMetaProvider optionMetaProvider)
+        {
+            enumOptionsExtractor
+                .Setup(e =>
+                    e.TryGetEnumOptions(
+                        fieldGenerationContext.FieldDescriptor.PropertyType,
+                        out expectedFieldOptions
+                    ))
+                .Returns(true);
+
+            var metadata = optionMetaProvider.GetMetadata(fieldGenerationContext).ToArray();
+
+            Assert.Equal(new KeyValuePair<string, object>("type", "option"), metadata[0]);
+            Assert.Same("options", metadata[1].Key);
+            Assert.Same(expectedFieldOptions, metadata[1].Value);
         }
     }
 }

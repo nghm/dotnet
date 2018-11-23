@@ -8,6 +8,7 @@ using System.Reflection;
 
 namespace Hypermedia.AspNetCore.Siren.Test.Utils
 {
+    [Obsolete("Use InlineAutoMockData instead.")]
     public class MockCtorParamsAttribute : CustomizeAttribute
     {
         private readonly object[] _parameters;

@@ -1,32 +1,32 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using Util;
 
     internal class OptionMetaProvider : ITypeMetaProvider
     {
-        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
+        private readonly IEnumOptionsExtractor _enumOptionsExtractor;
+
+        public OptionMetaProvider(IEnumOptionsExtractor enumOptionsExtractor)
         {
-            var propertyType = fieldGenerationContext.FieldDescriptor.PropertyType;
+            Guard.EnsureIsNotNull(enumOptionsExtractor, nameof(enumOptionsExtractor));
 
-            if (!propertyType.IsEnum)
-                yield break;
-
-            var options = GetOptions(propertyType);
-
-            yield return KeyValuePair.Create("type", "option" as object);
-            yield return KeyValuePair.Create("options", options);
+            this._enumOptionsExtractor = enumOptionsExtractor;
         }
 
-        private static object GetOptions(Type propertyType)
+        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
         {
-            var names = Enum.GetNames(propertyType).Cast<string>();
-            var values = Enum.GetValues(propertyType).Cast<int>().ToArray();
+            Guard.EnsureIsNotNull(fieldGenerationContext, nameof(fieldGenerationContext));
 
-            object options = names.Select((name, index) => new FieldOption { Name = name, Value = values[index] }).ToArray();
+            var propertyType = fieldGenerationContext.FieldDescriptor.PropertyType;
 
-            return options;
+            if (!this._enumOptionsExtractor.TryGetEnumOptions(propertyType, out var options))
+            {
+                yield break;
+            }
+
+            yield return KeyValuePair.Create("type", "option" as object);
+            yield return KeyValuePair.Create("options", options as object);
         }
     }
 }
