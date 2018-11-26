@@ -1,5 +1,4 @@
-﻿
-namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
+﻿namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
 {
     using AutoFixture.Xunit2;
     using Hypermedia.AspNetCore.Siren.Actions.Fields;
@@ -39,11 +38,11 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
         [Theory]
         [AutoMockData]
         private void ShouldThrowArgumentNullExceptionWhenGettingMetadata(
-            OptionMetaProvider optionMetaProvider)
+            OptionMetaProvider sut)
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var _ = optionMetaProvider.GetMetadata(null)
+                var _ = sut.GetMetadata(null)
                     .ToArray();
             });
         }
@@ -53,9 +52,9 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
         private void ShouldGetOptionsFromEnumOptionsExtractor(
             [Frozen] Mock<IEnumOptionsExtractor> enumOptionsExtractor,
             FieldGenerationContext fieldGenerationContext,
-            OptionMetaProvider optionMetaProvider)
+            OptionMetaProvider sut)
         {
-            var _ = optionMetaProvider.GetMetadata(fieldGenerationContext).ToArray();
+            var _ = sut.GetMetadata(fieldGenerationContext).ToArray();
 
             FieldOption[] options;
             enumOptionsExtractor
@@ -64,7 +63,6 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
                             fieldGenerationContext.FieldDescriptor.PropertyType,
                             out options
                         ), Times.Once);
-
         }
 
         [Theory]
@@ -72,7 +70,7 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
         private void ShouldReturnEmptyMetadata(
             [Frozen] Mock<IEnumOptionsExtractor> enumOptionsExtractor,
             FieldGenerationContext fieldGenerationContext,
-            OptionMetaProvider optionMetaProvider)
+            OptionMetaProvider sut)
         {
             FieldOption[] options;
             enumOptionsExtractor
@@ -83,7 +81,7 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
                     ))
                 .Returns(false);
 
-            var metadata = optionMetaProvider.GetMetadata(fieldGenerationContext).ToArray();
+            var metadata = sut.GetMetadata(fieldGenerationContext).ToArray();
 
             Assert.Empty(metadata);
         }
@@ -96,7 +94,7 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
 #pragma warning disable xUnit1026 // Theory methods should use all of their parameters
             FieldOption[] expectedFieldOptions,
 #pragma warning restore xUnit1026 // Theory methods should use all of their parameters
-            OptionMetaProvider optionMetaProvider)
+            OptionMetaProvider sut)
         {
             enumOptionsExtractor
                 .Setup(e =>
@@ -106,7 +104,7 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
                     ))
                 .Returns(true);
 
-            var metadata = optionMetaProvider.GetMetadata(fieldGenerationContext).ToArray();
+            var metadata = sut.GetMetadata(fieldGenerationContext).ToArray();
 
             Assert.Equal(new KeyValuePair<string, object>("type", "option"), metadata[0]);
             Assert.Same("options", metadata[1].Key);

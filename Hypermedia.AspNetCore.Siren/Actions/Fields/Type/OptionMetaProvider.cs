@@ -1,7 +1,8 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
+﻿using System;
+
+namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
 {
     using System.Collections.Generic;
-    using Util;
 
     internal class OptionMetaProvider : ITypeMetaProvider
     {
@@ -9,14 +10,17 @@
 
         public OptionMetaProvider(IEnumOptionsExtractor enumOptionsExtractor)
         {
-            Guard.EnsureIsNotNull(enumOptionsExtractor, nameof(enumOptionsExtractor));
-
-            this._enumOptionsExtractor = enumOptionsExtractor;
+            this._enumOptionsExtractor =
+                enumOptionsExtractor ??
+                throw new ArgumentNullException(nameof(enumOptionsExtractor));
         }
 
         public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
         {
-            Guard.EnsureIsNotNull(fieldGenerationContext, nameof(fieldGenerationContext));
+            if (fieldGenerationContext == null)
+            {
+                throw new ArgumentNullException(nameof(fieldGenerationContext));
+            }
 
             var propertyType = fieldGenerationContext.FieldDescriptor.PropertyType;
 

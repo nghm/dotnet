@@ -1,3 +1,5 @@
+using System;
+
 namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
 {
     using System.ComponentModel.DataAnnotations;
@@ -5,10 +7,14 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
 
     internal class DataTypeAttributeExtractor : IDataTypeAttributeExtractor
     {
-        public DataTypeAttribute GetDataTypeAttribute(FieldGenerationContext fieldGenerationContext)
+        public DataTypeAttribute GetDataTypeAttribute(object[] customAttributes)
         {
-            return fieldGenerationContext.FieldDescriptor.CustomAttributes
-                .OfType<DataTypeAttribute>()
+            if (customAttributes == null)
+            {
+                throw new ArgumentNullException(nameof(customAttributes));
+            }
+
+            return customAttributes.OfType<DataTypeAttribute>()
                 .SingleOrDefault();
         }
     }

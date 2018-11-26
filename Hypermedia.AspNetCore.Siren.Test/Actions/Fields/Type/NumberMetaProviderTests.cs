@@ -35,11 +35,11 @@
         [Theory]
         [AutoMockData]
         private void ShouldThrowArgumentNullExceptionWhenGettingMetadata(
-            NumberMetaProvider numberMetaProvider)
+            NumberMetaProvider sut)
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var _ = numberMetaProvider.GetMetadata(null)
+                var _ = sut.GetMetadata(null)
                     .ToArray();
             });
         }
@@ -49,9 +49,9 @@
         private void ShouldGetTypeCodeFromTypeCodeExtractor(
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
             FieldGenerationContext fieldGenerationContext,
-            NumberMetaProvider numberMetaProvider)
+            NumberMetaProvider sut)
         {
-            var _ = numberMetaProvider.GetMetadata(fieldGenerationContext)
+            var _ = sut.GetMetadata(fieldGenerationContext)
                 .ToArray();
 
             typeMock.Verify(t => t.GetTypeCode(fieldGenerationContext.FieldDescriptor.PropertyType), Times.Once);
@@ -73,12 +73,12 @@
             TypeCode typeCode,
             FieldGenerationContext fieldGenerationContext,
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
-            NumberMetaProvider numberMetaProvider)
+            NumberMetaProvider sut)
         {
             typeMock.Setup(t => t.GetTypeCode(It.IsAny<Type>()))
                 .Returns(typeCode);
 
-            var meta = numberMetaProvider.GetMetadata(fieldGenerationContext)
+            var meta = sut.GetMetadata(fieldGenerationContext)
                 .ToArray();
 
             Assert.Equal(meta, new[] { new KeyValuePair<string, object>("type", "number"), });
@@ -96,12 +96,12 @@
             TypeCode typeCode,
             FieldGenerationContext fieldGenerationContext,
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
-            NumberMetaProvider numberMetaProvider)
+            NumberMetaProvider sut)
         {
             typeMock.Setup(t => t.GetTypeCode(It.IsAny<Type>()))
                 .Returns(typeCode);
 
-            var meta = numberMetaProvider.GetMetadata(fieldGenerationContext)
+            var meta = sut.GetMetadata(fieldGenerationContext)
                 .ToArray();
 
             Assert.Empty(meta);

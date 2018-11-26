@@ -3,7 +3,6 @@
 namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
 {
     using System.Collections.Generic;
-    using Util;
 
     internal class StringMetaProvider : ITypeMetaProvider
     {
@@ -11,20 +10,30 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
         private readonly ITypeCodeExtractor _typeCodeExtractor;
         private readonly IDataTypeAttributeExtractor _dataTypeAttributeExtractor;
 
-        public StringMetaProvider(IStringPropertyTypeMap stringPropertyTypeMap, ITypeCodeExtractor typeCodeExtractor, IDataTypeAttributeExtractor dataTypeAttributeExtractor)
+        public StringMetaProvider(
+            IStringPropertyTypeMap stringPropertyTypeMap,
+            ITypeCodeExtractor typeCodeExtractor,
+            IDataTypeAttributeExtractor dataTypeAttributeExtractor)
         {
-            Guard.EnsureIsNotNull(stringPropertyTypeMap, nameof(stringPropertyTypeMap));
-            Guard.EnsureIsNotNull(typeCodeExtractor, nameof(typeCodeExtractor));
-            Guard.EnsureIsNotNull(dataTypeAttributeExtractor, nameof(dataTypeAttributeExtractor));
+            _stringPropertyTypeMap =
+                stringPropertyTypeMap ??
+                throw new ArgumentNullException(nameof(stringPropertyTypeMap));
 
-            _stringPropertyTypeMap = stringPropertyTypeMap;
-            _typeCodeExtractor = typeCodeExtractor;
-            _dataTypeAttributeExtractor = dataTypeAttributeExtractor;
+            _typeCodeExtractor =
+                typeCodeExtractor ??
+                throw new ArgumentNullException(nameof(typeCodeExtractor));
+
+            _dataTypeAttributeExtractor =
+                dataTypeAttributeExtractor ??
+                throw new ArgumentNullException(nameof(dataTypeAttributeExtractor));
         }
 
         public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
         {
-            Guard.EnsureIsNotNull(fieldGenerationContext, nameof(fieldGenerationContext));
+            if (fieldGenerationContext == null)
+            {
+                throw new ArgumentNullException(nameof(fieldGenerationContext));
+            }
 
             var propertyType = fieldGenerationContext.FieldDescriptor.PropertyType;
             var typeCode = this._typeCodeExtractor.GetTypeCode(propertyType);
@@ -35,7 +44,8 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
             }
 
             var type = "text";
-            var dataType = _dataTypeAttributeExtractor.GetDataTypeAttribute(fieldGenerationContext);
+            var fieldCustomAttributes = fieldGenerationContext.FieldDescriptor.CustomAttributes;
+            var dataType = _dataTypeAttributeExtractor.GetDataTypeAttribute(fieldCustomAttributes);
 
             if (dataType != null)
             {

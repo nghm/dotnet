@@ -64,10 +64,10 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
         [Theory]
         [AutoMockData]
         private void ShouldThrowArgumentNullExceptionWhenGettingMetadata(
-            StringMetaProvider stringMetaProvider
+            StringMetaProvider sut
             )
         {
-            Assert.Throws<ArgumentNullException>(() => stringMetaProvider.GetMetadata(null).ToArray());
+            Assert.Throws<ArgumentNullException>(() => sut.GetMetadata(null).ToArray());
         }
 
         [Theory]
@@ -75,9 +75,9 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
         private void ShouldGetTypeCodeFromTypeCodeExtractor(
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
             FieldGenerationContext fieldGenerationContext,
-            StringMetaProvider stringMetaProvider)
+            StringMetaProvider sut)
         {
-            var _ = stringMetaProvider.GetMetadata(fieldGenerationContext)
+            var _ = sut.GetMetadata(fieldGenerationContext)
                 .ToArray();
 
             typeMock.Verify(t => t.GetTypeCode(fieldGenerationContext.FieldDescriptor.PropertyType), Times.Once);
@@ -105,12 +105,12 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
             TypeCode typeCode,
             FieldGenerationContext fieldGenerationContext,
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
-            StringMetaProvider stringMetaProvider)
+            StringMetaProvider sut)
         {
             typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
                 .Returns(typeCode);
 
-            var meta = stringMetaProvider.GetMetadata(fieldGenerationContext)
+            var meta = sut.GetMetadata(fieldGenerationContext)
                 .ToArray();
 
             Assert.Empty(meta);
@@ -122,15 +122,15 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
             [Frozen] Mock<IDataTypeAttributeExtractor> dataTypeMock,
             FieldGenerationContext fieldGenerationContext,
-            StringMetaProvider stringMetaProvider)
+            StringMetaProvider sut)
         {
             typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
                 .Returns(TypeCode.String);
 
-            var _ = stringMetaProvider.GetMetadata(fieldGenerationContext)
+            var _ = sut.GetMetadata(fieldGenerationContext)
                 .ToArray();
 
-            dataTypeMock.Verify(t => t.GetDataTypeAttribute(fieldGenerationContext), Times.Once);
+            dataTypeMock.Verify(t => t.GetDataTypeAttribute(fieldGenerationContext.FieldDescriptor.CustomAttributes), Times.Once);
         }
 
         [Theory]
@@ -139,14 +139,14 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
             [Frozen] Mock<IDataTypeAttributeExtractor> dataTypeMock,
             FieldGenerationContext fieldGenerationContext,
-            StringMetaProvider stringMetaProvider)
+            StringMetaProvider sut)
         {
             typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
                 .Returns(TypeCode.String);
-            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldGenerationContext))
+            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldGenerationContext.FieldDescriptor.CustomAttributes))
                 .Returns(null as DataTypeAttribute);
 
-            var meta = stringMetaProvider.GetMetadata(fieldGenerationContext)
+            var meta = sut.GetMetadata(fieldGenerationContext)
                 .ToArray();
 
             Assert.Equal(new[]
@@ -162,15 +162,15 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
             [Frozen] Mock<IDataTypeAttributeExtractor> dataTypeMock,
             [Frozen] Mock<IStringPropertyTypeMap> stringPropertyTypeMap,
             FieldGenerationContext fieldGenerationContext,
-            StringMetaProvider stringMetaProvider,
+            StringMetaProvider sut,
             DataTypeAttribute expectedDataTypeAttribute)
         {
             typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
                 .Returns(TypeCode.String);
-            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldGenerationContext))
+            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldGenerationContext.FieldDescriptor.CustomAttributes))
                 .Returns(expectedDataTypeAttribute);
 
-            var _ = stringMetaProvider.GetMetadata(fieldGenerationContext)
+            var _ = sut.GetMetadata(fieldGenerationContext)
                 .ToArray();
 
             stringPropertyTypeMap.Verify(m => m.MapDataType(expectedDataTypeAttribute.DataType), Times.Once);
@@ -183,18 +183,18 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
             [Frozen] Mock<IDataTypeAttributeExtractor> dataTypeMock,
             [Frozen] Mock<IStringPropertyTypeMap> stringPropertyTypeMap,
             FieldGenerationContext fieldGenerationContext,
-            StringMetaProvider stringMetaProvider,
+            StringMetaProvider sut,
             DataTypeAttribute expectedDataTypeAttribute,
             string type)
         {
             typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
                 .Returns(TypeCode.String);
-            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldGenerationContext))
+            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldGenerationContext.FieldDescriptor.CustomAttributes))
                 .Returns(expectedDataTypeAttribute);
             stringPropertyTypeMap.Setup(m => m.MapDataType(expectedDataTypeAttribute.DataType))
                 .Returns(type);
 
-            var meta = stringMetaProvider.GetMetadata(fieldGenerationContext)
+            var meta = sut.GetMetadata(fieldGenerationContext)
                 .ToArray();
 
             Assert.Equal(new[]

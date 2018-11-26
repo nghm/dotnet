@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using Util;
 
     internal class NumberMetaProvider : ITypeMetaProvider
     {
@@ -25,18 +24,21 @@
 
         public NumberMetaProvider(ITypeCodeExtractor typeCodeExtractor)
         {
-            Guard.EnsureIsNotNull(typeCodeExtractor, nameof(typeCodeExtractor));
-
-            this._typeCodeExtractor = typeCodeExtractor;
+            this._typeCodeExtractor =
+                typeCodeExtractor ??
+                throw new ArgumentNullException(nameof(typeCodeExtractor));
         }
 
         public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
         {
-            Guard.EnsureIsNotNull(fieldGenerationContext, nameof(fieldGenerationContext));
+            if (fieldGenerationContext == null)
+            {
+                throw new ArgumentNullException(nameof(fieldGenerationContext));
+            }
 
             var fieldDescriptorPropertyType = fieldGenerationContext.FieldDescriptor.PropertyType;
             var typeCode = this._typeCodeExtractor.GetTypeCode(fieldDescriptorPropertyType);
-            
+
             if (this._numberTypeCodes.Contains(typeCode))
             {
                 yield return KeyValuePair.Create("type", "number" as object);

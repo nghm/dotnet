@@ -1,4 +1,4 @@
-﻿using Hypermedia.AspNetCore.Siren.Util;
+﻿using System;
 
 namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
@@ -8,9 +8,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 
         public FieldGenerationContext(FieldDescriptor fieldDescriptor)
         {
-            Guard.EnsureIsNotNull(fieldDescriptor, nameof(fieldDescriptor));
-
-            FieldDescriptor = fieldDescriptor;
+            FieldDescriptor = fieldDescriptor ?? throw new ArgumentNullException(nameof(fieldDescriptor));
         }
     }
 }

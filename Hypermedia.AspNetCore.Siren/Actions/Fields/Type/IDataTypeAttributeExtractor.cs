@@ -4,6 +4,6 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
 
     internal interface IDataTypeAttributeExtractor
     {
-        DataTypeAttribute GetDataTypeAttribute(FieldGenerationContext fieldGenerationContext);
+        DataTypeAttribute GetDataTypeAttribute(object[] customAttributes);
     }
 }
