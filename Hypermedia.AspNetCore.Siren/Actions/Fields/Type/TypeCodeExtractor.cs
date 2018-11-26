@@ -4,9 +4,6 @@
 
     internal class TypeCodeExtractor : ITypeCodeExtractor
     {
-        public TypeCode GetTypeCode(Type fieldDescriptorPropertyType)
-        {
-            return Type.GetTypeCode(fieldDescriptorPropertyType);
-        }
+        public TypeCode GetTypeCode(Type fieldDescriptorPropertyType) => Type.GetTypeCode(fieldDescriptorPropertyType);
     }
 }
