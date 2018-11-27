@@ -1,13 +1,12 @@
-﻿using AutoFixture.Xunit2;
-using Hypermedia.AspNetCore.Siren.Actions.Fields;
-using Moq;
-using System.Linq;
-
-namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
+﻿namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
 {
+    using AutoFixture.Xunit2;
+    using Hypermedia.AspNetCore.Siren.Actions.Fields;
     using Hypermedia.AspNetCore.Siren.Actions.Fields.Type;
+    using Moq;
     using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
     using System;
+    using System.Linq;
     using Xunit;
 
     public class EnumOptionsExtractorTests
@@ -124,17 +123,17 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
         [AutoMockData]
         private void ShouldGetFieldsFromEnumUtils(
             Type propType,
+            string[] names,
             int[] values,
             [Frozen]Mock<IEnumUtilities> enumUtils,
             EnumOptionsExtractor sut
         )
         {
-            var expectedResult = values.Select(value => new FieldOption { Name = value.ToString(), Value = value })
+            var expectedResult = values.Select((value, index) => new FieldOption { Name = names[index], Value = value })
                 .ToArray();
 
             enumUtils.Setup(eu => eu.IsEnum(It.IsAny<Type>())).Returns(true);
-            enumUtils.Setup(eu => eu.GetNames(It.IsAny<Type>()))
-                .Returns(values.Select(v => v.ToString()).ToArray());
+            enumUtils.Setup(eu => eu.GetNames(It.IsAny<Type>())).Returns(names);
             enumUtils.Setup(eu => eu.GetValues(It.IsAny<Type>())).Returns(values);
 
             var _ = sut.TryGetEnumOptions(propType, out var options);

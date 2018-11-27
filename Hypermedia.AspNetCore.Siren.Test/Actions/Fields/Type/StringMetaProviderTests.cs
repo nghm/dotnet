@@ -1,16 +1,16 @@
-﻿using AutoFixture.Xunit2;
-using Hypermedia.AspNetCore.Siren.Actions.Fields;
-using Hypermedia.AspNetCore.Siren.Actions.Fields.Type;
-using Moq;
-using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Xunit;
-
-namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
+﻿namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
 {
+    using AutoFixture.Xunit2;
+    using Hypermedia.AspNetCore.Siren.Actions.Fields;
+    using Hypermedia.AspNetCore.Siren.Actions.Fields.Type;
+    using Moq;
+    using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using Xunit;
+
     public class StringMetaProviderTests
     {
         [Theory]
