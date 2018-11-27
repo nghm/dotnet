@@ -1,16 +1,15 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Endpoints
+﻿using Hypermedia.AspNetCore.Siren.Actions.Fields;
+
+namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
+    using Microsoft.AspNetCore.Mvc.Controllers;
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.AspNetCore.Mvc.Controllers;
 
-    internal class ArgumentsCollection : Dictionary<ControllerParameterDescriptor, object>
+    internal class ArgumentCollection : List<ActionArgument>
     {
-        public ArgumentsCollection(ControllerParameterDescriptor[] parameters, object[] endpointDescriptors)
-            : base(parameters.ToDictionary(
-                    parameter => parameter,
-                    parameter => endpointDescriptors[parameter.ParameterInfo.Position]
-                ))
+        public ArgumentCollection(ControllerParameterDescriptor[] parameters, object[] endpointDescriptors)
+            : base(parameters.Select(p => new ActionArgument(p, endpointDescriptors[p.ParameterInfo.Position])))
         {
         }
     }

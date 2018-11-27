@@ -1,22 +1,14 @@
-﻿
-namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
+﻿namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    class OptionsMetaProvider : ITypeMetaProvider
+    internal class OptionsMetaProvider : ITypeMetaProvider
     {
         public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
         {
-            var propertyT = fieldGenerationContext.PropertyInfo.PropertyType;
-
-            if (typeof(IEnumerable<>).IsAssignableFrom(propertyT))
-            {
-
-            }
-
-            var propertyType = fieldGenerationContext.PropertyInfo.PropertyType;
+            var propertyType = fieldGenerationContext.FieldDescriptor.PropertyType;
 
             if (!propertyType.IsEnum)
             {
@@ -27,7 +19,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
 
             yield return KeyValuePair.Create("type", "options" as object);
             yield return KeyValuePair.Create("options", options);
-            yield return KeyValuePair.Create("value", fieldGenerationContext.Value);
+            yield return KeyValuePair.Create("value", fieldGenerationContext.FieldDescriptor.Value);
         }
 
         private static object GetOptions(Type propertyType)
@@ -35,7 +27,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
             var names = Enum.GetNames(propertyType).Cast<string>();
             var values = Enum.GetValues(propertyType).Cast<int>().ToArray();
 
-            object options = names.Select((name, index) => new FieldOption {Name = name, Value = values[index]}).ToArray();
+            object options = names.Select((name, index) => new FieldOption { Name = name, Value = values[index] }).ToArray();
             return options;
         }
     }

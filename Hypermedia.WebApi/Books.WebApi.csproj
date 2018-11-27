@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
@@ -18,12 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Books.Infrastructure\Books.Infrastructure.csproj" />
     <ProjectReference Include="..\Hypermedia.AspNetCore.Siren\Hypermedia.AspNetCore.Siren.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="AutoMapper.Extensions.Microsoft.DependencyInjection">
-      <HintPath>..\..\..\..\..\.nuget\packages\automapper.extensions.microsoft.dependencyinjection\5.0.1\lib\netstandard2.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

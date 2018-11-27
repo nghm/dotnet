@@ -6,19 +6,19 @@
 
     class RequiredMetaProvider : IValidationMetaProvider
     {
-        public bool CanProvideMetadata(object attribute)
+        public IEnumerable<KeyValuePair<string, object>> GetMetadata(object attribute)
         {
-            return attribute is RequiredAttribute;
-        }
-
-        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext, object attribute)
-        {
-            if (!(attribute is RequiredAttribute))
+            if (attribute is null)
             {
-                throw new InvalidCastException();
+                throw new ArgumentNullException(nameof(attribute));
             }
 
-            yield return KeyValuePair.Create("required", (object) true);
+            if (!(attribute is RequiredAttribute))
+            {
+                yield break;
+            }
+
+            yield return KeyValuePair.Create("required", (object)true);
         }
     }
 }

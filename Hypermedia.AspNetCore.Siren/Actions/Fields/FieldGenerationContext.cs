@@ -1,22 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc.Abstractions;
+﻿using System;
 
 namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
-    using System.Reflection;
-
     public class FieldGenerationContext
     {
+        public FieldDescriptor FieldDescriptor { get; }
 
-        public FieldGenerationContext(string fieldName, object fieldValue, ParameterDescriptor bodyBodyParameterDescriptor)
+        public FieldGenerationContext(FieldDescriptor fieldDescriptor)
         {
-            this.Name = fieldName;
-            this.Value = fieldValue;
-            this.BodyParameterDescriptor = bodyBodyParameterDescriptor;
+            FieldDescriptor = fieldDescriptor ?? throw new ArgumentNullException(nameof(fieldDescriptor));
         }
-
-        public ParameterDescriptor BodyParameterDescriptor { get; }
-        public object Value { get; }
-        public string Name { get; }
-        public PropertyInfo PropertyInfo => this.BodyParameterDescriptor.ParameterType.GetProperty(this.Name);
     }
 }

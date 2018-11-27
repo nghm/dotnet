@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using Validation;
 
-    class ValidationMetadataProvider : IFieldMetadataProvider
+    internal class ValidationMetadataProvider : IFieldMetadataProvider
     {
         private readonly IValidationMetaProvider[] _validationMetaProviders;
 
@@ -14,18 +14,14 @@
 
         public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
         {
-            var propertyInfo = fieldGenerationContext.PropertyInfo;
-            var attributes = propertyInfo.GetCustomAttributes(true);
+            var attributes = fieldGenerationContext.FieldDescriptor.CustomAttributes;
             var results = new List<KeyValuePair<string, object>>();
 
             foreach (var validationMetaProvider in this._validationMetaProviders)
             {
                 foreach (var attribute in attributes)
                 {
-                    if (validationMetaProvider.CanProvideMetadata(attribute))
-                    {
-                        results.AddRange(validationMetaProvider.GetMetadata(fieldGenerationContext, attribute));
-                    }
+                    results.AddRange(validationMetaProvider.GetMetadata(attribute));
                 }
             }
 

@@ -1,7 +1,8 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Endpoints
+﻿using Hypermedia.AspNetCore.Siren.Actions.Fields;
+
+namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
     using System.Collections.Generic;
-    using Microsoft.AspNetCore.Mvc.Controllers;
     using Util;
 
     internal class HrefFactory : IHrefFactory
@@ -9,8 +10,8 @@
         public string MakeHref(EndpointDescriptor endpointDescriptor)
         {
             ExtractParameters(
-                endpointDescriptor.ArgumentsCollection, 
-                out var queryParameters, 
+                endpointDescriptor.ArgumentsCollection,
+                out var queryParameters,
                 out var routeParameters
             );
 
@@ -20,12 +21,12 @@
 
             href = href.InterpolateRouteParameters(routeParameters);
             href = href.InterpolateQueryParameters(queryParameters);
-            
+
             return href;
         }
 
         private static void ExtractParameters(
-            IDictionary<ControllerParameterDescriptor, object> argumentsCollection,
+            ArgumentCollection argumentsCollection,
             out Dictionary<string, string> queryParameters,
             out Dictionary<string, string> routeParameters)
         {
@@ -34,7 +35,7 @@
 
             foreach (var argument in argumentsCollection)
             {
-                if (ArgumentIsDefaultValue(argument))
+                if (argument.ValueIsDefaultValue())
                 {
                     continue;
                 }
@@ -46,29 +47,24 @@
         private static void CategorizeParameter(
             IDictionary<string, string> queryParameters,
             IDictionary<string, string> routeParameters,
-            KeyValuePair<ControllerParameterDescriptor, object> argument)
+            ActionArgument argument)
         {
             var argumentValue = argument.Value;
-            var parameterDescriptor = argument.Key;
+            var parameterDescriptor = argument.Descriptor;
 
             switch (parameterDescriptor.BindingInfo.BindingSource.Id)
             {
                 case "Query":
                     queryParameters[parameterDescriptor.Name] = argumentValue.ToString();
                     break;
+
                 case "Path":
                     routeParameters[parameterDescriptor.Name] = argumentValue.ToString();
                     break;
+
                 default:
                     return;
             }
-        }
-
-        private static bool ArgumentIsDefaultValue(KeyValuePair<ControllerParameterDescriptor, object> argument)
-        {
-            var parameterInfoDefaultValue = argument.Key.ParameterInfo.DefaultValue;
-
-            return parameterInfoDefaultValue.Equals(argument.Value);
         }
     }
 }

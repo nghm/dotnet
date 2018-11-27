@@ -20,9 +20,24 @@
             TypeCode.Single
         };
 
+        private readonly ITypeCodeExtractor _typeCodeExtractor;
+
+        public NumberMetaProvider(ITypeCodeExtractor typeCodeExtractor)
+        {
+            this._typeCodeExtractor =
+                typeCodeExtractor ??
+                throw new ArgumentNullException(nameof(typeCodeExtractor));
+        }
+
         public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
         {
-            var typeCode = Type.GetTypeCode(fieldGenerationContext.PropertyInfo.PropertyType);
+            if (fieldGenerationContext == null)
+            {
+                throw new ArgumentNullException(nameof(fieldGenerationContext));
+            }
+
+            var fieldDescriptorPropertyType = fieldGenerationContext.FieldDescriptor.PropertyType;
+            var typeCode = this._typeCodeExtractor.GetTypeCode(fieldDescriptorPropertyType);
 
             if (this._numberTypeCodes.Contains(typeCode))
             {

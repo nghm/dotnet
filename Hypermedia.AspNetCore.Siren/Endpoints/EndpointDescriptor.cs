@@ -1,16 +1,16 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Endpoints
+﻿using Hypermedia.AspNetCore.Siren.Actions.Fields;
+
+namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
-    using System.Collections.Generic;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc.Abstractions;
     using Microsoft.AspNetCore.Mvc.Authorization;
     using Microsoft.AspNetCore.Mvc.Controllers;
     using System.Linq;
-    using Microsoft.AspNetCore.Mvc.Abstractions;
     using Util;
 
     internal class EndpointDescriptor
     {
-
         public EndpointDescriptor(
             ActionDescriptor actionDescriptor,
             object[] arguments,
@@ -29,9 +29,9 @@
             this.Body = actionDescriptor.PickBodyArgument(arguments);
             this.Template = actionDescriptor.AttributeRouteInfo.Template.ToLower();
             this.Method = actionDescriptor.GetHttpMethod().ToUpper();
-            this.ArgumentsCollection = new ArgumentsCollection(parameters, arguments);
+            this.ArgumentsCollection = new ArgumentCollection(parameters, arguments);
 
-            this.BodyArgument = this.ArgumentsCollection.SingleOrDefault(argument => argument.Key.BindingInfo.BindingSource.Id == "Body");
+            this.BodyArgument = this.ArgumentsCollection.SingleOrDefault(argument => argument.Descriptor.BindingInfo.BindingSource.Id == "Body");
         }
 
         public AuthorizationPolicy[] Policies { get; }
@@ -40,8 +40,8 @@
         public string Method { get; }
         public object Body { get; }
         public string Template { get; }
-        public KeyValuePair<ControllerParameterDescriptor, object> BodyArgument { get; }
-        public ArgumentsCollection ArgumentsCollection { get; }
+        public ActionArgument BodyArgument { get; }
+        public ArgumentCollection ArgumentsCollection { get; }
 
         private static AuthorizationPolicy[] ComputePolicies(ActionDescriptor actionDescriptor)
         {

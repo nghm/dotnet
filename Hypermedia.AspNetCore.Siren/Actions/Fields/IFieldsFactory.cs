@@ -1,11 +1,10 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
-    using System.Collections.Generic;
     using Actions.Fields;
-    using Microsoft.AspNetCore.Mvc.Controllers;
+    using System.Collections.Generic;
 
     internal interface IFieldsFactory
     {
-        IEnumerable<IField> MakeFields(KeyValuePair<ControllerParameterDescriptor, object> bodyArgument);
+        IEnumerable<IField> MakeFields(ActionArgument bodyArgument);
     }
 }
