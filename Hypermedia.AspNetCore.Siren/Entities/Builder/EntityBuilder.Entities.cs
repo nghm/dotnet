@@ -6,6 +6,23 @@
 
     internal partial class EntityBuilder
     {
+        public IEntityBuilder WithEntity(IEntity entity)
+        {
+            this._entities.Add(entity);
+
+            return this;
+        }
+
+        public IEntityBuilder WithEntity(Action<IEntityBuilder> configure)
+        {
+            var builder = EmptyClone();
+
+            configure(builder);
+
+            return WithEntity(builder.Build());
+        }
+
+
         public IEntityBuilder WithEntity<T>(Expression<Action<T>> endpointCapture, params string[] classes)
             where T : class
         {
@@ -21,23 +38,11 @@
 
             if (method == "GET")
             {
-                this._entities.Add(new Entity(classes, href));
+                return this.WithEntity(new Entity(classes, href));
             }
 
             return this;
         }
-
-        public IEntityBuilder WithEntity(Action<IEntityBuilder> configure)
-        {
-            var builder = EmptyClone();
-
-            configure(builder);
-
-            this._entities.Add(builder.Build());
-
-            return this;
-        }
-
         public IEntityBuilder WithEntities<TM>(IEnumerable<TM> enumerable, Action<IEntityBuilder, TM> configureOne)
         {
             foreach (var enumeration in enumerable)

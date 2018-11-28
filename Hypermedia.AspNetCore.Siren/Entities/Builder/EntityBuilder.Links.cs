@@ -1,12 +1,19 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder
 {
+    using Links;
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
-    using Links;
 
     internal partial class EntityBuilder
     {
+        public IEntityBuilder WithLink(ILink link)
+        {
+            this._links.Add(link);
+
+            return this;
+        }
+
         public IEntityBuilder WithLink<T>(string name, Expression<Action<T>> endpointCapture, params string[] rel)
             where T : class
         {
@@ -27,9 +34,9 @@
                 throw new InvalidOperationException("Cannot add link, method is not GET!");
             }
 
-            this._links.Add(new Link(name, this._hrefFactory.MakeHref(descriptor), rel));
+            var href = this._hrefFactory.MakeHref(descriptor);
 
-            return this;
+            return WithLink(new Link(name, href, rel));
         }
 
         public IEntityBuilder WithLinks<T>(string[] rel, IDictionary<string, Expression<Action<T>>> links)
