@@ -1,6 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Links
 {
-    internal interface ILink
+    public interface ILink
     {
         string Name { get; }
         string Href { get; }
