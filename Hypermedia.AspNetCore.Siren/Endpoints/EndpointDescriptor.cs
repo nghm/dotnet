@@ -1,4 +1,5 @@
 ﻿using Hypermedia.AspNetCore.Siren.Actions.Fields;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
@@ -31,7 +32,7 @@ namespace Hypermedia.AspNetCore.Siren.Endpoints
             this.Method = actionDescriptor.GetHttpMethod().ToUpper();
             this.ArgumentsCollection = new ArgumentCollection(parameters, arguments);
 
-            this.BodyArgument = this.ArgumentsCollection.SingleOrDefault(argument => argument.Descriptor.BindingInfo.BindingSource.Id == "Body");
+            this.BodyArgument = this.ArgumentsCollection.SingleOrDefault(argument => argument.BindingSource == BindingSource.Body);
         }
 
         public AuthorizationPolicy[] Policies { get; }

@@ -1,4 +1,5 @@
 ﻿using Hypermedia.AspNetCore.Siren.Actions.Fields;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
@@ -50,20 +51,17 @@ namespace Hypermedia.AspNetCore.Siren.Endpoints
             ActionArgument argument)
         {
             var argumentValue = argument.Value;
-            var parameterDescriptor = argument.Descriptor;
 
-            switch (parameterDescriptor.BindingInfo.BindingSource.Id)
+            if (argument.BindingSource == BindingSource.Query)
             {
-                case "Query":
-                    queryParameters[parameterDescriptor.Name] = argumentValue.ToString();
-                    break;
+                queryParameters[argument.Name] = argumentValue.ToString();
 
-                case "Path":
-                    routeParameters[parameterDescriptor.Name] = argumentValue.ToString();
-                    break;
+                return;
+            }
 
-                default:
-                    return;
+            if (argument.BindingSource == BindingSource.Path)
+            {
+                routeParameters[argument.Name] = argumentValue.ToString();
             }
         }
     }

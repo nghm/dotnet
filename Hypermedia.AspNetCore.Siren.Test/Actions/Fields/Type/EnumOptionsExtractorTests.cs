@@ -126,6 +126,7 @@
             string[] names,
             int[] values,
             [Frozen]Mock<IEnumUtilities> enumUtils,
+            FieldOptionEqualityComparer equalityComparer,
             EnumOptionsExtractor sut
         )
         {
@@ -138,7 +139,7 @@
 
             var _ = sut.TryGetEnumOptions(propType, out var options);
 
-            Assert.Equal(expectedResult, options);
+            Assert.Equal(expectedResult, options, equalityComparer);
         }
 
         [Theory]

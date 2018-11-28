@@ -1,48 +1,47 @@
-﻿using Hypermedia.AspNetCore.Siren.Util;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using System.Linq;
-using System.Reflection;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 
 namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
     internal class ActionArgument
     {
-        public ControllerParameterDescriptor Descriptor { get; }
         public object Value { get; }
         public object DefaultValue { get; }
+        public string Name { get; }
+        public BindingSource BindingSource { get; }
+        public FieldDescriptor[] FieldDescriptors { get; }
 
-        public ActionArgument(ControllerParameterDescriptor descriptor, object value)
+        public ActionArgument(
+            string name,
+            object value,
+            object defaultValue,
+            BindingSource bindingSource,
+            FieldDescriptor[] fieldDescriptors)
         {
-            Guard.EnsureIsNotNull(descriptor, nameof(descriptor));
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
 
-            Descriptor = descriptor;
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException(nameof(name));
+            }
+
+            Name = name;
+
             Value = value;
-            DefaultValue = descriptor.ParameterInfo.DefaultValue;
+            DefaultValue = defaultValue;
+
+            BindingSource =
+                bindingSource ??
+                throw new ArgumentNullException(nameof(bindingSource));
+
+            FieldDescriptors =
+                fieldDescriptors ??
+                throw new ArgumentNullException(nameof(fieldDescriptors));
         }
 
-        public FieldDescriptor[] GetFieldDescriptors()
-        {
-            return Descriptor.ParameterType
-                .GetProperties()
-                .Where(IsField)
-                .Select(p => new FieldDescriptor(
-                    p.Name,
-                    p.GetValue(Value),
-                    p.PropertyType,
-                    p.PropertyType.GetCustomAttributes(true)))
-                .ToArray();
-        }
-
-        public bool ValueIsDefaultValue()
-        {
-            var parameterInfoDefaultValue = this.DefaultValue;
-
-            return Equals(parameterInfoDefaultValue, this.Value);
-        }
-
-        private bool IsField(PropertyInfo p)
-        {
-            return p.SetMethod != null && p.SetMethod.IsPublic && !p.SetMethod.IsAbstract;
-        }
+        public bool ValueIsDefaultValue() => Value?.Equals(this.DefaultValue) ?? this.DefaultValue == null;
     }
 }

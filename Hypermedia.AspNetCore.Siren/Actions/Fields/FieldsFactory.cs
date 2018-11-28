@@ -28,7 +28,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 
         public IEnumerable<IField> MakeFields(ActionArgument bodyArgument)
         {
-            var argumentFields = bodyArgument.GetFieldDescriptors();
+            var argumentFields = bodyArgument.FieldDescriptors;
 
             foreach (var field in argumentFields)
             {
@@ -48,7 +48,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
                 .GetMetadataProviders()
                 .SelectMany(metaProvider => metaProvider.GetMetadata(fieldGenerationContext));
 
-            return new Field(fieldDescriptor.Name, fieldDescriptor.Value, metadata);
+            return new Field(fieldDescriptor.Name, fieldDescriptor.Value, metadata.ToList());
         }
 
         #endregion Private functions
