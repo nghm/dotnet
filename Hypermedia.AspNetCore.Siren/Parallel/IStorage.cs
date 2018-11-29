@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    internal interface IEntityPartStorage : ICollection<IEntityBuildPart>
+    internal interface IStorage<TStored> : ICollection<TStored>
     {
     }
 }

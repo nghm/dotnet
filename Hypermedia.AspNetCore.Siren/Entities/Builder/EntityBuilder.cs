@@ -1,14 +1,12 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Security.Claims;
     using Actions;
-    using AutoMapper;
-    using Endpoints;
     using Links;
+    using Newtonsoft.Json.Linq;
+    using System.Collections.Generic;
+    using System.Linq;
 
-    internal partial class EntityBuilder : IEntityBuilder
+    internal class EntityBuilder : IEntityBuilder
     {
         private readonly ISet<string> _classes = new HashSet<string>();
         private readonly IDictionary<string, object> _properties = new Dictionary<string, object>();
@@ -16,51 +14,65 @@
         private readonly IList<ILink> _links = new List<ILink>();
         private readonly IList<IAction> _actions = new List<IAction>();
 
-        private readonly IMapper _mapper;
-        private readonly IEndpointDescriptorProvider _endpointDescriptorProvider;
-        private readonly IHrefFactory _hrefFactory;
-        private readonly IFieldsFactory _fieldsFactory;
-        private ClaimsPrincipal _claimsPrincipal;
-
-        public EntityBuilder(
-            IMapper mapper,
-            IEndpointDescriptorProvider endpointDescriptorProvider,
-            IHrefFactory hrefFactory,
-            IFieldsFactory fieldsFactory
-        ) : this(mapper, endpointDescriptorProvider, hrefFactory, fieldsFactory, null)
+        public IEntity Build()
         {
+            return new Entity(
+                this._classes.ToArray(),
+                this._entities.ToArray(),
+                this._links.ToArray(),
+                this._properties,
+                this._actions.ToArray()
+            );
         }
 
-        public EntityBuilder(
-            IMapper mapper,
-            IEndpointDescriptorProvider endpointDescriptorProvider,
-            IHrefFactory hrefFactory,
-            IFieldsFactory fieldsFactory,
-            ClaimsPrincipal claimsPrincipal)
+        public IEntityBuilder WithClasses(params string[] classes)
         {
-            this._mapper = mapper;
-            this._endpointDescriptorProvider = endpointDescriptorProvider;
-            this._hrefFactory = hrefFactory;
-            this._fieldsFactory = fieldsFactory;
-            this._claimsPrincipal = claimsPrincipal;
-        }
-
-        internal IEntityBuilder WithClaimsPrincipal(ClaimsPrincipal claimsPrincipal)
-        {
-            this._claimsPrincipal = claimsPrincipal;
+            foreach (var @class in classes)
+            {
+                this._classes.Add(@class);
+            }
 
             return this;
         }
 
-        public IEntityBuilder With<T>(Action<ITypedEntityBuilder<T>> entityBuilderConfiguration) where T : class
+        public IEntityBuilder WithAction(IAction action)
         {
-            var builder = TypedEmptyClone<T>();
-
-            entityBuilderConfiguration.Invoke(builder);
-
-            builder.BuildOver(this);
+            this._actions.Add(action);
 
             return this;
         }
+
+        public IEntityBuilder WithEntity(IEntity entity)
+        {
+            this._entities.Add(entity);
+
+            return this;
+        }
+
+        public IEntityBuilder WithLink(ILink link)
+        {
+            this._links.Add(link);
+
+            return this;
+        }
+
+        public IEntityBuilder WithProperties<TProp>(TProp properties)
+        {
+            foreach (var property in JObject.FromObject(properties)
+                .ToObject<IDictionary<string, object>>())
+            {
+                if (!this._properties.ContainsKey(property.Key))
+                {
+                    this._properties.Add(property.Key, property.Value);
+                }
+                else
+                {
+                    this._properties[property.Key] = property.Value;
+                }
+            }
+
+            return this;
+        }
+
     }
 }

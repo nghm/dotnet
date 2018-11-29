@@ -14,7 +14,7 @@
         {
             var services = mvcBuilder.Services;
 
-            services.AddTransient<EntityBuilder>();
+            services.AddTransient<ApiAwareEntityBuilder>();
             services.AddSingleton<IAccessValidator, AccessValidator>();
             services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
             services.AddSingleton<ICallCollector, ExpressionCallCollector>();

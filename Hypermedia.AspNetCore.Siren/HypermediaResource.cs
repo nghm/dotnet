@@ -6,9 +6,9 @@
     {
         public abstract void Configure(ITypedEntityBuilder<T> builder);
 
-        public void Configure(IEntityBuilder builder)
+        public void Configure(IApiAwareEntityBuilder builder)
         {
-            builder.With<T>(Configure);
+            //builder.With<T>(Configure);
         }
     }
 }

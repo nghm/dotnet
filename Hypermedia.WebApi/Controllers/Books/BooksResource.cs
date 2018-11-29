@@ -1,13 +1,12 @@
 ﻿namespace Books.WebApi.Controllers.Books
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
     using Hypermedia.AspNetCore.Siren;
-    using Hypermedia.AspNetCore.Siren.Entities;
     using Hypermedia.AspNetCore.Siren.Entities.Builder;
     using Infrastructure.Services;
     using Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
 
     internal class BooksResource : HypermediaResource<BooksController>
     {
@@ -53,10 +52,10 @@
 
         private void MakePreviewBook(IEntityBuilder builder, Book book)
         {
-            builder
-                .WithClasses("preview-book")
-                .WithProperties<BookPreviewModel, Book>(book)
-                .WithLink<BooksController>("details", c => c.GetOne(book.Id, this._pageNo, this._perPage), "details");
+            //builder
+            //    .WithClasses("preview-book")
+            //    .WithProperties<BookPreviewModel, Book>(book)
+            //    .WithLink<BooksController>("details", c => c.GetOne(book.Id, this._pageNo, this._perPage), "details");
         }
 
         private Dictionary<string, Expression<Action<BooksController>>> GetNextAndPreviousLinks()

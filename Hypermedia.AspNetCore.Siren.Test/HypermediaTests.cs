@@ -14,7 +14,7 @@ namespace Hypermedia.AspNetCore.Siren.Test
         //    var builder = entityBuilderFactory.MakeEntity();
 
         //    Assert.NotNull(builder);
-        //    Assert.IsType<EntityBuilder>(builder);
+        //    Assert.IsType<ApiAwareEntityBuilder>(builder);
         //}
     }
 }
