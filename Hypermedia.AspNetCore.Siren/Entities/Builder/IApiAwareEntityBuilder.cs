@@ -7,48 +7,90 @@
 
     public interface IApiAwareEntityBuilder : IAsyncBuilder<IEntity>
     {
-        IApiAwareEntityBuilder WithAction<T, TBody>(
+        IApiAwareEntityBuilder WithAction<TController, TBody>(
             string name,
-            Expression<Action<T>> endpointCapture,
-            Action<IActionBuilder<TBody>> configureActionBuilder = null)
-            where T : class
-            where TBody : class;
+            Expression<Action<TController>> resource,
+            Action<IActionBuilder<TBody>> configure
+        ) where TController : class
+          where TBody : class;
 
-        IApiAwareEntityBuilder WithEntity<T>(
-            Expression<Action<T>> endpointCapture,
-            params string[] classes)
-            where T : class;
-
-        IApiAwareEntityBuilder WithLink<T>(
+        IApiAwareEntityBuilder WithAction<TController>(
             string name,
-            Expression<Action<T>> endpointCapture,
-            params string[] rel)
-            where T : class;
+            Expression<Action<TController>> resource
+        ) where TController : class;
 
-        IApiAwareEntityBuilder WithLinks<T>(
-            string[] rel,
-            IDictionary<string, Expression<Action<T>>> links)
-            where T : class;
+        IApiAwareEntityBuilder WithActions<TController, TBody>(
+            params (
+                string name,
+                Expression<Action<TController>> resource,
+                Action<IActionBuilder<TBody>> configure
+            )[] actions
+        ) where TController : class
+          where TBody : class;
 
-        IApiAwareEntityBuilder WithLinks<T>(
-            IDictionary<string, Expression<Action<T>>> links)
-            where T : class;
+        IApiAwareEntityBuilder WithLink<TController>(
+            string name,
+            Expression<Action<TController>> resource,
+            string[] rel = null
+        ) where TController : class;
 
-        IApiAwareEntityBuilder WithEntity(
-            Action<IApiAwareEntityBuilder> configureBuilder);
+        IApiAwareEntityBuilder WithLinks<TController>(
+            params (
+                string name,
+                Expression<Action<TController>> resource,
+                string[] rel
+            )[] links
+        ) where TController : class;
 
-        IApiAwareEntityBuilder WithEntities<TM>(
-            IEnumerable<TM> enumerable,
-            Action<IApiAwareEntityBuilder, TM> configureOne);
+        IApiAwareEntityBuilder WithEmbeddedEntity(
+            Action<IApiAwareEntityBuilder> newEntity
+        );
 
-        IApiAwareEntityBuilder WithEntities<T, TM>(
-            IEnumerable<TM> enumerable,
-            Action<T, TM> configureOne,
-            string[] classes) where T : class;
+        IApiAwareEntityBuilder WithEmbeddedEntities(
+            params Action<IApiAwareEntityBuilder>[] newEntities
+        );
 
-        IApiAwareEntityBuilder WithProperties<TProps, TSource>(TSource properties);
-        IApiAwareEntityBuilder WithProperties<TProps>(TProps properties);
+        IApiAwareEntityBuilder WithEmbeddedEntitiesForEach<TOne>(
+            IEnumerable<TOne> each,
+            Action<IApiAwareEntityBuilder, TOne> newEntityForOne
+        );
 
-        IApiAwareEntityBuilder WithClasses(params string[] classes);
+        IApiAwareEntityBuilder WithLinkedEntity<TController>(
+            Expression<Action<TController>> resource,
+            string[] classes = null
+        ) where TController : class;
+
+        IApiAwareEntityBuilder WithLinkedEntities<TController>(
+            params (
+                Expression<Action<TController>> resource,
+                string[] classes
+            )[] entities
+        ) where TController : class;
+
+        IApiAwareEntityBuilder WithLinkedEntities<TController>(
+            params Expression<Action<TController>>[] resources
+        ) where TController : class;
+
+        IApiAwareEntityBuilder WithLinkedEntitiesForEach<TController, TOne>(
+            IEnumerable<TOne> each,
+            Func<TOne, (Expression<Action<TController>> resource, string[] classes)> linkedEntityForOne
+        ) where TController : class;
+
+        IApiAwareEntityBuilder WithLinkedEntitiesForEach<TController, TOne>(
+            IEnumerable<TOne> each,
+            Func<TOne, Expression<Action<TController>>> linkedEntityForOne
+        ) where TController : class;
+
+        IApiAwareEntityBuilder WithProperties<TProps>(
+            object properties
+        );
+
+        IApiAwareEntityBuilder WithProperties(
+            object properties
+        );
+
+        IApiAwareEntityBuilder WithClasses(
+            params string[] classes
+        );
     }
 }

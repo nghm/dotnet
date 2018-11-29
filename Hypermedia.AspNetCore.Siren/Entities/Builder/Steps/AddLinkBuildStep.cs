@@ -32,7 +32,7 @@
         public void Configure(
             string name,
             Expression<Action<TController>> captureExpression,
-            string[] rel
+            string[] rel = null
         )
         {
             this._captureExpression = captureExpression;

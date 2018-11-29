@@ -4,7 +4,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    internal class ParallelBuildingEnvironment<TBuilder, TBuilt> : IAsyncBuilder<TBuilt> where TBuilder : class, IBuilder<TBuilt>
+    internal class ParallelBuildingEnvironment<TBuilder, TBuilt>
+        : IAsyncBuilder<TBuilt> where TBuilder : class, IBuilder<TBuilt>
         where TBuilt : class
     {
         private readonly IStorage<(Type ServiceType, Action<IParallelBuildStep<TBuilder, TBuilt>> Configure)> _parts;

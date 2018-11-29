@@ -2,9 +2,9 @@
 {
     using Actions;
     using Links;
-    using Util;
     using System.Collections.Generic;
     using System.Linq;
+    using Util;
 
     internal class Entity : IEntity
     {
@@ -14,11 +14,12 @@
             this.Classes = classes;
         }
 
+
         public Entity(
-            string[] classes, 
-            IEntity[] entities = null, 
-            ILink[] links = null, 
-            IDictionary<string, object> properties = null, 
+            string[] classes,
+            IEntity[] entities = null,
+            ILink[] links = null,
+            IDictionary<string, object> properties = null,
             IAction[] actions = null
         )
         {
@@ -31,7 +32,6 @@
                 .ToDictionary(kvp => kvp.Key, kvp => kvp.Last().Value);
             this.Actions = actions;
         }
-
         public string[] Classes { get; set; }
         public IEntity[] Entities { get; set; }
         public ILink[] Links { get; set; }

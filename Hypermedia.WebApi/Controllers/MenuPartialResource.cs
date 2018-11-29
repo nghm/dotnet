@@ -1,5 +1,7 @@
 ﻿namespace Books.WebApi.Controllers
 {
+    using Books;
+    using Home;
     using Hypermedia.AspNetCore.Siren;
     using Hypermedia.AspNetCore.Siren.Entities.Builder;
 
@@ -7,12 +9,12 @@
     {
         public void Configure(IApiAwareEntityBuilder builder)
         {
-            //builder
-            //    .WithEntity(b => b
-            //        .WithClasses("menu")
-            //        .WithLink<BooksController>("books", c => c.Get(0, 12))
-            //        .WithLink<HomeController>("home", c => c.Get())
-            //    );
+            builder
+                .WithEmbeddedEntity(b => b
+                    .WithClasses("menu")
+                    .WithLink<BooksController>("books", c => c.Get(0, 12))
+                    .WithLink<HomeController>("home", c => c.Get())
+                );
         }
     }
 }

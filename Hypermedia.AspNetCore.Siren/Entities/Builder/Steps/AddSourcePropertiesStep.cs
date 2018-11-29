@@ -3,11 +3,11 @@
     using Parallel;
     using System.Threading.Tasks;
 
-    internal class AddSourcePropertiesStep<TProps> : IParallelBuildStep<IEntityBuilder, IEntity>
+    internal class AddSourcePropertiesStep : IParallelBuildStep<IEntityBuilder, IEntity>
     {
-        private TProps _properties;
+        private object _properties;
 
-        public void Configure(TProps properties)
+        public void Configure(object properties)
         {
             this._properties = properties;
         }

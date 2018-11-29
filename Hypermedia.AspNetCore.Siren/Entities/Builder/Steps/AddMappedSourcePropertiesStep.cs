@@ -4,17 +4,17 @@
     using Parallel;
     using System.Threading.Tasks;
 
-    internal class AddMappedSourcePropertiesStep<TProps, TSource> : IParallelBuildStep<IEntityBuilder, IEntity>
+    internal class AddMappedSourcePropertiesStep<TProps> : IParallelBuildStep<IEntityBuilder, IEntity>
     {
         private readonly IMapper _mapper;
-        private TSource _properties;
+        private object _properties;
 
         public AddMappedSourcePropertiesStep(IMapper mapper)
         {
             this._mapper = mapper;
         }
 
-        public void Configure(TSource properties)
+        public void Configure(object properties)
         {
             this._properties = properties;
         }

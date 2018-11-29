@@ -3,6 +3,7 @@
     using AutoFixture.Xunit2;
     using Entities;
     using Entities.Builder;
+    using Entities.Builder.Steps;
     using Moq;
     using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
     using Siren.Parallel;

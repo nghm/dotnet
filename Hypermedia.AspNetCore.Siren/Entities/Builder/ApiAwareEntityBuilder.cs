@@ -12,58 +12,191 @@
 
         private readonly ParallelBuildingEnvironment<IEntityBuilder, IEntity> _environment;
 
-        public ApiAwareEntityBuilder(
-            ParallelBuildingEnvironment<IEntityBuilder, IEntity> environment
-        )
+        public ApiAwareEntityBuilder(ParallelBuildingEnvironment<IEntityBuilder, IEntity> environment)
         {
             this._environment = environment;
         }
 
-        public IApiAwareEntityBuilder WithEntity(Action<IApiAwareEntityBuilder> configureBuilder)
+        public IApiAwareEntityBuilder WithAction<TController, TBody>(
+            string name,
+            Expression<Action<TController>> resource,
+            Action<IActionBuilder<TBody>> configureActionBuilder = null
+        ) where TController : class
+          where TBody : class
         {
-            this._environment.AddParallelBuildStep<AddEmbeddedEntityStep>(step => step.Configure(configureBuilder));
+            this._environment.AddParallelBuildStep<AddActionBuildStep<TController, TBody>>(
+                step => step.Configure(name, resource, configureActionBuilder)
+            );
+
+            return this;
+        }
+        public IApiAwareEntityBuilder WithAction<TController>(
+            string name,
+            Expression<Action<TController>> resource
+        ) where TController : class
+        {
+            this._environment.AddParallelBuildStep<AddActionBuildStep<TController, object>>(
+                step => step.Configure(name, resource, null)
+            );
 
             return this;
         }
 
-
-        public IApiAwareEntityBuilder WithEntity<T>(Expression<Action<T>> capturedExpression, params string[] classes)
-            where T : class
+        public IApiAwareEntityBuilder WithActions<TController, TBody>(
+            params (
+                string name,
+                Expression<Action<TController>> resource,
+                Action<IActionBuilder<TBody>> configure
+                )[] actions
+        )
+            where TController : class
+            where TBody : class
         {
-            this._environment.AddParallelBuildStep<AddLinkedEntityStep<T>>(step => step.Configure(capturedExpression, classes));
 
-            return this;
-        }
-        public IApiAwareEntityBuilder WithEntities<TM>(IEnumerable<TM> enumerable, Action<IApiAwareEntityBuilder, TM> configureOne)
-        {
-            foreach (var enumeration in enumerable)
+            foreach (var (name, resource, configure) in actions)
             {
-                this.WithEntity(builder => configureOne(builder, enumeration));
+                WithAction(name, resource, configure);
             }
 
             return this;
         }
 
-        public IApiAwareEntityBuilder WithEntities<TController, TM>(IEnumerable<TM> enumerable, Action<TController, TM> configureOne,
-            string[] classes) where TController : class
+        public IApiAwareEntityBuilder WithLink<TController>(
+            string name,
+            Expression<Action<TController>> resource,
+            string[] rel = null
+        )
+            where TController : class
         {
-            foreach (var enumeration in enumerable)
+            this._environment.AddParallelBuildStep<AddLinkBuildStep<TController>>(
+                step => step.Configure(name, resource, rel)
+            );
+
+            return this;
+        }
+
+        public IApiAwareEntityBuilder WithLinks<TController>(
+            params (
+                string name,
+                Expression<Action<TController>> resource,
+                string[] rel
+            )[] links
+        )
+            where TController : class
+        {
+            foreach (var (name, resource, rel) in links)
             {
-                this.WithEntity((TController controller) => configureOne(controller, enumeration), classes);
+                WithLink(name, resource, rel);
             }
 
             return this;
         }
 
-        public IApiAwareEntityBuilder WithProperties<TProps, TSource>(TSource properties)
+        public IApiAwareEntityBuilder WithEmbeddedEntity(Action<IApiAwareEntityBuilder> newEntity)
         {
-            this._environment.AddParallelBuildStep<AddMappedSourcePropertiesStep<TProps, TSource>>(step => step.Configure(properties));
+            this._environment.AddParallelBuildStep<AddEmbeddedEntityStep>(step => step.Configure(newEntity));
 
             return this;
         }
-        public IApiAwareEntityBuilder WithProperties<TProps>(TProps properties)
+
+        public IApiAwareEntityBuilder WithEmbeddedEntities(params Action<IApiAwareEntityBuilder>[] newEntities)
         {
-            this._environment.AddParallelBuildStep<AddSourcePropertiesStep<TProps>>(step => step.Configure(properties));
+            foreach (var newEntity in newEntities)
+            {
+                this.WithEmbeddedEntity(newEntity);
+            }
+
+            return this;
+        }
+
+        public IApiAwareEntityBuilder WithEmbeddedEntitiesForEach<TOne>(
+            IEnumerable<TOne> each,
+            Action<IApiAwareEntityBuilder, TOne> newEntityForOne
+        )
+        {
+            foreach (var one in each)
+            {
+                this.WithEmbeddedEntity(builder => newEntityForOne(builder, one));
+            }
+
+            return this;
+        }
+
+        public IApiAwareEntityBuilder WithLinkedEntity<TController>(
+            Expression<Action<TController>> resource,
+            string[] classes = null
+        )
+            where TController : class
+        {
+            this._environment.AddParallelBuildStep<AddLinkedEntityStep<TController>>(step => step.Configure(resource, classes));
+
+            return this;
+        }
+
+        public IApiAwareEntityBuilder WithLinkedEntities<TController>(
+            params (Expression<Action<TController>> resource, string[] classes)[] resources
+        )
+            where TController : class
+        {
+            foreach (var (resource, classes) in resources)
+            {
+                this.WithLinkedEntity(resource, classes);
+            }
+
+            return this;
+        }
+
+        public IApiAwareEntityBuilder WithLinkedEntities<TController>(
+            params Expression<Action<TController>>[] resources
+        )
+            where TController : class
+        {
+            foreach (var resource in resources)
+            {
+                this.WithLinkedEntity(resource);
+            }
+
+            return this;
+        }
+
+        public IApiAwareEntityBuilder WithLinkedEntitiesForEach<TController, TOne>(
+            IEnumerable<TOne> each,
+            Func<TOne, (Expression<Action<TController>> resource, string[] classes)> linkedEntityForOne
+        ) where TController : class
+        {
+            foreach (var one in each)
+            {
+                var (resource, classes) = linkedEntityForOne(one);
+
+                this.WithLinkedEntity(resource, classes);
+            }
+
+            return this;
+        }
+        public IApiAwareEntityBuilder WithLinkedEntitiesForEach<TController, TOne>(
+            IEnumerable<TOne> each,
+            Func<TOne, Expression<Action<TController>>> linkedEntityForOne
+        ) where TController : class
+        {
+            foreach (var one in each)
+            {
+                var resource = linkedEntityForOne(one);
+
+                this.WithLinkedEntity(resource);
+            }
+
+            return this;
+        }
+
+        public IApiAwareEntityBuilder WithProperties<TProps>(object properties)
+        {
+            this._environment.AddParallelBuildStep<AddMappedSourcePropertiesStep<TProps>>(step => step.Configure(properties));
+
+            return this;
+        }
+        public IApiAwareEntityBuilder WithProperties(object properties)
+        {
+            this._environment.AddParallelBuildStep<AddSourcePropertiesStep>(step => step.Configure(properties));
 
             return this;
         }
@@ -75,71 +208,9 @@
             return this;
         }
 
-        public IApiAwareEntityBuilder WithLink<TController>(string name, Expression<Action<TController>> captureExpression, params string[] rel)
-            where TController : class
-        {
-            this._environment.AddParallelBuildStep<AddLinkBuildStep<TController>>(step => step.Configure(name, captureExpression, rel));
-
-            return this;
-        }
-
-        public IApiAwareEntityBuilder WithLinks<TController>(string[] rel, IDictionary<string, Expression<Action<TController>>> links)
-            where TController : class
-        {
-            foreach (var link in links)
-            {
-                WithLink(link.Key, link.Value, rel);
-            }
-
-            return this;
-        }
-
-        public IApiAwareEntityBuilder WithLinks<TController>(IDictionary<string, Expression<Action<TController>>> links) where TController : class
-        {
-            foreach (var link in links)
-            {
-                WithLink(link.Key, link.Value);
-            }
-
-            return this;
-        }
-
-        public IApiAwareEntityBuilder WithAction<TController, TBody>(
-            string name,
-            Expression<Action<TController>> endpointCapture,
-            Action<IActionBuilder<TBody>> configureActionBuilder = null
-        )
-            where TController : class
-            where TBody : class
-        {
-            this._environment.AddParallelBuildStep<AddActionBuildStep<TController, TBody>>(
-                step => step.Configure(name, endpointCapture, configureActionBuilder)
-            );
-
-            return this;
-        }
-
-
         public async Task<IEntity> BuildAsync()
         {
             return await this._environment.BuildAsync();
-        }
-    }
-
-    internal class AddClassesStep : IParallelBuildStep<IEntityBuilder, IEntity>
-    {
-        private string[] _classes;
-
-        public void Configure(string[] classes)
-        {
-            this._classes = classes;
-        }
-
-        public Task BuildAsync(IEntityBuilder builder)
-        {
-            builder.WithClasses(this._classes);
-
-            return Task.CompletedTask;
         }
     }
 }
