@@ -42,5 +42,8 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 
             this._metadata.Add(meta);
         }
+
+        public IReadOnlyCollection<KeyValuePair<string, object>> GetMetadata() =>
+            _metadata.ToList();
     }
 }

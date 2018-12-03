@@ -1,4 +1,5 @@
-﻿using Hypermedia.AspNetCore.Siren.Actions.Fields;
+﻿using AutoFixture.Xunit2;
+using Hypermedia.AspNetCore.Siren.Actions.Fields;
 using Moq;
 using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
 using System;
@@ -63,13 +64,24 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields
 
         [Theory]
         [AutoMockData]
+        private void ShouldGetMetadata(
+            [Frozen] ICollection<KeyValuePair<string, object>> expectedResult,
+            Field sut)
+        {
+            var metadata = sut.GetMetadata();
+
+            Assert.Equal(expectedResult, metadata);
+        }
+
+        [Theory]
+        [AutoMockData]
         private void ShouldThrowArgumentNullExceptionWhenMetadataKeyIsNull(
             object value,
-            Field field)
+            Field sut)
         {
             var meta = new KeyValuePair<string, object>(null, value);
 
-            Assert.Throws<ArgumentNullException>(() => field.AddMetadata(meta));
+            Assert.Throws<ArgumentNullException>(() => sut.AddMetadata(meta));
         }
 
         [Theory]
@@ -78,35 +90,24 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields
         private void ShouldThrowArgumentExceptionWhenMetadataKeyIsInvalid(
             string key,
             object value,
-            Field field)
+            Field sut)
         {
             var meta = new KeyValuePair<string, object>(key, value);
 
-            Assert.Throws<ArgumentException>(() => field.AddMetadata(meta));
+            Assert.Throws<ArgumentException>(() => sut.AddMetadata(meta));
         }
 
+        //TODO: wait for storage implementation
         [Theory]
         [AutoMockData]
         private void ShouldAddMetaUsingAddMethod(
             KeyValuePair<string, object> newMeta,
-            string name,
-            object value,
-            Mock<ICollection<KeyValuePair<string, object>>> metadata)
+            [Frozen]Mock<ICollection<KeyValuePair<string, object>>> metadata,
+            Field sut)
         {
-            var field = new Field(name, value, metadata.Object);
-
-            field.AddMetadata(newMeta);
+            sut.AddMetadata(newMeta);
 
             metadata.Verify(m => m.Add(newMeta), Times.Once);
-        }
-
-        [Theory]
-        [AutoMockData]
-        private void ShouldAddMeta(
-            KeyValuePair<string, object> newMeta,
-            Field field
-            )
-        {
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
-    using Util;
-    using System;
-    using System.Linq;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using System;
+    using Util;
 
     internal class FieldJsonConverter : JsonConverter
     {
@@ -20,7 +19,7 @@
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (!(value is IField field))
+            if (!(value is Field field))
             {
                 throw new InvalidCastException("Object is not IField!");
             }
@@ -30,13 +29,12 @@
                 new JProperty("name", field.Name.ToCamelCase())
             };
 
-
             if (field.Value != null)
             {
                 o.Add(new JProperty("value", field.Value));
             }
 
-            foreach (var meta in field.Metadata)
+            foreach (var meta in field.GetMetadata())
             {
                 var valueObj = JToken.FromObject(meta.Value);
 
