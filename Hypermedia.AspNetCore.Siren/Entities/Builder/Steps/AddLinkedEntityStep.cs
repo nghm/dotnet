@@ -7,7 +7,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    internal class AddLinkedEntityStep<TController> : IParallelBuildStep<IEntityBuilder, IEntity> where TController : class
+    internal class AddLinkedEntityStep<TController> : IAsyncBuildStep<IEntityBuilder, IEntity> where TController : class
     {
         private readonly IEndpointDescriptorProvider _endpointDescriptorProvider;
         private readonly IHrefFactory _hrefFactory;

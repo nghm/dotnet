@@ -3,7 +3,7 @@
     using Parallel;
     using System.Threading.Tasks;
 
-    internal class AddClassesStep : IParallelBuildStep<IEntityBuilder, IEntity>
+    internal class AddClassesStep : IAsyncBuildStep<IEntityBuilder, IEntity>
     {
         private string[] _classes;
 

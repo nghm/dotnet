@@ -8,7 +8,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    internal class AddLinkBuildStep<TController> : IParallelBuildStep<IEntityBuilder, IEntity>
+    internal class AddLinkBuildStep<TController> : IAsyncBuildStep<IEntityBuilder, IEntity>
         where TController : class
     {
         private readonly IEndpointDescriptorProvider _endpointDescriptorProvider;

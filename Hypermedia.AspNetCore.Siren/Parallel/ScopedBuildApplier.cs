@@ -6,7 +6,7 @@
 
     internal interface IScopedBuildApplier<TBuilder, TBuilt> where TBuilder : class, IBuilder<TBuilt> where TBuilt : class
     {
-        Task ApplyScopedBuild((Type, Action<IParallelBuildStep<TBuilder, TBuilt>>) part, TBuilder builder);
+        Task ApplyScopedBuild((Type, Action<IAsyncBuildStep<TBuilder, TBuilt>>) part, TBuilder builder);
     }
 
     internal class ScopedBuildApplier<TBuilder, TBuilt> : IScopedBuildApplier<TBuilder, TBuilt> where TBuilder : class, IBuilder<TBuilt>
@@ -19,14 +19,14 @@
             this._serviceScopeFactory = serviceScopeFactory;
         }
 
-        public Task ApplyScopedBuild((Type, Action<IParallelBuildStep<TBuilder, TBuilt>>) part, TBuilder builder)
+        public Task ApplyScopedBuild((Type, Action<IAsyncBuildStep<TBuilder, TBuilt>>) part, TBuilder builder)
         {
             var (serviceType, configure) = part;
 
             using (var scope = this._serviceScopeFactory.CreateScope())
             {
                 var partService =
-                    ((IParallelBuildStep<TBuilder, TBuilt>)
+                    ((IAsyncBuildStep<TBuilder, TBuilt>)
                         scope.ServiceProvider.GetRequiredService(serviceType));
 
                 configure(partService);

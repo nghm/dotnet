@@ -3,18 +3,25 @@
     using Entities.Builder;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
+    using Microsoft.Extensions.DependencyInjection;
     using System.Linq;
+    using System.Threading.Tasks;
 
-    internal class HypermediaResourceFilter : IResultFilter
+    internal class HypermediaResourceFilter : IAsyncResultFilter
     {
-        private readonly ApiAwareEntityBuilder _builder;
+        private readonly IServiceScopeFactory _factory;
 
-        public HypermediaResourceFilter(ApiAwareEntityBuilder builder)
+        public HypermediaResourceFilter(IServiceScopeFactory factory)
         {
-            this._builder = builder;
+            this._factory = factory;
         }
 
-        public void OnResultExecuting(ResultExecutingContext context)
+        public Task OnResultExecutingAsync(ResultExecutingContext context)
+        {
+            return Task.CompletedTask;
+        }
+
+        public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
         {
             if (!(context.Result is ObjectResult objectResult))
             {
@@ -33,21 +40,27 @@
                 .OfType<IPartialResource>()
                 .Select(filter => filter.PartialResource);
 
-            resource.Configure(this._builder);
-
-            foreach (var partialResource in partialResources)
+            using (var scope = this._factory.CreateScope())
             {
-                partialResource.Configure(this._builder);
+                var provider = scope.ServiceProvider as ServiceCollection;
+
+                var builder = scope.ServiceProvider.GetService<IApiAwareEntityBuilder>();
+
+                resource.Configure(builder);
+
+                foreach (var partialResource in partialResources)
+                {
+                    partialResource.Configure(builder);
+                }
+
+                var actualResponse = await builder.BuildAsync();
+
+                objectResult.DeclaredType = actualResponse.GetType();
+                objectResult.Value = actualResponse;
+
             }
 
-            var actualResponse = this._builder.BuildAsync();
-
-            objectResult.DeclaredType = actualResponse.GetType();
-            objectResult.Value = actualResponse;
-        }
-
-        public void OnResultExecuted(ResultExecutedContext context)
-        {
+            await next();
         }
     }
 }

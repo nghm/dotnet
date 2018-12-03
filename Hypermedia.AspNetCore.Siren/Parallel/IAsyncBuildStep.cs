@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
 
-    internal interface IParallelBuildStep<in TBuilder, in TBuilt>
+    internal interface IAsyncBuildStep<in TBuilder, in TBuilt>
         where TBuilder : class, IBuilder<TBuilt>
         where TBuilt : class
     {

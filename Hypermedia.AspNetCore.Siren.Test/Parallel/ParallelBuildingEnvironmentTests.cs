@@ -18,13 +18,13 @@
         [Theory]
         [AutoMockData]
         private void ShouldCreateInstance(
-            IStorage<(Type, Action<IParallelBuildStep<IEntityBuilder, IEntity>>)> storage,
+            IStorage<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)> storage,
             IEntityBuilder builder,
             IScopedBuildApplier<IEntityBuilder, IEntity> applier)
         {
             AssertUtils.NoExceptions(() =>
             {
-                var _ = new ParallelBuildingEnvironment<IEntityBuilder, IEntity>(storage, builder, applier);
+                var _ = new AsyncBuildingEnvironment<IEntityBuilder, IEntity>(storage, builder, applier);
             });
         }
 
@@ -37,7 +37,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var _ = new ParallelBuildingEnvironment<IEntityBuilder, IEntity>(null, builder, applier);
+                var _ = new AsyncBuildingEnvironment<IEntityBuilder, IEntity>(null, builder, applier);
             });
         }
 
@@ -46,59 +46,59 @@
         [AutoMockData]
         private void CreateShouldThrowArgumentNullExceptionForEntityBuilder(
             IScopedBuildApplier<IEntityBuilder, IEntity> applier,
-            IStorage<(Type, Action<IParallelBuildStep<IEntityBuilder, IEntity>>)> storage
+            IStorage<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)> storage
         )
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var _ = new ParallelBuildingEnvironment<IEntityBuilder, IEntity>(storage, null, applier);
+                var _ = new AsyncBuildingEnvironment<IEntityBuilder, IEntity>(storage, null, applier);
             });
         }
 
         [Theory]
         [AutoMockData]
         private void CreateShouldThrowArgumentNullExceptionForApplier(
-            IStorage<(Type, Action<IParallelBuildStep<IEntityBuilder, IEntity>>)> storage,
+            IStorage<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)> storage,
             IEntityBuilder builder
         )
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var _ = new ParallelBuildingEnvironment<IEntityBuilder, IEntity>(storage, builder, null);
+                var _ = new AsyncBuildingEnvironment<IEntityBuilder, IEntity>(storage, builder, null);
             });
         }
 
         [Theory]
         [AutoMockData]
         private void ShouldThrownArgumentNullException(
-            ParallelBuildingEnvironment<IEntityBuilder, IEntity> sut
+            AsyncBuildingEnvironment<IEntityBuilder, IEntity> sut
         )
         {
-            Assert.Throws<ArgumentNullException>(() => sut.AddParallelBuildStep<AddClassesStep>(null));
+            Assert.Throws<ArgumentNullException>(() => sut.AddAsyncBuildStep<AddClassesStep>(null));
         }
 
         [Theory]
         [AutoMockData]
         private void ShouldAddBuildPartWithFrowardActionReference(
-            [Frozen] Mock<IStorage<(Type, Action<IParallelBuildStep<IEntityBuilder, IEntity>>)>> storage,
+            [Frozen] Mock<IStorage<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)>> storage,
             Mock<Action<AddClassesStep>> action,
             AddClassesStep expectedClassesStep,
-            ParallelBuildingEnvironment<IEntityBuilder, IEntity> sut)
+            AsyncBuildingEnvironment<IEntityBuilder, IEntity> sut)
         {
             Action<AddClassesStep> capturedAction = null;
 
-            storage.Setup(s => s.Add(It.IsAny<(Type, Action<IParallelBuildStep<IEntityBuilder, IEntity>>)>()))
-                .Callback<(Type, Action<IParallelBuildStep<IEntityBuilder, IEntity>>)>(t =>
+            storage.Setup(s => s.Add(It.IsAny<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)>()))
+                .Callback<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)>(t =>
                 {
                     // Store the composed action into a captured action
                     capturedAction = t.Item2;
                 });
 
-            sut.AddParallelBuildStep(action.Object);
+            sut.AddAsyncBuildStep(action.Object);
 
             storage
                 .Verify(s => s.Add(
-                    It.Is<(Type, Action<IParallelBuildStep<IEntityBuilder, IEntity>>)>(
+                    It.Is<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)>(
                         step => step.Item1 == typeof(AddClassesStep)
                     )
                 ),
@@ -115,8 +115,8 @@
         [Theory]
         [AutoMockData]
         private async Task ShouldEnumerateParts(
-            [Frozen] Mock<IStorage<(Type, Action<IParallelBuildStep<IEntityBuilder, IEntity>>)>> storage,
-            ParallelBuildingEnvironment<IEntityBuilder, IEntity> sut)
+            [Frozen] Mock<IStorage<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)>> storage,
+            AsyncBuildingEnvironment<IEntityBuilder, IEntity> sut)
         {
             await sut.BuildAsync();
 
@@ -129,11 +129,11 @@
         [Theory]
         [AutoMockData]
         private async Task ShouldApplyScopedBuildForEachPart(
-            List<(Type, Action<IParallelBuildStep<IEntityBuilder, IEntity>>)> steps,
+            List<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)> steps,
             [Frozen] IEntityBuilder builder,
             [Frozen] Mock<IScopedBuildApplier<IEntityBuilder, IEntity>> applier,
-            [Frozen] Mock<IStorage<(Type, Action<IParallelBuildStep<IEntityBuilder, IEntity>>)>> storage,
-            ParallelBuildingEnvironment<IEntityBuilder, IEntity> sut)
+            [Frozen] Mock<IStorage<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)>> storage,
+            AsyncBuildingEnvironment<IEntityBuilder, IEntity> sut)
         {
             storage
                 .Setup(s => s.GetEnumerator())
@@ -152,7 +152,7 @@
         private async Task ShouldBuildEntity(
             IEntity expectedEntity,
             [Frozen] Mock<IEntityBuilder> builder,
-            ParallelBuildingEnvironment<IEntityBuilder, IEntity> sut
+            AsyncBuildingEnvironment<IEntityBuilder, IEntity> sut
         )
         {
             builder

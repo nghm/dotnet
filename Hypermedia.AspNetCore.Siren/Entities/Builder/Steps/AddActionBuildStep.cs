@@ -8,7 +8,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    internal class AddActionBuildStep<TController, TBody> : IParallelBuildStep<IEntityBuilder, IEntity>
+    internal class AddActionBuildStep<TController, TBody> : IAsyncBuildStep<IEntityBuilder, IEntity>
         where TController : class
         where TBody : class
     {

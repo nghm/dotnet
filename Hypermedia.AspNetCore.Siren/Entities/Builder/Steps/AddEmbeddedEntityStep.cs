@@ -4,7 +4,7 @@
     using System;
     using System.Threading.Tasks;
 
-    internal class AddEmbeddedEntityStep : IParallelBuildStep<IEntityBuilder, IEntity>
+    internal class AddEmbeddedEntityStep : IAsyncBuildStep<IEntityBuilder, IEntity>
     {
         private readonly IApiAwareEntityBuilder _scopedBuilder;
         private Action<IApiAwareEntityBuilder> _configureBuilder;

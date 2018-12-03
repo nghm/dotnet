@@ -4,16 +4,17 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    internal class ParallelBuildingEnvironment<TBuilder, TBuilt>
-        : IAsyncBuilder<TBuilt> where TBuilder : class, IBuilder<TBuilt>
+    internal class AsyncBuildingEnvironment<TBuilder, TBuilt>
+        : IAsyncBuildingEnvironment<TBuilder, TBuilt>
+        where TBuilder : class, IBuilder<TBuilt>
         where TBuilt : class
     {
-        private readonly IStorage<(Type ServiceType, Action<IParallelBuildStep<TBuilder, TBuilt>> Configure)> _parts;
+        private readonly IStorage<(Type ServiceType, Action<IAsyncBuildStep<TBuilder, TBuilt>> Configure)> _parts;
         private readonly TBuilder _builder;
         private readonly IScopedBuildApplier<TBuilder, TBuilt> _scopedBuildApplier;
 
-        public ParallelBuildingEnvironment(
-            IStorage<(Type, Action<IParallelBuildStep<TBuilder, TBuilt>>)> parts,
+        public AsyncBuildingEnvironment(
+            IStorage<(Type, Action<IAsyncBuildStep<TBuilder, TBuilt>>)> parts,
             TBuilder builder,
             IScopedBuildApplier<TBuilder, TBuilt> scopedBuildApplier
         )
@@ -23,8 +24,8 @@
             this._scopedBuildApplier = scopedBuildApplier ?? throw new ArgumentNullException(nameof(builder));
         }
 
-        internal void AddParallelBuildStep<TStep>(Action<TStep> configure)
-            where TStep : class, IParallelBuildStep<TBuilder, TBuilt>
+        public void AddAsyncBuildStep<TStep>(Action<TStep> configure)
+            where TStep : class, IAsyncBuildStep<TBuilder, TBuilt>
         {
             if (configure == null)
             {

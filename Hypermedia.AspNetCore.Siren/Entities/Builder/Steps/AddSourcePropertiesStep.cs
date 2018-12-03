@@ -3,7 +3,7 @@
     using Parallel;
     using System.Threading.Tasks;
 
-    internal class AddSourcePropertiesStep : IParallelBuildStep<IEntityBuilder, IEntity>
+    internal class AddSourcePropertiesStep : IAsyncBuildStep<IEntityBuilder, IEntity>
     {
         private object _properties;
 

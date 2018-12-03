@@ -10,9 +10,9 @@
     internal class ApiAwareEntityBuilder : IApiAwareEntityBuilder
     {
 
-        private readonly ParallelBuildingEnvironment<IEntityBuilder, IEntity> _environment;
+        private readonly IAsyncBuildingEnvironment<IEntityBuilder, IEntity> _environment;
 
-        public ApiAwareEntityBuilder(ParallelBuildingEnvironment<IEntityBuilder, IEntity> environment)
+        public ApiAwareEntityBuilder(IAsyncBuildingEnvironment<IEntityBuilder, IEntity> environment)
         {
             this._environment = environment;
         }
@@ -24,7 +24,7 @@
         ) where TController : class
           where TBody : class
         {
-            this._environment.AddParallelBuildStep<AddActionBuildStep<TController, TBody>>(
+            this._environment.AddAsyncBuildStep<AddActionBuildStep<TController, TBody>>(
                 step => step.Configure(name, resource, configureActionBuilder)
             );
 
@@ -35,7 +35,7 @@
             Expression<Action<TController>> resource
         ) where TController : class
         {
-            this._environment.AddParallelBuildStep<AddActionBuildStep<TController, object>>(
+            this._environment.AddAsyncBuildStep<AddActionBuildStep<TController, object>>(
                 step => step.Configure(name, resource, null)
             );
 
@@ -68,7 +68,7 @@
         )
             where TController : class
         {
-            this._environment.AddParallelBuildStep<AddLinkBuildStep<TController>>(
+            this._environment.AddAsyncBuildStep<AddLinkBuildStep<TController>>(
                 step => step.Configure(name, resource, rel)
             );
 
@@ -94,7 +94,7 @@
 
         public IApiAwareEntityBuilder WithEmbeddedEntity(Action<IApiAwareEntityBuilder> newEntity)
         {
-            this._environment.AddParallelBuildStep<AddEmbeddedEntityStep>(step => step.Configure(newEntity));
+            this._environment.AddAsyncBuildStep<AddEmbeddedEntityStep>(step => step.Configure(newEntity));
 
             return this;
         }
@@ -128,7 +128,7 @@
         )
             where TController : class
         {
-            this._environment.AddParallelBuildStep<AddLinkedEntityStep<TController>>(step => step.Configure(resource, classes));
+            this._environment.AddAsyncBuildStep<AddLinkedEntityStep<TController>>(step => step.Configure(resource, classes));
 
             return this;
         }
@@ -190,20 +190,20 @@
 
         public IApiAwareEntityBuilder WithProperties<TProps>(object properties)
         {
-            this._environment.AddParallelBuildStep<AddMappedSourcePropertiesStep<TProps>>(step => step.Configure(properties));
+            this._environment.AddAsyncBuildStep<AddMappedSourcePropertiesStep<TProps>>(step => step.Configure(properties));
 
             return this;
         }
         public IApiAwareEntityBuilder WithProperties(object properties)
         {
-            this._environment.AddParallelBuildStep<AddSourcePropertiesStep>(step => step.Configure(properties));
+            this._environment.AddAsyncBuildStep<AddSourcePropertiesStep>(step => step.Configure(properties));
 
             return this;
         }
 
         public IApiAwareEntityBuilder WithClasses(params string[] classes)
         {
-            this._environment.AddParallelBuildStep<AddClassesStep>(step => step.Configure(classes));
+            this._environment.AddAsyncBuildStep<AddClassesStep>(step => step.Configure(classes));
 
             return this;
         }
