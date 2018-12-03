@@ -3,7 +3,7 @@
     using Books;
     using Feedback;
     using Hypermedia.AspNetCore.Siren;
-    using Hypermedia.AspNetCore.Siren.Entities.Builder;
+    using Hypermedia.AspNetCore.Siren.Resources;
 
     internal class HomeResource : IHypermediaResource
     {

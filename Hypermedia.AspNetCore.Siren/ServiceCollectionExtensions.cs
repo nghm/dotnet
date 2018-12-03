@@ -5,11 +5,11 @@
     using Actions.Fields.Type;
     using Actions.Fields.Validation;
     using Endpoints;
-    using Entities.Builder;
-    using Entities.Builder.Steps;
+    using Entities;
     using Environments;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.DependencyInjection;
+    using Resources;
 
     public static class ServiceCollectionExtensions
     {
@@ -17,7 +17,6 @@
         {
             var services = mvcBuilder.Services;
 
-            services.AddTransient<ResourceBuilder>();
             services.AddSingleton<IAccessValidator, AccessValidator>();
             services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
             services.AddSingleton<ICallCollector, ExpressionCallCollector>();

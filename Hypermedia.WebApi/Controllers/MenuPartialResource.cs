@@ -3,7 +3,7 @@
     using Books;
     using Home;
     using Hypermedia.AspNetCore.Siren;
-    using Hypermedia.AspNetCore.Siren.Entities.Builder;
+    using Hypermedia.AspNetCore.Siren.Resources;
 
     public class MenuPartialResource : IHypermediaResource
     {

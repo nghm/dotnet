@@ -1,6 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.Siren
 {
-    using Entities.Builder;
+    using Resources;
 
     public interface IHypermediaResource
     {

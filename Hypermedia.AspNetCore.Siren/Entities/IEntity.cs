@@ -1,10 +1,10 @@
-﻿using Hypermedia.AspNetCore.Siren.Actions;
-using Hypermedia.AspNetCore.Siren.Links;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
-namespace Hypermedia.AspNetCore.Siren.Entities
+﻿namespace Hypermedia.AspNetCore.Siren.Entities
 {
+    using Hypermedia.AspNetCore.Siren.Actions;
+    using Hypermedia.AspNetCore.Siren.Links;
+    using Newtonsoft.Json;
+    using System.Collections.Generic;
+
     public interface IEntity
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

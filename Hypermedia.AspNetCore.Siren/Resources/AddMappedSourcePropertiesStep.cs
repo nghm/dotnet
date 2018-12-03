@@ -1,7 +1,8 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder.Steps
+﻿namespace Hypermedia.AspNetCore.Siren.Resources
 {
     using AutoMapper;
     using Environments;
+    using Hypermedia.AspNetCore.Siren.Entities;
     using System.Threading.Tasks;
 
     internal class AddMappedSourcePropertiesStep<TProps> : IAsyncBuildStep<IEntityBuilder, IEntity>

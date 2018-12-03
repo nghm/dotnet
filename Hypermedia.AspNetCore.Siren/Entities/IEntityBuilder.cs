@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder
+﻿namespace Hypermedia.AspNetCore.Siren.Entities
 {
     using Actions;
     using Environments;

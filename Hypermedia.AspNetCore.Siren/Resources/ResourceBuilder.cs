@@ -1,7 +1,8 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder
+﻿namespace Hypermedia.AspNetCore.Siren.Resources
 {
     using Environments;
-    using Steps;
+    using Hypermedia.AspNetCore.Siren.Actions;
+    using Hypermedia.AspNetCore.Siren.Entities;
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;

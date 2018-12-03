@@ -1,7 +1,7 @@
 ﻿namespace Hypermedia.AspNetCore.Siren
 {
-    using Entities.Builder;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Resources;
     using System.Linq;
 
     internal class InvalidModelStateResource : IHypermediaResource

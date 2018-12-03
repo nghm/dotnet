@@ -1,8 +1,10 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder.Steps
+﻿namespace Hypermedia.AspNetCore.Siren.Resources
 {
     using Actions.Fields;
     using Endpoints;
     using Environments;
+    using Hypermedia.AspNetCore.Siren.Actions;
+    using Hypermedia.AspNetCore.Siren.Entities;
     using System;
     using System.Linq.Expressions;
     using System.Security.Claims;
