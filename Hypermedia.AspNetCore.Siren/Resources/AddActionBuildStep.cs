@@ -29,10 +29,10 @@
             IFieldsFactory fieldsFactory,
             ClaimsPrincipal claimsPrincipal)
         {
-            this._endpointDescriptorProvider = endpointDescriptorProvider;
-            this._claimsPrincipal = claimsPrincipal;
-            this._hrefFactory = hrefFactory;
-            this._fieldsFactory = fieldsFactory;
+            this._endpointDescriptorProvider = endpointDescriptorProvider ?? throw new ArgumentNullException(nameof(endpointDescriptorProvider));
+            this._claimsPrincipal = claimsPrincipal ?? throw new ArgumentNullException(nameof(claimsPrincipal));
+            this._hrefFactory = hrefFactory ?? throw new ArgumentNullException(nameof(hrefFactory));
+            this._fieldsFactory = fieldsFactory ?? throw new ArgumentNullException(nameof(fieldsFactory));
         }
 
         public void Configure(
@@ -41,8 +41,8 @@
             Action<IActionBuilder<TBody>> configureActionBuilder
         )
         {
-            this._captureExpression = captureExpression;
-            this._name = name;
+            this._captureExpression = captureExpression ?? throw new ArgumentNullException(nameof(captureExpression));
+            this._name = name ?? throw new ArgumentNullException(nameof(name));
             this._configureActionBuilder = configureActionBuilder;
         }
 
@@ -64,6 +64,7 @@
             if (this._configureActionBuilder != null)
             {
                 var actionBuilder = new ActionBuilder<TBody>(action);
+
                 this._configureActionBuilder(actionBuilder);
             }
 

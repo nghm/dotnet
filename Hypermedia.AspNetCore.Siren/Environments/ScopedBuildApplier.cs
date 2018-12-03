@@ -4,14 +4,15 @@
     using System;
     using System.Threading.Tasks;
 
-    internal class ScopedBuildApplier<TBuilder, TBuilt> : IScopedBuildApplier<TBuilder, TBuilt> where TBuilder : class, IBuilder<TBuilt>
+    internal class ScopedBuildApplier<TBuilder, TBuilt> : IScopedBuildApplier<TBuilder, TBuilt>
+        where TBuilder : class, IBuilder<TBuilt>
         where TBuilt : class
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
         public ScopedBuildApplier(IServiceScopeFactory serviceScopeFactory)
         {
-            this._serviceScopeFactory = serviceScopeFactory;
+            this._serviceScopeFactory = serviceScopeFactory ?? throw new ArgumentNullException(nameof(serviceScopeFactory));
         }
 
         public Task ApplyScopedBuild((Type, Action<IAsyncBuildStep<TBuilder, TBuilt>>) part, TBuilder builder)

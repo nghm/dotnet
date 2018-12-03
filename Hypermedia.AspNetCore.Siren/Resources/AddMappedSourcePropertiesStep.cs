@@ -3,6 +3,7 @@
     using AutoMapper;
     using Environments;
     using Hypermedia.AspNetCore.Siren.Entities;
+    using System;
     using System.Threading.Tasks;
 
     internal class AddMappedSourcePropertiesStep<TProps> : IAsyncBuildStep<IEntityBuilder, IEntity>
@@ -12,12 +13,12 @@
 
         public AddMappedSourcePropertiesStep(IMapper mapper)
         {
-            this._mapper = mapper;
+            this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public void Configure(object properties)
         {
-            this._properties = properties;
+            this._properties = properties ?? throw new ArgumentNullException(nameof(properties));
         }
 
         public Task BuildAsync(IEntityBuilder builder)

@@ -12,12 +12,12 @@
 
         public AddEmbeddedEntityStep(IResourceBuilder scopedBuilder)
         {
-            this._scopedBuilder = scopedBuilder;
+            this._scopedBuilder = scopedBuilder ?? throw new ArgumentNullException(nameof(scopedBuilder));
         }
 
         public void Configure(Action<IResourceBuilder> configureBuilder)
         {
-            this._configureBuilder = configureBuilder;
+            this._configureBuilder = configureBuilder ?? throw new ArgumentNullException(nameof(configureBuilder));
         }
 
         public async Task BuildAsync(IEntityBuilder builder)

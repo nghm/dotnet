@@ -2,6 +2,7 @@
 {
     using Environments;
     using Hypermedia.AspNetCore.Siren.Entities;
+    using System;
     using System.Threading.Tasks;
 
     internal class AddClassesStep : IAsyncBuildStep<IEntityBuilder, IEntity>
@@ -10,7 +11,7 @@
 
         public void Configure(string[] classes)
         {
-            this._classes = classes;
+            this._classes = classes ?? throw new ArgumentNullException(nameof(classes));
         }
 
         public Task BuildAsync(IEntityBuilder builder)

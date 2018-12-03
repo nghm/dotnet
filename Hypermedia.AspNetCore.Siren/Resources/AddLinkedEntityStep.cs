@@ -22,14 +22,14 @@
             IHrefFactory hrefFactory,
             ClaimsPrincipal claimsPrincipal)
         {
-            this._claimsPrincipal = claimsPrincipal;
-            this._endpointDescriptorProvider = endpointDescriptorProvider;
-            this._hrefFactory = hrefFactory;
+            this._claimsPrincipal = claimsPrincipal ?? throw new ArgumentNullException(nameof(claimsPrincipal));
+            this._endpointDescriptorProvider = endpointDescriptorProvider ?? throw new ArgumentNullException(nameof(endpointDescriptorProvider));
+            this._hrefFactory = hrefFactory ?? throw new ArgumentNullException(nameof(hrefFactory));
         }
 
-        public void Configure(Expression<Action<TController>> capturedExpression, string[] classes)
+        public void Configure(Expression<Action<TController>> capturedExpression, string[] classes = null)
         {
-            this._capturedExpression = capturedExpression;
+            this._capturedExpression = capturedExpression ?? throw new ArgumentNullException(nameof(capturedExpression));
             this._classes = classes;
         }
 

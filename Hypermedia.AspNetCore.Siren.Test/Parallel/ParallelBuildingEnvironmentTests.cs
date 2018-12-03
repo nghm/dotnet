@@ -14,18 +14,6 @@
 
     public class ParallelBuildingEnvironmentTests
     {
-        [Theory]
-        [AutoMockData]
-        private void ShouldCreateInstance(
-            IStorage<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)> storage,
-            IEntityBuilder builder,
-            IScopedBuildApplier<IEntityBuilder, IEntity> applier)
-        {
-            AssertUtils.NoExceptions(() =>
-            {
-                var _ = new AsyncBuildingEnvironment<IEntityBuilder, IEntity>(storage, builder, applier);
-            });
-        }
 
         [Theory]
         [AutoMockData]
@@ -69,7 +57,20 @@
 
         [Theory]
         [AutoMockData]
-        private void ShouldThrownArgumentNullException(
+        private void ShouldCreateInstance(
+            IStorage<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)> storage,
+            IEntityBuilder builder,
+            IScopedBuildApplier<IEntityBuilder, IEntity> applier)
+        {
+            AssertUtils.NoExceptions(() =>
+            {
+                var _ = new AsyncBuildingEnvironment<IEntityBuilder, IEntity>(storage, builder, applier);
+            });
+        }
+
+        [Theory]
+        [AutoMockData]
+        private void ShouldThrowArgumentNullExceptionWhenAddingNullBuildStep(
             AsyncBuildingEnvironment<IEntityBuilder, IEntity> sut
         )
         {
@@ -78,36 +79,28 @@
 
         [Theory]
         [AutoMockData]
-        private void ShouldAddBuildPartWithFrowardActionReference(
+        private void ShouldAddBuildPartWithForwardActionReference(
             [Frozen] Mock<IStorage<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)>> storage,
             Mock<Action<AddClassesStep>> action,
             AddClassesStep expectedClassesStep,
             AsyncBuildingEnvironment<IEntityBuilder, IEntity> sut)
         {
-            Action<AddClassesStep> capturedAction = null;
-
-            storage.Setup(s => s.Add(It.IsAny<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)>()))
-                .Callback<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)>(t =>
+            // Arrange
+            (Type, Action<AddClassesStep>)? stored = null;
+            storage
+                .Setup(s => s.Add(It.IsAny<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)>()))
+                .Callback<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)>(s =>
                 {
-                    // Store the composed action into a captured action
-                    capturedAction = t.Item2;
+                    stored = s;
                 });
 
+            // Act
             sut.AddAsyncBuildStep(action.Object);
 
-            storage
-                .Verify(s => s.Add(
-                    It.Is<(Type, Action<IAsyncBuildStep<IEntityBuilder, IEntity>>)>(
-                        step => step.Item1 == typeof(AddClassesStep)
-                    )
-                ),
-                Times.Once);
+            stored?.Item2(expectedClassesStep);
 
-            Assert.NotNull(capturedAction);
-
-            // Call captured action to check that the mock action is actually part of it's implementation
-            capturedAction(expectedClassesStep);
-
+            // Assert
+            Assert.Same(stored?.Item1, typeof(AddClassesStep));
             action.Verify(a => a(expectedClassesStep), Times.Once);
         }
 
@@ -148,7 +141,19 @@
 
         [Theory]
         [AutoMockData]
-        private async Task ShouldBuildEntity(
+        private async Task ShouldCallEntityBuilderBuild(
+            [Frozen] Mock<IEntityBuilder> builder,
+            AsyncBuildingEnvironment<IEntityBuilder, IEntity> sut
+        )
+        {
+            var entity = await sut.BuildAsync();
+
+            builder.Verify(b => b.Build(), Times.Once);
+        }
+
+        [Theory]
+        [AutoMockData]
+        private async Task ShouldReturnEntityBuiltByEntityBuilder(
             IEntity expectedEntity,
             [Frozen] Mock<IEntityBuilder> builder,
             AsyncBuildingEnvironment<IEntityBuilder, IEntity> sut

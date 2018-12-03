@@ -21,7 +21,7 @@
         {
             this._parts = parts ?? throw new ArgumentNullException(nameof(parts));
             this._builder = builder ?? throw new ArgumentNullException(nameof(builder));
-            this._scopedBuildApplier = scopedBuildApplier ?? throw new ArgumentNullException(nameof(builder));
+            this._scopedBuildApplier = scopedBuildApplier ?? throw new ArgumentNullException(nameof(scopedBuildApplier));
         }
 
         public void AddAsyncBuildStep<TStep>(Action<TStep> configure)

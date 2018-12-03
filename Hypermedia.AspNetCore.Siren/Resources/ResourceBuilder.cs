@@ -139,6 +139,11 @@
         )
             where TController : class
         {
+            if (resources == null)
+            {
+                throw new ArgumentNullException(nameof(resources));
+            }
+
             foreach (var (resource, classes) in resources)
             {
                 this.WithLinkedEntity(resource, classes);
@@ -152,6 +157,10 @@
         )
             where TController : class
         {
+            if (resources == null)
+            {
+                throw new ArgumentNullException(nameof(resources));
+            }
             foreach (var resource in resources)
             {
                 this.WithLinkedEntity(resource);
@@ -165,6 +174,11 @@
             Func<TOne, (Expression<Action<TController>> resource, string[] classes)> linkedEntityForOne
         ) where TController : class
         {
+            if (each == null)
+            {
+                throw new ArgumentNullException(nameof(each));
+            }
+
             foreach (var one in each)
             {
                 var (resource, classes) = linkedEntityForOne(one);
@@ -179,6 +193,11 @@
             Func<TOne, Expression<Action<TController>>> linkedEntityForOne
         ) where TController : class
         {
+            if (each == null)
+            {
+                throw new ArgumentNullException(nameof(each));
+            }
+
             foreach (var one in each)
             {
                 var resource = linkedEntityForOne(one);

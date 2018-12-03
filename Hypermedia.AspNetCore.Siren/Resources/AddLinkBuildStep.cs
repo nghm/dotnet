@@ -25,9 +25,9 @@
             IHrefFactory hrefFactory,
             ClaimsPrincipal claimsPrincipal)
         {
-            this._endpointDescriptorProvider = endpointDescriptorProvider;
-            this._hrefFactory = hrefFactory;
-            this._claimsPrincipal = claimsPrincipal;
+            this._endpointDescriptorProvider = endpointDescriptorProvider ?? throw new ArgumentNullException(nameof(endpointDescriptorProvider));
+            this._hrefFactory = hrefFactory ?? throw new ArgumentNullException(nameof(hrefFactory));
+            this._claimsPrincipal = claimsPrincipal ?? throw new ArgumentNullException(nameof(claimsPrincipal));
         }
 
         public void Configure(
@@ -36,8 +36,8 @@
             string[] rel = null
         )
         {
-            this._captureExpression = captureExpression;
-            this._name = name;
+            this._captureExpression = captureExpression ?? throw new ArgumentNullException(nameof(captureExpression));
+            this._name = name ?? throw new ArgumentNullException(nameof(name));
             this._rel = rel;
         }
 
