@@ -1,25 +1,25 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder
 {
-    using Parallel;
+    using Environments;
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
-    public interface IApiAwareEntityBuilder : IAsyncBuilder<IEntity>
+    public interface IResourceBuilder : IAsyncBuilder<IEntity>
     {
-        IApiAwareEntityBuilder WithAction<TController, TBody>(
+        IResourceBuilder WithAction<TController, TBody>(
             string name,
             Expression<Action<TController>> resource,
             Action<IActionBuilder<TBody>> configure
         ) where TController : class
           where TBody : class;
 
-        IApiAwareEntityBuilder WithAction<TController>(
+        IResourceBuilder WithAction<TController>(
             string name,
             Expression<Action<TController>> resource
         ) where TController : class;
 
-        IApiAwareEntityBuilder WithActions<TController, TBody>(
+        IResourceBuilder WithActions<TController, TBody>(
             params (
                 string name,
                 Expression<Action<TController>> resource,
@@ -28,13 +28,13 @@
         ) where TController : class
           where TBody : class;
 
-        IApiAwareEntityBuilder WithLink<TController>(
+        IResourceBuilder WithLink<TController>(
             string name,
             Expression<Action<TController>> resource,
             string[] rel = null
         ) where TController : class;
 
-        IApiAwareEntityBuilder WithLinks<TController>(
+        IResourceBuilder WithLinks<TController>(
             params (
                 string name,
                 Expression<Action<TController>> resource,
@@ -42,54 +42,54 @@
             )[] links
         ) where TController : class;
 
-        IApiAwareEntityBuilder WithEmbeddedEntity(
-            Action<IApiAwareEntityBuilder> newEntity
+        IResourceBuilder WithEmbeddedEntity(
+            Action<IResourceBuilder> newEntity
         );
 
-        IApiAwareEntityBuilder WithEmbeddedEntities(
-            params Action<IApiAwareEntityBuilder>[] newEntities
+        IResourceBuilder WithEmbeddedEntities(
+            params Action<IResourceBuilder>[] newEntities
         );
 
-        IApiAwareEntityBuilder WithEmbeddedEntitiesForEach<TOne>(
+        IResourceBuilder WithEmbeddedEntitiesForEach<TOne>(
             IEnumerable<TOne> each,
-            Action<IApiAwareEntityBuilder, TOne> newEntityForOne
+            Action<IResourceBuilder, TOne> newEntityForOne
         );
 
-        IApiAwareEntityBuilder WithLinkedEntity<TController>(
+        IResourceBuilder WithLinkedEntity<TController>(
             Expression<Action<TController>> resource,
             string[] classes = null
         ) where TController : class;
 
-        IApiAwareEntityBuilder WithLinkedEntities<TController>(
+        IResourceBuilder WithLinkedEntities<TController>(
             params (
                 Expression<Action<TController>> resource,
                 string[] classes
             )[] entities
         ) where TController : class;
 
-        IApiAwareEntityBuilder WithLinkedEntities<TController>(
+        IResourceBuilder WithLinkedEntities<TController>(
             params Expression<Action<TController>>[] resources
         ) where TController : class;
 
-        IApiAwareEntityBuilder WithLinkedEntitiesForEach<TController, TOne>(
+        IResourceBuilder WithLinkedEntitiesForEach<TController, TOne>(
             IEnumerable<TOne> each,
             Func<TOne, (Expression<Action<TController>> resource, string[] classes)> linkedEntityForOne
         ) where TController : class;
 
-        IApiAwareEntityBuilder WithLinkedEntitiesForEach<TController, TOne>(
+        IResourceBuilder WithLinkedEntitiesForEach<TController, TOne>(
             IEnumerable<TOne> each,
             Func<TOne, Expression<Action<TController>>> linkedEntityForOne
         ) where TController : class;
 
-        IApiAwareEntityBuilder WithProperties<TProps>(
+        IResourceBuilder WithProperties<TProps>(
             object properties
         );
 
-        IApiAwareEntityBuilder WithProperties(
+        IResourceBuilder WithProperties(
             object properties
         );
 
-        IApiAwareEntityBuilder WithClasses(
+        IResourceBuilder WithClasses(
             params string[] classes
         );
     }

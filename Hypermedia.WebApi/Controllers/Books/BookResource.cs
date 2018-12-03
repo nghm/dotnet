@@ -31,32 +31,17 @@
             this._book = book;
         }
 
-        public void Configure(IApiAwareEntityBuilder resource)
+        public void Configure(IResourceBuilder builder)
         {
-            resource
+            builder
                 .WithClasses("book", "details")
                 .WithProperties<BookDetailsModel>(this._book)
                 .WithLinks<BooksController>(
-                    (
-                        name: "books",
-                        resource: c => c.Get(this._pageNo, this._perPage),
-                        rel: new[] { "parent" }
-                    ),
-                    (
-                        name: "self",
-                        resource: c => c.GetOne(this._book.Id, this._pageNo, this._perPage),
-                        rel: new string[] { }
-                    )
+                    ("books", c => c.Get(this._pageNo, this._perPage), new[] { "parent" }),
+                    ("self", c => c.GetOne(this._book.Id, this._pageNo, this._perPage), new string[] { })
                 )
                 .WithActions<BooksController, EditBookModel>(
-                    (
-                        name: "update",
-                        resource: c => c.Update(this._book.Id, this.EditBookModel),
-                        configure: action =>
-                        {
-                            action.WithOptions(b => b.Tags, this._allowedTags);
-                        }
-            )
+                    ("update", c => c.Update(this._book.Id, this.EditBookModel), action => action.WithOptions(b => b.Tags, this._allowedTags))
                 );
         }
     }

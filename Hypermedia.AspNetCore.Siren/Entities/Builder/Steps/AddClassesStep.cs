@@ -1,6 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder.Steps
 {
-    using Parallel;
+    using Environments;
     using System.Threading.Tasks;
 
     internal class AddClassesStep : IAsyncBuildStep<IEntityBuilder, IEntity>

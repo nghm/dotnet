@@ -44,7 +44,7 @@
             {
                 var provider = scope.ServiceProvider as ServiceCollection;
 
-                var builder = scope.ServiceProvider.GetService<IApiAwareEntityBuilder>();
+                var builder = scope.ServiceProvider.GetService<IResourceBuilder>();
 
                 resource.Configure(builder);
 

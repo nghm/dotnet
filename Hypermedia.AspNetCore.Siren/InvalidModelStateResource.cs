@@ -13,7 +13,7 @@
             this._modelState = modelState;
         }
 
-        public void Configure(IApiAwareEntityBuilder builder)
+        public void Configure(IResourceBuilder builder)
         {
             var errors = this._modelState
                 .ToDictionary(

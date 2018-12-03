@@ -1,23 +1,23 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder
 {
-    using Parallel;
+    using Environments;
     using Steps;
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
 
-    internal class ApiAwareEntityBuilder : IApiAwareEntityBuilder
+    internal class ResourceBuilder : IResourceBuilder
     {
 
         private readonly IAsyncBuildingEnvironment<IEntityBuilder, IEntity> _environment;
 
-        public ApiAwareEntityBuilder(IAsyncBuildingEnvironment<IEntityBuilder, IEntity> environment)
+        public ResourceBuilder(IAsyncBuildingEnvironment<IEntityBuilder, IEntity> environment)
         {
             this._environment = environment;
         }
 
-        public IApiAwareEntityBuilder WithAction<TController, TBody>(
+        public IResourceBuilder WithAction<TController, TBody>(
             string name,
             Expression<Action<TController>> resource,
             Action<IActionBuilder<TBody>> configureActionBuilder = null
@@ -30,7 +30,7 @@
 
             return this;
         }
-        public IApiAwareEntityBuilder WithAction<TController>(
+        public IResourceBuilder WithAction<TController>(
             string name,
             Expression<Action<TController>> resource
         ) where TController : class
@@ -42,7 +42,7 @@
             return this;
         }
 
-        public IApiAwareEntityBuilder WithActions<TController, TBody>(
+        public IResourceBuilder WithActions<TController, TBody>(
             params (
                 string name,
                 Expression<Action<TController>> resource,
@@ -61,7 +61,7 @@
             return this;
         }
 
-        public IApiAwareEntityBuilder WithLink<TController>(
+        public IResourceBuilder WithLink<TController>(
             string name,
             Expression<Action<TController>> resource,
             string[] rel = null
@@ -75,7 +75,7 @@
             return this;
         }
 
-        public IApiAwareEntityBuilder WithLinks<TController>(
+        public IResourceBuilder WithLinks<TController>(
             params (
                 string name,
                 Expression<Action<TController>> resource,
@@ -92,14 +92,14 @@
             return this;
         }
 
-        public IApiAwareEntityBuilder WithEmbeddedEntity(Action<IApiAwareEntityBuilder> newEntity)
+        public IResourceBuilder WithEmbeddedEntity(Action<IResourceBuilder> newEntity)
         {
             this._environment.AddAsyncBuildStep<AddEmbeddedEntityStep>(step => step.Configure(newEntity));
 
             return this;
         }
 
-        public IApiAwareEntityBuilder WithEmbeddedEntities(params Action<IApiAwareEntityBuilder>[] newEntities)
+        public IResourceBuilder WithEmbeddedEntities(params Action<IResourceBuilder>[] newEntities)
         {
             foreach (var newEntity in newEntities)
             {
@@ -109,9 +109,9 @@
             return this;
         }
 
-        public IApiAwareEntityBuilder WithEmbeddedEntitiesForEach<TOne>(
+        public IResourceBuilder WithEmbeddedEntitiesForEach<TOne>(
             IEnumerable<TOne> each,
-            Action<IApiAwareEntityBuilder, TOne> newEntityForOne
+            Action<IResourceBuilder, TOne> newEntityForOne
         )
         {
             foreach (var one in each)
@@ -122,7 +122,7 @@
             return this;
         }
 
-        public IApiAwareEntityBuilder WithLinkedEntity<TController>(
+        public IResourceBuilder WithLinkedEntity<TController>(
             Expression<Action<TController>> resource,
             string[] classes = null
         )
@@ -133,7 +133,7 @@
             return this;
         }
 
-        public IApiAwareEntityBuilder WithLinkedEntities<TController>(
+        public IResourceBuilder WithLinkedEntities<TController>(
             params (Expression<Action<TController>> resource, string[] classes)[] resources
         )
             where TController : class
@@ -146,7 +146,7 @@
             return this;
         }
 
-        public IApiAwareEntityBuilder WithLinkedEntities<TController>(
+        public IResourceBuilder WithLinkedEntities<TController>(
             params Expression<Action<TController>>[] resources
         )
             where TController : class
@@ -159,7 +159,7 @@
             return this;
         }
 
-        public IApiAwareEntityBuilder WithLinkedEntitiesForEach<TController, TOne>(
+        public IResourceBuilder WithLinkedEntitiesForEach<TController, TOne>(
             IEnumerable<TOne> each,
             Func<TOne, (Expression<Action<TController>> resource, string[] classes)> linkedEntityForOne
         ) where TController : class
@@ -173,7 +173,7 @@
 
             return this;
         }
-        public IApiAwareEntityBuilder WithLinkedEntitiesForEach<TController, TOne>(
+        public IResourceBuilder WithLinkedEntitiesForEach<TController, TOne>(
             IEnumerable<TOne> each,
             Func<TOne, Expression<Action<TController>>> linkedEntityForOne
         ) where TController : class
@@ -188,20 +188,20 @@
             return this;
         }
 
-        public IApiAwareEntityBuilder WithProperties<TProps>(object properties)
+        public IResourceBuilder WithProperties<TProps>(object properties)
         {
             this._environment.AddAsyncBuildStep<AddMappedSourcePropertiesStep<TProps>>(step => step.Configure(properties));
 
             return this;
         }
-        public IApiAwareEntityBuilder WithProperties(object properties)
+        public IResourceBuilder WithProperties(object properties)
         {
             this._environment.AddAsyncBuildStep<AddSourcePropertiesStep>(step => step.Configure(properties));
 
             return this;
         }
 
-        public IApiAwareEntityBuilder WithClasses(params string[] classes)
+        public IResourceBuilder WithClasses(params string[] classes)
         {
             this._environment.AddAsyncBuildStep<AddClassesStep>(step => step.Configure(classes));
 

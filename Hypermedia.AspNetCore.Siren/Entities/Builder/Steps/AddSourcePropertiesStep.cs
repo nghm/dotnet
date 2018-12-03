@@ -1,6 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder
 {
-    using Parallel;
+    using Environments;
     using System.Threading.Tasks;
 
     internal class AddSourcePropertiesStep : IAsyncBuildStep<IEntityBuilder, IEntity>

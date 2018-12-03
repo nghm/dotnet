@@ -7,7 +7,7 @@
     using Endpoints;
     using Entities.Builder;
     using Entities.Builder.Steps;
-    using Hypermedia.AspNetCore.Siren.Parallel;
+    using Environments;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -17,7 +17,7 @@
         {
             var services = mvcBuilder.Services;
 
-            services.AddTransient<ApiAwareEntityBuilder>();
+            services.AddTransient<ResourceBuilder>();
             services.AddSingleton<IAccessValidator, AccessValidator>();
             services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
             services.AddSingleton<ICallCollector, ExpressionCallCollector>();
@@ -26,15 +26,7 @@
             services.AddSingleton<IFieldsFactory, FieldsFactory>();
             services.AddSingleton(typeof(IScopedBuildApplier<,>), typeof(ScopedBuildApplier<,>));
 
-            services.AddTransient(typeof(AddActionBuildStep<,>));
-            services.AddTransient<AddClassesStep>();
-            services.AddTransient<AddEmbeddedEntityStep>();
-            services.AddTransient<AddSourcePropertiesStep>();
-            services.AddTransient(typeof(AddMappedSourcePropertiesStep<>));
-            services.AddTransient<AddSourcePropertiesStep>();
-            services.AddTransient(typeof(AddActionBuildStep<,>));
-            services.AddTransient(typeof(AddLinkedEntityStep<>));
-            services.AddTransient(typeof(AddLinkBuildStep<>));
+            services.AddAsyncBuildSteps();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
@@ -42,7 +34,7 @@
             services.AddTransient<IEntityBuilder, EntityBuilder>();
             services.AddTransient(typeof(IStorage<>), typeof(Storage<>));
             services.AddTransient(typeof(IAsyncBuildingEnvironment<,>), typeof(AsyncBuildingEnvironment<,>));
-            services.AddTransient<IApiAwareEntityBuilder, ApiAwareEntityBuilder>();
+            services.AddTransient<IResourceBuilder, ResourceBuilder>();
 
             services.AddSingleton(_ => new IValidationMetaProvider[]
             {
@@ -68,6 +60,19 @@
             });
 
             return mvcBuilder;
+        }
+
+        private static void AddAsyncBuildSteps(this IServiceCollection services)
+        {
+            services.AddTransient(typeof(AddActionBuildStep<,>));
+            services.AddTransient<AddClassesStep>();
+            services.AddTransient<AddEmbeddedEntityStep>();
+            services.AddTransient<AddSourcePropertiesStep>();
+            services.AddTransient(typeof(AddMappedSourcePropertiesStep<>));
+            services.AddTransient<AddSourcePropertiesStep>();
+            services.AddTransient(typeof(AddActionBuildStep<,>));
+            services.AddTransient(typeof(AddLinkedEntityStep<>));
+            services.AddTransient(typeof(AddLinkBuildStep<>));
         }
     }
 }

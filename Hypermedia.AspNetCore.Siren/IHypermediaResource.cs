@@ -4,6 +4,6 @@
 
     public interface IHypermediaResource
     {
-        void Configure(IApiAwareEntityBuilder builder);
+        void Configure(IResourceBuilder builder);
     }
 }

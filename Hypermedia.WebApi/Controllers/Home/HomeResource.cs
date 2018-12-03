@@ -7,7 +7,7 @@
 
     internal class HomeResource : IHypermediaResource
     {
-        public void Configure(IApiAwareEntityBuilder builder)
+        public void Configure(IResourceBuilder builder)
         {
             builder
                 .WithClasses("home")

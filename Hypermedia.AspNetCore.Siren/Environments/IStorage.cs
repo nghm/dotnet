@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Parallel
+﻿namespace Hypermedia.AspNetCore.Siren.Environments
 {
     using System.Collections.Generic;
 

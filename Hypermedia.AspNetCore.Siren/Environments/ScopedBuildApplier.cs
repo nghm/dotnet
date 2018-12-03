@@ -1,13 +1,8 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Parallel
+﻿namespace Hypermedia.AspNetCore.Siren.Environments
 {
     using Microsoft.Extensions.DependencyInjection;
     using System;
     using System.Threading.Tasks;
-
-    internal interface IScopedBuildApplier<TBuilder, TBuilt> where TBuilder : class, IBuilder<TBuilt> where TBuilt : class
-    {
-        Task ApplyScopedBuild((Type, Action<IAsyncBuildStep<TBuilder, TBuilt>>) part, TBuilder builder);
-    }
 
     internal class ScopedBuildApplier<TBuilder, TBuilt> : IScopedBuildApplier<TBuilder, TBuilt> where TBuilder : class, IBuilder<TBuilt>
         where TBuilt : class
@@ -27,7 +22,7 @@
             {
                 var partService =
                     ((IAsyncBuildStep<TBuilder, TBuilt>)
-                        scope.ServiceProvider.GetRequiredService(serviceType));
+                      scope.ServiceProvider.GetRequiredService(serviceType));
 
                 configure(partService);
 

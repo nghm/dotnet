@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Parallel
+﻿namespace Hypermedia.AspNetCore.Siren.Environments
 {
     public interface IBuilder<out TBuilt> where TBuilt : class
     {

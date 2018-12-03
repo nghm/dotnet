@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hypermedia.AspNetCore.Siren.Parallel
+namespace Hypermedia.AspNetCore.Siren.Environments
 {
     internal interface IAsyncBuildingEnvironment<TBuilder, TBuilt> : IAsyncBuilder<TBuilt>
         where TBuilder : class, IBuilder<TBuilt>

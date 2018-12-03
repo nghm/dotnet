@@ -1,20 +1,20 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder
 {
-    using Parallel;
+    using Environments;
     using System;
     using System.Threading.Tasks;
 
     internal class AddEmbeddedEntityStep : IAsyncBuildStep<IEntityBuilder, IEntity>
     {
-        private readonly IApiAwareEntityBuilder _scopedBuilder;
-        private Action<IApiAwareEntityBuilder> _configureBuilder;
+        private readonly IResourceBuilder _scopedBuilder;
+        private Action<IResourceBuilder> _configureBuilder;
 
-        public AddEmbeddedEntityStep(IApiAwareEntityBuilder scopedBuilder)
+        public AddEmbeddedEntityStep(IResourceBuilder scopedBuilder)
         {
             this._scopedBuilder = scopedBuilder;
         }
 
-        public void Configure(Action<IApiAwareEntityBuilder> configureBuilder)
+        public void Configure(Action<IResourceBuilder> configureBuilder)
         {
             this._configureBuilder = configureBuilder;
         }

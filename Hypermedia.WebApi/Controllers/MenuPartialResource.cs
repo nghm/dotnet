@@ -7,7 +7,7 @@
 
     public class MenuPartialResource : IHypermediaResource
     {
-        public void Configure(IApiAwareEntityBuilder builder)
+        public void Configure(IResourceBuilder builder)
         {
             builder
                 .WithEmbeddedEntity(b => b

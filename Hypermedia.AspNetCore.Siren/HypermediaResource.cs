@@ -6,7 +6,7 @@
     {
         public abstract void Configure(ITypedEntityBuilder<T> builder);
 
-        public void Configure(IApiAwareEntityBuilder builder)
+        public void Configure(IResourceBuilder builder)
         {
             //builder.With<T>(Configure);
         }

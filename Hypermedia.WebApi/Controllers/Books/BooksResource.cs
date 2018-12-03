@@ -27,19 +27,15 @@
             this._books = books;
         }
 
-        public void Configure(IApiAwareEntityBuilder builder)
+        public void Configure(IResourceBuilder resource)
         {
-            builder
+            resource
                 .WithClasses("books")
                 .WithProperties(new { name = "Books" })
                 .WithEmbeddedEntitiesForEach(this._books, (b, book) => b
                     .WithClasses("preview-book")
                     .WithProperties<BookPreviewModel>(book)
-                    .WithLink<BooksController>(
-                        "details",
-                        c => c.GetOne(book.Id, this._pageNo, this._perPage)
-                    )
-                )
+                    .WithLink<BooksController>("details", c => c.GetOne(book.Id, this._pageNo, this._perPage)))
                 .WithAction<BooksController>("create", c => c.Create(this.NewBookModel))
                 .WithLinks<BooksController>(
                     ("self", c => c.Get(this._pageNo, this._perPage), null),
