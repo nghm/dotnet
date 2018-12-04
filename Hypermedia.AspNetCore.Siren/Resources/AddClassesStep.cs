@@ -16,6 +16,11 @@
 
         public Task BuildAsync(IEntityBuilder builder)
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
             builder.WithClasses(this._classes);
 
             return Task.CompletedTask;

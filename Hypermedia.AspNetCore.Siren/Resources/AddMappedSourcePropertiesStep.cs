@@ -23,6 +23,11 @@
 
         public Task BuildAsync(IEntityBuilder builder)
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
             builder.WithProperties(this._mapper.Map<TProps>(this._properties));
 
             return Task.CompletedTask;

@@ -43,6 +43,11 @@
 
         public async Task BuildAsync(IEntityBuilder builder)
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
             var descriptor = this._endpointDescriptorProvider.GetEndpointDescriptor(this._captureExpression, this._claimsPrincipal);
 
             if (descriptor == null)

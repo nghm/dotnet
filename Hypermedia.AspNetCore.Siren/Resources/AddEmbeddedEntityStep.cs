@@ -22,6 +22,11 @@
 
         public async Task BuildAsync(IEntityBuilder builder)
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
             this._configureBuilder(this._scopedBuilder);
 
             builder.WithEntity(await this._scopedBuilder.BuildAsync());
