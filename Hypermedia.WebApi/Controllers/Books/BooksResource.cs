@@ -1,19 +1,13 @@
 ﻿namespace Books.WebApi.Controllers.Books
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
     using Hypermedia.AspNetCore.Siren;
-    using Hypermedia.AspNetCore.Siren.Entities;
-    using Hypermedia.AspNetCore.Siren.Entities.Builder;
+    using Hypermedia.AspNetCore.Siren.Resources;
     using Infrastructure.Services;
     using Models;
 
-    internal class BooksResource : HypermediaResource<BooksController>
+    internal class BooksResource : IHypermediaResource
     {
         private readonly int _totalCount;
-        private readonly bool _hasPrevious;
-        private readonly bool _hasNext;
         private readonly Book[] _books;
         private readonly int _perPage;
         private readonly int _pageNo;
@@ -30,50 +24,27 @@
             this._perPage = perPage;
 
             this._totalCount = totalCount;
-            this._hasPrevious = pageNo > 0;
-            this._hasNext = (float)totalCount / perPage > pageNo + 1;
             this._books = books;
         }
 
-        public override void Configure(ITypedEntityBuilder<BooksController> builder)
+        public void Configure(IResourceBuilder resource)
         {
-            builder
+            resource
                 .WithClasses("books")
                 .WithProperties(new { name = "Books" })
-                .WithEntities(this._books, this.MakePreviewBook)
-                .WithAction("create", c => c.Create(this.NewBookModel))
-                .WithLinks(new Dictionary<string, Expression<Action<BooksController>>>
-                {
-                    ["self"] = c => c.Get(this._pageNo, this._perPage),
-                    ["first"] = c => c.Get(0, this._perPage),
-                    ["last"] = c => c.Get(this._totalCount / this._perPage, this._perPage)
-                })
-                .WithLinks(GetNextAndPreviousLinks());
+                .WithEmbeddedEntitiesForEach(this._books, (b, book) => b
+                    .WithClasses("preview-book")
+                    .WithProperties<BookPreviewModel>(book)
+                    .WithLink<BooksController>("details", c => c.GetOne(book.Id, this._pageNo, this._perPage)))
+                .WithAction<BooksController>("create", c => c.Create(this.NewBookModel))
+                .WithLinks<BooksController>(
+                    ("self", c => c.Get(this._pageNo, this._perPage), null),
+                    ("first", c => c.Get(0, this._perPage), null),
+                    ("last", c => c.Get(this._totalCount / this._perPage, this._perPage), null),
+                    ("next", c => c.Get(this._pageNo + 1, this._perPage), null),
+                    ("previous", c => c.Get(this._pageNo - 1, this._perPage), null)
+                );
         }
 
-        private void MakePreviewBook(IEntityBuilder builder, Book book)
-        {
-            builder
-                .WithClasses("preview-book")
-                .WithProperties<BookPreviewModel, Book>(book)
-                .WithLink<BooksController>("details", c => c.GetOne(book.Id, this._pageNo, this._perPage), "details");
-        }
-
-        private Dictionary<string, Expression<Action<BooksController>>> GetNextAndPreviousLinks()
-        {
-            var links = new Dictionary<string, Expression<Action<BooksController>>>();
-
-            if (this._hasNext)
-            {
-                links.Add("next", c => c.Get(this._pageNo + 1, this._perPage));
-            }
-
-            if (this._hasPrevious)
-            {
-                links.Add("previous", c => c.Get(this._pageNo - 1, this._perPage));
-            }
-
-            return links;
-        }
     }
 }

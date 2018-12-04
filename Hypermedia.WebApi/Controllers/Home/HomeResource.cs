@@ -3,28 +3,31 @@
     using Books;
     using Feedback;
     using Hypermedia.AspNetCore.Siren;
-    using Hypermedia.AspNetCore.Siren.Entities;
-    using Hypermedia.AspNetCore.Siren.Entities.Builder;
+    using Hypermedia.AspNetCore.Siren.Resources;
 
     internal class HomeResource : IHypermediaResource
     {
-        public void Configure(IEntityBuilder builder)
+        public void Configure(IResourceBuilder builder)
         {
             builder
                 .WithClasses("home")
-                .WithEntity(b => b
+                .WithEmbeddedEntity(b => b
                     .WithClasses("feedback")
-                    .WithAction<FeedbackController>("post", c => c.Post(new FeedbackModel())))
-                .WithEntity(b => b
+                    .WithAction<FeedbackController>("post", c => c.Post(new FeedbackModel()))
+                )
+                .WithEmbeddedEntity(b => b
                     .WithClasses("book-counts", "analytic")
                     .WithProperties(new { newBooks = 11, totalBooks = 110, rentedBooks = 24 })
-                    .WithLink<BooksController>("books", c => c.Get(0, 12)))
-                .WithEntity(b => b
+                    .WithLink<BooksController>("books", c => c.Get(0, 12))
+                )
+                .WithEmbeddedEntity(b => b
                     .WithClasses("author-counts", "analytic")
                     .WithProperties(new { newAuthors = 11, totalAuthors = 110 })
-                    .WithEntity(ab => ab
+                    .WithEmbeddedEntity(ab => ab
                         .WithClasses("best-selling-author", "author")
-                        .WithProperties(new { name = "J.P.", book = "Maps of meaning" })));
+                        .WithProperties(new { name = "J.P.", book = "Maps of meaning" })
+                    )
+                );
         }
     }
 }

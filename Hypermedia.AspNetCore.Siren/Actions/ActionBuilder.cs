@@ -1,11 +1,10 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Entities.Builder
+﻿namespace Hypermedia.AspNetCore.Siren.Actions
 {
+    using Actions.Fields;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using Actions.Fields;
-    using Action = Actions.Action;
 
     internal class ActionBuilder<TBody> : IActionBuilder<TBody>
     {

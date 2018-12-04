@@ -1,8 +1,8 @@
 ﻿namespace Hypermedia.AspNetCore.Siren
 {
-    using System.Linq;
-    using Entities.Builder;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Resources;
+    using System.Linq;
 
     internal class InvalidModelStateResource : IHypermediaResource
     {
@@ -13,7 +13,7 @@
             this._modelState = modelState;
         }
 
-        public void Configure(IEntityBuilder builder)
+        public void Configure(IResourceBuilder builder)
         {
             var errors = this._modelState
                 .ToDictionary(

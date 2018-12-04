@@ -1,55 +1,67 @@
 ﻿namespace Hypermedia.AspNetCore.Siren
 {
-    using System.Linq;
-    using Entities.Builder;
+    using Hypermedia.AspNetCore.Siren.Resources;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
+    using Microsoft.Extensions.DependencyInjection;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
-    internal class HypermediaResourceFilter : IResultFilter
+    internal class HypermediaResourceFilter : IAsyncResultFilter
     {
-        private readonly EntityBuilder _builder;
+        private readonly IServiceScopeFactory _factory;
 
-        public HypermediaResourceFilter(EntityBuilder builder)
+        public HypermediaResourceFilter(IServiceScopeFactory factory)
         {
-            this._builder = builder;
+            this._factory = factory ?? throw new ArgumentNullException(nameof(factory));
         }
 
-        public void OnResultExecuting(ResultExecutingContext context)
+        public async Task OnResultExecutingAsync(ResultExecutingContext context)
         {
-            if (!(context.Result is ObjectResult objectResult))
+            await Task.CompletedTask;
+        }
+
+        public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+        {
+            if (!(context.Result is ObjectResult result) ||
+                !(result.Value is IHypermediaResource resource))
             {
                 return;
             }
 
-            if (!(objectResult.Value is IHypermediaResource resource))
+            var partialResources = GetPartialResources(context);
+
+            using (var scope = this._factory.CreateScope())
             {
-                return;
+                var builder = scope.ServiceProvider.GetService<IResourceBuilder>();
+
+                resource.Configure(builder);
+
+                foreach (var partialResource in partialResources)
+                {
+                    partialResource.Configure(builder);
+                }
+
+                var actualResponse = await builder.BuildAsync();
+
+                result.DeclaredType = actualResponse.GetType();
+                result.Value = actualResponse;
+
             }
 
-            var partialResources = context
+            await next();
+        }
+
+        private static IEnumerable<IHypermediaResource> GetPartialResources(ResultExecutingContext context)
+        {
+            return context
                 .ActionDescriptor
                 .FilterDescriptors
                 .Select(filter => filter.Filter)
                 .OfType<IPartialResource>()
                 .Select(filter => filter.PartialResource);
-
-            this._builder.WithClaimsPrincipal(context.HttpContext.User);
-
-            resource.Configure(this._builder);
-
-            foreach (var partialResource in partialResources)
-            {
-                partialResource.Configure(this._builder);
-            }
-
-            var actualResponse = this._builder.Build();
-
-            objectResult.DeclaredType = actualResponse.GetType();
-            objectResult.Value = actualResponse;
-        }
-
-        public void OnResultExecuted(ResultExecutedContext context)
-        {
         }
     }
 }

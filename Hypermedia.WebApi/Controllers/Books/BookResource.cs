@@ -1,12 +1,12 @@
 ﻿namespace Books.WebApi.Controllers.Books
 {
-    using System.Collections.Generic;
     using Hypermedia.AspNetCore.Siren;
-    using Hypermedia.AspNetCore.Siren.Entities.Builder;
+    using Hypermedia.AspNetCore.Siren.Resources;
     using Infrastructure.Services;
     using Models;
+    using System.Collections.Generic;
 
-    public class BookResource : HypermediaResource<BooksController>
+    public class BookResource : IHypermediaResource
     {
         private readonly int _perPage;
         private readonly int _pageNo;
@@ -31,17 +31,17 @@
             this._book = book;
         }
 
-        public override void Configure(ITypedEntityBuilder<BooksController> builder)
+        public void Configure(IResourceBuilder builder)
         {
             builder
                 .WithClasses("book", "details")
-                .WithProperties<BookDetailsModel, Book>(this._book)
-                .WithLink("books", c => c.Get(this._pageNo, this._perPage), "parent")
-                .WithLink("self", c => c.GetOne(this._book.Id, this._pageNo, this._perPage))
-                .WithAction<EditBookModel>(
-                    "update",
-                    c => c.Update(this._book.Id, this.EditBookModel),
-                    a => a.WithOptions(b => b.Tags, this._allowedTags)
+                .WithProperties<BookDetailsModel>(this._book)
+                .WithLinks<BooksController>(
+                    ("books", c => c.Get(this._pageNo, this._perPage), new[] { "parent" }),
+                    ("self", c => c.GetOne(this._book.Id, this._pageNo, this._perPage), new string[] { })
+                )
+                .WithActions<BooksController, EditBookModel>(
+                    ("update", c => c.Update(this._book.Id, this.EditBookModel), action => action.WithOptions(b => b.Tags, this._allowedTags))
                 );
         }
     }

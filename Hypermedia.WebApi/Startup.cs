@@ -1,7 +1,5 @@
 ﻿namespace Books.WebApi
 {
-    using System;
-    using System.Security.Claims;
     using AutoMapper;
     using Hypermedia.AspNetCore.Siren;
     using Infrastructure;
@@ -12,6 +10,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using System;
+    using System.Security.Claims;
 
     public class Startup
     {
@@ -30,11 +30,11 @@
                 .AddHypermediaSiren()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAutoMapper();
-            
+
             services.AddSingleton(typeof(ICrudServiceSeed<,>), typeof(AutoMockCrudServiceSeed<,>));
             services.AddSingleton(typeof(IGuidGenerator<>), typeof(AutoMockGuidGenerator<>));
             services.AddSingleton(typeof(ICrudService<,>), typeof(InMemoryCrudService<,>));
-            
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("CanEditBooks", policy =>
@@ -65,7 +65,8 @@
             }
 
             app.UseAuthentication();
-            app.UseCors(options => {
+            app.UseCors(options =>
+            {
                 options.AllowAnyOrigin();
                 options.AllowAnyHeader();
                 options.AllowAnyMethod();
