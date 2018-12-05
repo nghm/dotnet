@@ -1,9 +1,9 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Test.Utils
+﻿namespace Hypermedia.AspNetCore.Tests.Common
 {
     using System;
     using Xunit;
 
-    internal static class AssertUtils
+    public static class AssertUtils
     {
         public static void NoExceptions(Action act)
         {

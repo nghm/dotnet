@@ -64,7 +64,7 @@
 
 //            ISpecimenBuilder builder = new PredefinedParamSpecimenBuilder(_parameter, _parameters);
 
-//            fixture.Customizations.Add(builder);
+//            fixture.Customizations.AddStep(builder);
 //        }
 
 //        private static bool GetStaticMethodByName(MethodBase methodInfo, string staticMethodName)
@@ -120,7 +120,7 @@
 //                        parameter = context.Resolve(req2);
 //                    }
 
-//                    finalParamList.Add(parameter);
+//                    finalParamList.AddStep(parameter);
 //                }
 
 //                return constructor.Invoke(finalParamList.ToArray());

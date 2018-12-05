@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="Objectivity.AutoFixture.XUnit2.AutoMoq" Version="3.1.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hypermedia.AspNetCore.AsyncStepBuilder\Hypermedia.AspNetCore.AsyncStepBuilder.csproj" />
+    <ProjectReference Include="..\Hypermedia.AspNetCore.Tests.Common\Hypermedia.AspNetCore.Tests.Common.csproj" />
+  </ItemGroup>
+
+</Project>

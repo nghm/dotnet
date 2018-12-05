@@ -4,12 +4,13 @@
     using Actions.Fields;
     using Actions.Fields.Type;
     using Actions.Fields.Validation;
+    using Builder;
     using Endpoints;
     using Entities;
-    using Environments;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.DependencyInjection;
     using Resources;
+    using Store;
 
     public static class ServiceCollectionExtensions
     {
@@ -23,7 +24,6 @@
             services.AddSingleton<IEndpointDescriptorProvider, EndpointDescriptorProvider>();
             services.AddSingleton<IHrefFactory, HrefFactory>();
             services.AddSingleton<IFieldsFactory, FieldsFactory>();
-            services.AddSingleton(typeof(IScopedBuildApplier<,>), typeof(ScopedBuildApplier<,>));
 
             services.AddAsyncBuildSteps();
 
@@ -31,8 +31,10 @@
             services.AddSingleton(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
 
             services.AddTransient<IEntityBuilder, EntityBuilder>();
-            services.AddTransient(typeof(IStorage<>), typeof(Storage<>));
-            services.AddTransient(typeof(IAsyncBuildingEnvironment<,>), typeof(AsyncBuildingEnvironment<,>));
+
+            services.AddHypermediaStorage();
+            services.AddHypermediaAsyncBuilder();
+
             services.AddTransient<IResourceBuilder, ResourceBuilder>();
 
             services.AddSingleton(_ => new IValidationMetaProvider[]

@@ -1,6 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Resources
 {
-    using Environments;
+    using Builder;
     using Hypermedia.AspNetCore.Siren.Actions;
     using Hypermedia.AspNetCore.Siren.Entities;
     using System;
@@ -11,9 +11,9 @@
     internal class ResourceBuilder : IResourceBuilder
     {
 
-        private readonly IAsyncBuildingEnvironment<IEntityBuilder, IEntity> _environment;
+        private readonly IAsyncStepBuilder<IEntityBuilder, IEntity> _environment;
 
-        public ResourceBuilder(IAsyncBuildingEnvironment<IEntityBuilder, IEntity> environment)
+        public ResourceBuilder(IAsyncStepBuilder<IEntityBuilder, IEntity> environment)
         {
             this._environment = environment;
         }
@@ -25,7 +25,7 @@
         ) where TController : class
           where TBody : class
         {
-            this._environment.AddAsyncBuildStep<AddActionBuildStep<TController, TBody>>(
+            this._environment.AddStep<AddActionBuildStep<TController, TBody>>(
                 step => step.Configure(name, resource, configureActionBuilder)
             );
 
@@ -36,7 +36,7 @@
             Expression<Action<TController>> resource
         ) where TController : class
         {
-            this._environment.AddAsyncBuildStep<AddActionBuildStep<TController, object>>(
+            this._environment.AddStep<AddActionBuildStep<TController, object>>(
                 step => step.Configure(name, resource, null)
             );
 
@@ -69,7 +69,7 @@
         )
             where TController : class
         {
-            this._environment.AddAsyncBuildStep<AddLinkBuildStep<TController>>(
+            this._environment.AddStep<AddLinkBuildStep<TController>>(
                 step => step.Configure(name, resource, rel)
             );
 
@@ -95,7 +95,7 @@
 
         public IResourceBuilder WithEmbeddedEntity(Action<IResourceBuilder> newEntity)
         {
-            this._environment.AddAsyncBuildStep<AddEmbeddedEntityStep>(step => step.Configure(newEntity));
+            this._environment.AddStep<AddEmbeddedEntityStep>(step => step.Configure(newEntity));
 
             return this;
         }
@@ -129,7 +129,7 @@
         )
             where TController : class
         {
-            this._environment.AddAsyncBuildStep<AddLinkedEntityStep<TController>>(step => step.Configure(resource, classes));
+            this._environment.AddStep<AddLinkedEntityStep<TController>>(step => step.Configure(resource, classes));
 
             return this;
         }
@@ -210,20 +210,20 @@
 
         public IResourceBuilder WithProperties<TProps>(object properties)
         {
-            this._environment.AddAsyncBuildStep<AddMappedSourcePropertiesStep<TProps>>(step => step.Configure(properties));
+            this._environment.AddStep<AddMappedSourcePropertiesStep<TProps>>(step => step.Configure(properties));
 
             return this;
         }
         public IResourceBuilder WithProperties(object properties)
         {
-            this._environment.AddAsyncBuildStep<AddSourcePropertiesStep>(step => step.Configure(properties));
+            this._environment.AddStep<AddSourcePropertiesStep>(step => step.Configure(properties));
 
             return this;
         }
 
         public IResourceBuilder WithClasses(params string[] classes)
         {
-            this._environment.AddAsyncBuildStep<AddClassesStep>(step => step.Configure(classes));
+            this._environment.AddStep<AddClassesStep>(step => step.Configure(classes));
 
             return this;
         }

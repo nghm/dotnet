@@ -1,30 +1,30 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Environments
+﻿namespace Hypermedia.AspNetCore.Builder
 {
+    using Store;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
 
-    internal class AsyncBuildingEnvironment<TBuilder, TBuilt>
-        : IAsyncBuildingEnvironment<TBuilder, TBuilt>
+    internal class AsyncStepBuilder<TBuilder, TBuilt> : IAsyncStepBuilder<TBuilder, TBuilt>
         where TBuilder : class, IBuilder<TBuilt>
         where TBuilt : class
     {
         private readonly IStorage<(Type ServiceType, Action<IAsyncBuildStep<TBuilder, TBuilt>> Configure)> _parts;
         private readonly TBuilder _builder;
-        private readonly IScopedBuildApplier<TBuilder, TBuilt> _scopedBuildApplier;
+        private readonly IIsolatedBuildStepExecutor<TBuilder, TBuilt> _isolatedBuildStepExecutor;
 
-        public AsyncBuildingEnvironment(
+        public AsyncStepBuilder(
             IStorage<(Type, Action<IAsyncBuildStep<TBuilder, TBuilt>>)> parts,
             TBuilder builder,
-            IScopedBuildApplier<TBuilder, TBuilt> scopedBuildApplier
+            IIsolatedBuildStepExecutor<TBuilder, TBuilt> isolatedBuildStepExecutor
         )
         {
             this._parts = parts ?? throw new ArgumentNullException(nameof(parts));
             this._builder = builder ?? throw new ArgumentNullException(nameof(builder));
-            this._scopedBuildApplier = scopedBuildApplier ?? throw new ArgumentNullException(nameof(scopedBuildApplier));
+            this._isolatedBuildStepExecutor = isolatedBuildStepExecutor ?? throw new ArgumentNullException(nameof(isolatedBuildStepExecutor));
         }
 
-        public void AddAsyncBuildStep<TStep>(Action<TStep> configure)
+        public void AddStep<TStep>(Action<TStep> configure)
             where TStep : class, IAsyncBuildStep<TBuilder, TBuilt>
         {
             if (configure == null)
@@ -38,7 +38,7 @@
         public async Task<TBuilt> BuildAsync()
         {
             await Task.WhenAll(
-                this._parts.Select(p => this._scopedBuildApplier.ApplyScopedBuild(p, this._builder))
+                this._parts.Select(p => this._isolatedBuildStepExecutor.ExecuteBuildStepAsync(p, this._builder))
             );
 
             return await Task.FromResult(this._builder.Build());

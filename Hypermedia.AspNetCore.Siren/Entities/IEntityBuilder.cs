@@ -1,7 +1,7 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Entities
 {
     using Actions;
-    using Environments;
+    using Builder;
     using Links;
 
     public interface IEntityBuilder : IBuilder<IEntity>

@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hypermedia.AspNetCore.AsyncStepBuilder\Hypermedia.AspNetCore.AsyncStepBuilder.csproj" />
+  </ItemGroup>
+
 </Project>

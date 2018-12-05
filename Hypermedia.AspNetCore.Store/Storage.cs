@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Environments
+﻿namespace Hypermedia.AspNetCore.Store
 {
     using System.Collections;
     using System.Collections.Generic;

@@ -1,8 +1,8 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Environments
+﻿namespace Hypermedia.AspNetCore.Builder
 {
     using System.Threading.Tasks;
 
-    internal interface IAsyncBuildStep<in TBuilder, in TBuilt>
+    public interface IAsyncBuildStep<in TBuilder, in TBuilt>
         where TBuilder : class, IBuilder<TBuilt>
         where TBuilt : class
     {

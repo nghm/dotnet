@@ -1,6 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Resources
 {
-    using Environments;
+    using Hypermedia.AspNetCore.Builder;
     using Hypermedia.AspNetCore.Siren.Entities;
     using System;
     using System.Threading.Tasks;

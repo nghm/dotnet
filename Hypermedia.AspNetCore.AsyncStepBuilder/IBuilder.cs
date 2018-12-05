@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Environments
+﻿namespace Hypermedia.AspNetCore.Builder
 {
     public interface IBuilder<out TBuilt> where TBuilt : class
     {

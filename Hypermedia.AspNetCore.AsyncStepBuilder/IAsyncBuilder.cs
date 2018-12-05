@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Environments
+﻿namespace Hypermedia.AspNetCore.Builder
 {
     using System.Threading.Tasks;
 
