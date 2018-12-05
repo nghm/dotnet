@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.WebApi", "Hypermedia.WebApi\Books.WebApi.csproj", "{F008393E-9B79-4AA3-98D8-7B83A90D9304}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.WebApi", "Books.WebApi\Books.WebApi.csproj", "{F008393E-9B79-4AA3-98D8-7B83A90D9304}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypermedia.AspNetCore.Siren", "Hypermedia.AspNetCore.Siren\Hypermedia.AspNetCore.Siren.csproj", "{07C0764E-82D9-4C13-9750-147A2A30400A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypermedia.AspNetCore.Siren.Test", "Hypermedia.AspNetCore.Siren.Test\Hypermedia.AspNetCore.Siren.Test.csproj", "{AC5005B4-39A2-43AA-87CB-631488AD33FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Identity", "Hypermedia.Identity\Books.Identity.csproj", "{51DF544C-2CCB-447A-9FDA-CBA384B06730}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Identity", "Books.Identity\Books.Identity.csproj", "{51DF544C-2CCB-447A-9FDA-CBA384B06730}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Books", "Books", "{5040275C-0943-4C29-B487-CF878F2109C2}"
 EndProject
@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Infrastructure", "Boo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypermedia.AspNetCore.AsyncStepBuilder", "Hypermedia.AspNetCore.AsyncStepBuilder\Hypermedia.AspNetCore.AsyncStepBuilder.csproj", "{E1A91BD1-BE92-49F0-9B38-D2E0EA3246E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypermedia.AspNetCore.Store", "Hypermedia.AspNetCore.Store\Hypermedia.AspNetCore.Store.csproj", "{EDC9C27A-A97B-48F1-81D2-491F1376EB19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypermedia.AspNetCore.Core", "Hypermedia.AspNetCore.Core\Hypermedia.AspNetCore.Core.csproj", "{EDC9C27A-A97B-48F1-81D2-491F1376EB19}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hypermedia", "Hypermedia", "{0A50D104-42C3-4EE9-A8C3-0319B78182CB}"
 EndProject

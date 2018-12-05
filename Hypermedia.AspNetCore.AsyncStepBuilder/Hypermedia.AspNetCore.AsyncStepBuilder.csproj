@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hypermedia.AspNetCore.Store\Hypermedia.AspNetCore.Store.csproj" />
+    <ProjectReference Include="..\Hypermedia.AspNetCore.Core\Hypermedia.AspNetCore.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
