@@ -6,9 +6,9 @@
 
     internal class OptionsMetaProvider : ITypeMetaProvider
     {
-        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
+        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldDescriptor fieldDescriptor)
         {
-            var propertyType = fieldGenerationContext.FieldDescriptor.PropertyType;
+            var propertyType = fieldDescriptor.PropertyType;
 
             if (!propertyType.IsEnum)
             {
@@ -19,7 +19,7 @@
 
             yield return KeyValuePair.Create("type", "options" as object);
             yield return KeyValuePair.Create("options", options);
-            yield return KeyValuePair.Create("value", fieldGenerationContext.FieldDescriptor.Value);
+            yield return KeyValuePair.Create("value", fieldDescriptor.Value);
         }
 
         private static object GetOptions(Type propertyType)

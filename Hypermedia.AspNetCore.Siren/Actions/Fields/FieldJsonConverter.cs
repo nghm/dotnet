@@ -7,21 +7,18 @@
 
     internal class FieldJsonConverter : JsonConverter
     {
-        public override bool CanConvert(System.Type objectType)
-        {
-            return typeof(IField).IsAssignableFrom(objectType);
-        }
+        public override bool CanConvert(System.Type objectType) => typeof(IField).IsAssignableFrom(objectType);
 
         public override object ReadJson(JsonReader reader, System.Type objectType, object existingValue, JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer _)
         {
             if (!(value is Field field))
             {
-                throw new InvalidCastException("Object is not IField!");
+                throw new InvalidCastException($"Object is not {nameof(Field)}!");
             }
 
             var o = new JObject
@@ -31,19 +28,20 @@
 
             if (field.Value != null)
             {
-                o.Add(new JProperty("value", field.Value));
+                o.Add(new JProperty("value", JToken.FromObject(field.Value)));
             }
 
             foreach (var meta in field.GetMetadata())
             {
-                var valueObj = JToken.FromObject(meta.Value);
-
-                if (meta.Key == "value" && field.Value != null)
+                if (o.ContainsKey(meta.Key)
+                    || meta.Value == null)
                 {
                     continue;
                 }
 
-                o.AddFirst(new JProperty(meta.Key, valueObj));
+                var valueObj = JToken.FromObject(meta.Value);
+
+                o.Add(new JProperty(meta.Key, valueObj));
             }
 
             o.WriteTo(writer);

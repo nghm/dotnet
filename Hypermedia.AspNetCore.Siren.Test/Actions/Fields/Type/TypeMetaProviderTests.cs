@@ -29,11 +29,11 @@
         [Theory, AutoMockData]
         private void ShouldIterateOverTypeMetaProviders(
             Mock<IEnumerable<ITypeMetaProvider>> typeMetaProviders,
-            FieldGenerationContext context
+            FieldDescriptor fieldDescriptor
         )
         {
             var sut = new TypeMetadataProvider(typeMetaProviders.Object);
-            var meta = sut.GetMetadata(context).ToArray();
+            var meta = sut.GetMetadata(fieldDescriptor).ToArray();
 
             typeMetaProviders.Verify(e => e.GetEnumerator(), Times.Once);
         }
@@ -49,17 +49,17 @@
         [Theory, AutoMockData]
         private void ShouldCallGetMetadataForEachProvider(
             List<Mock<ITypeMetaProvider>> typeMetaProviderMocks,
-            FieldGenerationContext context
+            FieldDescriptor fieldDescriptor
         )
         {
             var typeMetaProviders = typeMetaProviderMocks.Select(m => m.Object).ToArray();
 
             var sut = new TypeMetadataProvider(typeMetaProviders);
-            var meta = sut.GetMetadata(context).ToArray();
+            var meta = sut.GetMetadata(fieldDescriptor).ToArray();
 
             foreach (var typeMetaProviderMock in typeMetaProviderMocks)
             {
-                typeMetaProviderMock.Verify(m => m.GetMetadata(context), Times.Once);
+                typeMetaProviderMock.Verify(m => m.GetMetadata(fieldDescriptor), Times.Once);
             }
         }
 
@@ -67,7 +67,7 @@
         private void ShouldForwardGetMetadataForEachProviderAsReturn(
             List<IEnumerable<KeyValuePair<string, object>>> expectedKeyValuePairs,
             List<Mock<ITypeMetaProvider>> typeMetaProviderMocks,
-            FieldGenerationContext context
+            FieldDescriptor fieldDescriptor
         )
         {
             var typeMetaProviders = typeMetaProviderMocks.Select(m => m.Object).ToArray();
@@ -77,12 +77,12 @@
                 var typeMetaProviderMock = typeMetaProviderMocks[index];
 
                 typeMetaProviderMock
-                    .Setup(m => m.GetMetadata(context))
+                    .Setup(m => m.GetMetadata(fieldDescriptor))
                     .Returns(expectedKeyValuePairs[index]);
             }
 
             var sut = new TypeMetadataProvider(typeMetaProviders);
-            var meta = sut.GetMetadata(context).ToArray();
+            var meta = sut.GetMetadata(fieldDescriptor).ToArray();
 
             Assert.Equal(meta, expectedKeyValuePairs.SelectMany(kvp => kvp));
         }

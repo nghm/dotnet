@@ -51,16 +51,16 @@
         [AutoMockData]
         private void ShouldGetOptionsFromEnumOptionsExtractor(
             [Frozen] Mock<IEnumOptionsExtractor> enumOptionsExtractor,
-            FieldGenerationContext fieldGenerationContext,
+            FieldDescriptor fieldDescriptor,
             OptionMetaProvider sut)
         {
-            var _ = sut.GetMetadata(fieldGenerationContext).ToArray();
+            var _ = sut.GetMetadata(fieldDescriptor).ToArray();
 
             FieldOption[] options;
             enumOptionsExtractor
                 .Verify(e =>
                         e.TryGetEnumOptions(
-                            fieldGenerationContext.FieldDescriptor.PropertyType,
+                            fieldDescriptor.PropertyType,
                             out options
                         ), Times.Once);
         }
@@ -69,19 +69,19 @@
         [AutoMockData]
         private void ShouldReturnEmptyMetadata(
             [Frozen] Mock<IEnumOptionsExtractor> enumOptionsExtractor,
-            FieldGenerationContext fieldGenerationContext,
+            FieldDescriptor fieldDescriptor,
             OptionMetaProvider sut)
         {
             FieldOption[] options;
             enumOptionsExtractor
                 .Setup(e =>
                     e.TryGetEnumOptions(
-                        fieldGenerationContext.FieldDescriptor.PropertyType,
+                        fieldDescriptor.PropertyType,
                         out options
                     ))
                 .Returns(false);
 
-            var metadata = sut.GetMetadata(fieldGenerationContext).ToArray();
+            var metadata = sut.GetMetadata(fieldDescriptor).ToArray();
 
             Assert.Empty(metadata);
         }
@@ -90,7 +90,7 @@
         [AutoMockData]
         private void ShouldReturnMetadata(
             [Frozen] Mock<IEnumOptionsExtractor> enumOptionsExtractor,
-            FieldGenerationContext fieldGenerationContext,
+            FieldDescriptor fieldDescriptor,
 #pragma warning disable xUnit1026 // Theory methods should use all of their parameters
             FieldOption[] expectedFieldOptions,
 #pragma warning restore xUnit1026 // Theory methods should use all of their parameters
@@ -99,12 +99,12 @@
             enumOptionsExtractor
                 .Setup(e =>
                     e.TryGetEnumOptions(
-                        fieldGenerationContext.FieldDescriptor.PropertyType,
+                        fieldDescriptor.PropertyType,
                         out expectedFieldOptions
                     ))
                 .Returns(true);
 
-            var metadata = sut.GetMetadata(fieldGenerationContext).ToArray();
+            var metadata = sut.GetMetadata(fieldDescriptor).ToArray();
 
             Assert.Equal(new KeyValuePair<string, object>("type", "option"), metadata[0]);
             Assert.Same("options", metadata[1].Key);

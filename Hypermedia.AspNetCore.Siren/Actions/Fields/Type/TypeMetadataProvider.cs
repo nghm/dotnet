@@ -19,16 +19,16 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
             this._typeMetaProviders = typeMetaProviders.ToArray();
         }
 
-        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
+        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldDescriptor fieldDescriptor)
         {
-            if (fieldGenerationContext == null)
+            if (fieldDescriptor == null)
             {
-                throw new ArgumentNullException(nameof(fieldGenerationContext));
+                throw new ArgumentNullException(nameof(fieldDescriptor));
             }
 
             foreach (var typeMetaProvider in this._typeMetaProviders)
             {
-                foreach (var keyValuePair in typeMetaProvider.GetMetadata(fieldGenerationContext))
+                foreach (var keyValuePair in typeMetaProvider.GetMetadata(fieldDescriptor))
                 {
                     yield return keyValuePair;
                 }
