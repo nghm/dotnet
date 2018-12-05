@@ -62,7 +62,7 @@
 
             var method = endpointDescriptor.Method;
             var href = this._hrefFactory.MakeHref(endpointDescriptor);
-            var fields = this._fieldsFactory.MakeFields(new ActionArgument(endpointDescriptor.BodyArgument.Descriptor, endpointDescriptor.BodyArgument.Value));
+            var fields = this._fieldsFactory.MakeFields(endpointDescriptor.BodyArgument);
 
             var action = new Actions.Action(this._name, href, method, fields);
 
