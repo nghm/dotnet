@@ -1,5 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Links
 {
+    using Builders.Abstractions;
     using System;
 
     internal class Link : ILink

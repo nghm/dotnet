@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Links
+﻿namespace Hypermedia.AspNetCore.Siren.Builders.Abstractions
 {
     public interface ILink
     {

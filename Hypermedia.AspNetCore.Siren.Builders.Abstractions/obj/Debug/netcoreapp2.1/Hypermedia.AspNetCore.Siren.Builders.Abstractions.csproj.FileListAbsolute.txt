@@ -1,0 +1,12 @@
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Builders.Abstractions\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Builders.Abstractions.csproj.CoreCompileInputs.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Builders.Abstractions\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Builders.Abstractions.AssemblyInfoInputs.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Builders.Abstractions\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Builders.Abstractions.AssemblyInfo.cs
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Builders.Abstractions\bin\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Builders.Abstractions.deps.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Builders.Abstractions\bin\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Builders.Abstractions.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Builders.Abstractions\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Builders.Abstractions.csprojAssemblyReference.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Builders.Abstractions\bin\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Core.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Builders.Abstractions\bin\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Core.pdb
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Builders.Abstractions\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Builders.Abstractions.csproj.CopyComplete
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Builders.Abstractions\bin\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Builders.Abstractions.pdb
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Builders.Abstractions\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Builders.Abstractions.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\Hypermedia.AspNetCore.Siren.Builders.Abstractions\obj\Debug\netcoreapp2.1\Hypermedia.AspNetCore.Siren.Builders.Abstractions.pdb

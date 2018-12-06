@@ -1,7 +1,5 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Entities
+﻿namespace Hypermedia.AspNetCore.Siren.Builders.Abstractions
 {
-    using Hypermedia.AspNetCore.Siren.Actions;
-    using Hypermedia.AspNetCore.Siren.Links;
     using Newtonsoft.Json;
     using System.Collections.Generic;
 

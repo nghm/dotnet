@@ -1,8 +1,6 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Entities
+﻿namespace Hypermedia.AspNetCore.Siren.Builders.Abstractions
 {
-    using Actions;
     using Builder;
-    using Links;
 
     public interface IEntityBuilder : IBuilder<IEntity>
     {

@@ -1,6 +1,7 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Actions
 {
-    using Actions.Fields;
+    using Builders.Abstractions;
+    using Fields;
     using System;
     using System.Collections.Generic;
     using System.Linq;

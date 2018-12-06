@@ -1,18 +1,18 @@
-﻿using System;
-using Hypermedia.AspNetCore.Siren.Endpoints;
-using Hypermedia.AspNetCore.Siren.Util;
+﻿using Hypermedia.AspNetCore.Siren.Endpoints;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
+    using Builders.Abstractions;
+
     internal class FieldsFactory : IFieldsFactory
     {
         private readonly IFieldFactory _fieldFactory;
 
         public FieldsFactory(IFieldFactory fieldFactory)
         {
-            this._fieldFactory = 
+            this._fieldFactory =
                 fieldFactory ??
                 throw new ArgumentNullException(nameof(fieldFactory));
         }
@@ -32,6 +32,6 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
             }
         }
 
-        
+
     }
 }

@@ -1,8 +1,7 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Resources
 {
     using Builder;
-    using Hypermedia.AspNetCore.Siren.Actions;
-    using Hypermedia.AspNetCore.Siren.Entities;
+    using Builders.Abstractions;
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;

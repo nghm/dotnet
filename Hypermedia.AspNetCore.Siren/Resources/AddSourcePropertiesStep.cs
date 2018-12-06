@@ -1,7 +1,7 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Resources
 {
+    using Builders.Abstractions;
     using Hypermedia.AspNetCore.Builder;
-    using Hypermedia.AspNetCore.Siren.Entities;
     using System;
     using System.Threading.Tasks;
 

@@ -1,5 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
+    using Builders.Abstractions;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System;

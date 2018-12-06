@@ -1,8 +1,9 @@
-﻿using System;
-using System.Linq;
-
-namespace Hypermedia.AspNetCore.Siren.Actions.Fields
+﻿namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
+    using Builders.Abstractions;
+    using System;
+    using System.Linq;
+
     internal class FieldFactory : IFieldFactory
     {
         private readonly IFieldMetadataProviderCollection _fieldMetadataProviderCollection;
@@ -20,7 +21,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
             {
                 throw new ArgumentNullException(nameof(fieldDescriptor));
             }
-            
+
             var metadata = this._fieldMetadataProviderCollection
                 .GetMetadataProviders()
                 .SelectMany(metaProvider => metaProvider.GetMetadata(fieldDescriptor));

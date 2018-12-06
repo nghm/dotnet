@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hypermedia.AspNetCore.AsyncStepBuilder\Hypermedia.AspNetCore.AsyncStepBuilder.csproj" />
+    <ProjectReference Include="..\Hypermedia.AspNetCore.Siren.Builders.Abstractions\Hypermedia.AspNetCore.Siren.Builders.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Entities
 {
-    using Actions;
-    using Links;
+    using Builders.Abstractions;
     using System.Collections.Generic;
     using System.Linq;
     using Util;

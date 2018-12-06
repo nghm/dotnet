@@ -11,6 +11,8 @@ using Xunit;
 
 namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields
 {
+    using Builders.Abstractions;
+
     public class FieldJsonConverterTests
     {
         [Theory]

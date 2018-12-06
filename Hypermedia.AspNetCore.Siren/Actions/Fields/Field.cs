@@ -2,9 +2,12 @@
 
 namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
+    using Builders.Abstractions;
+    using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.Linq;
 
+    [JsonConverter(typeof(FieldJsonConverter))]
     internal class Field : IField
     {
         public string Name { get; }

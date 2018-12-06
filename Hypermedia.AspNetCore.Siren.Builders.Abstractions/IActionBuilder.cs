@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Actions
+﻿namespace Hypermedia.AspNetCore.Siren.Builders.Abstractions
 {
     using System;
     using System.Collections.Generic;

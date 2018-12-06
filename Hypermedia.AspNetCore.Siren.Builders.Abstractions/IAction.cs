@@ -1,6 +1,5 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Actions
+﻿namespace Hypermedia.AspNetCore.Siren.Builders.Abstractions
 {
-    using Hypermedia.AspNetCore.Siren.Actions.Fields;
     using System.Collections.Generic;
 
     public interface IAction
