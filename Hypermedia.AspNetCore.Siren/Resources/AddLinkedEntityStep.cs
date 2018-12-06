@@ -3,7 +3,7 @@
     using Builder;
     using Builders.Abstractions;
     using Endpoints;
-    using Hypermedia.AspNetCore.Siren.Entities;
+    using Entities;
     using System;
     using System.Linq.Expressions;
     using System.Security.Claims;
@@ -53,7 +53,7 @@
 
             if (method == "GET")
             {
-                builder.WithEntity(new Entity(this._classes, href));
+                builder.WithEntity(new Entity(new Classes(this._classes), href));
             }
 
             return Task.CompletedTask;

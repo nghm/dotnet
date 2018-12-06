@@ -16,10 +16,10 @@
         public IEntity Build()
         {
             return new Entity(
-                this._classes.ToArray(),
+                new Classes(this._classes),
                 this._entities.ToArray(),
                 this._links.ToArray(),
-                this._properties,
+                new Properties(this._properties),
                 this._actions.ToArray()
             );
         }
@@ -73,5 +73,12 @@
             return this;
         }
 
+    }
+
+    internal class Classes : HashSet<string>, IClasses
+    {
+        public Classes(IEnumerable<string> classes) : base(classes)
+        {
+        }
     }
 }

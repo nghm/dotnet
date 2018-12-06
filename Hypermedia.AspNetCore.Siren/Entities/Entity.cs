@@ -1,13 +1,10 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Entities
 {
     using Builders.Abstractions;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Util;
 
     internal class Entity : IEntity
     {
-        public Entity(string[] classes, string href)
+        public Entity(IClasses classes, string href)
         {
             this.Href = href;
             this.Classes = classes;
@@ -15,26 +12,23 @@
 
 
         public Entity(
-            string[] classes,
+            IClasses classes,
             IEntity[] entities = null,
             ILink[] links = null,
-            IDictionary<string, object> properties = null,
+            IProperties properties = null,
             IAction[] actions = null
         )
         {
             this.Classes = classes;
             this.Entities = entities;
             this.Links = links;
-            this.Properties = properties
-                .AsEnumerable()
-                .GroupBy(kvp => kvp.Key.ToCamelCase())
-                .ToDictionary(kvp => kvp.Key, kvp => kvp.Last().Value);
+            this.Properties = properties;
             this.Actions = actions;
         }
-        public string[] Classes { get; set; }
+        public IClasses Classes { get; set; }
         public IEntity[] Entities { get; set; }
         public ILink[] Links { get; set; }
-        public IDictionary<string, object> Properties { get; set; }
+        public IProperties Properties { get; set; }
         public IAction[] Actions { get; internal set; }
 
         public string Href { get; set; }
