@@ -15,14 +15,14 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
                 throw new ArgumentNullException(nameof(enumOptionsExtractor));
         }
 
-        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
+        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldDescriptor fieldDescriptor)
         {
-            if (fieldGenerationContext == null)
+            if (fieldDescriptor == null)
             {
-                throw new ArgumentNullException(nameof(fieldGenerationContext));
+                throw new ArgumentNullException(nameof(fieldDescriptor));
             }
 
-            var propertyType = fieldGenerationContext.FieldDescriptor.PropertyType;
+            var propertyType = fieldDescriptor.PropertyType;
 
             if (!this._enumOptionsExtractor.TryGetEnumOptions(propertyType, out var options))
             {

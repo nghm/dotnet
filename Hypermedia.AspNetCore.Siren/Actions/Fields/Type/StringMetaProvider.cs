@@ -28,14 +28,14 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
                 throw new ArgumentNullException(nameof(dataTypeAttributeExtractor));
         }
 
-        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
+        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldDescriptor fieldDescriptor)
         {
-            if (fieldGenerationContext == null)
+            if (fieldDescriptor == null)
             {
-                throw new ArgumentNullException(nameof(fieldGenerationContext));
+                throw new ArgumentNullException(nameof(fieldDescriptor));
             }
 
-            var propertyType = fieldGenerationContext.FieldDescriptor.PropertyType;
+            var propertyType = fieldDescriptor.PropertyType;
             var typeCode = this._typeCodeExtractor.GetTypeCode(propertyType);
 
             if (typeCode != TypeCode.String)
@@ -44,7 +44,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields.Type
             }
 
             var type = "text";
-            var fieldCustomAttributes = fieldGenerationContext.FieldDescriptor.CustomAttributes;
+            var fieldCustomAttributes = fieldDescriptor.CustomAttributes;
             var dataType = _dataTypeAttributeExtractor.GetDataTypeAttribute(fieldCustomAttributes);
 
             if (dataType != null)

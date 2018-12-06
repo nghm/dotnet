@@ -1,4 +1,6 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Actions.Fields
+﻿using System;
+
+namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
     using System.Collections.Generic;
     using Validation;
@@ -9,12 +11,19 @@
 
         public ValidationMetadataProvider(IValidationMetaProvider[] validationMetaProviders)
         {
-            this._validationMetaProviders = validationMetaProviders;
+            this._validationMetaProviders = 
+                validationMetaProviders ??
+                throw new ArgumentNullException(nameof(validationMetaProviders));
         }
 
-        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
+        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldDescriptor fieldDescriptor)
         {
-            var attributes = fieldGenerationContext.FieldDescriptor.CustomAttributes;
+            if (fieldDescriptor == null)
+            {
+                throw new ArgumentNullException(nameof(fieldDescriptor));
+            }
+
+            var attributes = fieldDescriptor.CustomAttributes;
             var results = new List<KeyValuePair<string, object>>();
 
             foreach (var validationMetaProvider in this._validationMetaProviders)

@@ -1,4 +1,5 @@
-﻿using Hypermedia.AspNetCore.Siren.Endpoints;
+﻿using System;
+using Hypermedia.AspNetCore.Siren.Endpoints;
 using Hypermedia.AspNetCore.Siren.Util;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,50 +8,30 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
     internal class FieldsFactory : IFieldsFactory
     {
-        #region Fields
+        private readonly IFieldFactory _fieldFactory;
 
-        private readonly IFieldMetadataProviderCollection _fieldMetadataProviderCollection;
-
-        #endregion Fields
-
-        #region Constructors
-
-        public FieldsFactory(IFieldMetadataProviderCollection fieldMetadataProviderCollection)
+        public FieldsFactory(IFieldFactory fieldFactory)
         {
-            Guard.EnsureIsNotNull(fieldMetadataProviderCollection, nameof(fieldMetadataProviderCollection));
-
-            this._fieldMetadataProviderCollection = fieldMetadataProviderCollection;
+            this._fieldFactory = 
+                fieldFactory ??
+                throw new ArgumentNullException(nameof(fieldFactory));
         }
-
-        #endregion Constructors
-
-        #region Public functions
 
         public IEnumerable<IField> MakeFields(ActionArgument bodyArgument)
         {
-            var argumentFields = bodyArgument.GetFieldDescriptors();
+            if (bodyArgument == null)
+            {
+                throw new ArgumentNullException(nameof(bodyArgument));
+            }
+
+            var argumentFields = bodyArgument.FieldDescriptors;
 
             foreach (var field in argumentFields)
             {
-                yield return MakeField(field);
+                yield return _fieldFactory.MakeField(field);
             }
         }
 
-        #endregion Public functions
-
-        #region Private functions
-
-        private IField MakeField(FieldDescriptor fieldDescriptor)
-        {
-            var fieldGenerationContext = new FieldGenerationContext(fieldDescriptor);
-
-            var metadata = this._fieldMetadataProviderCollection
-                .GetMetadataProviders()
-                .SelectMany(metaProvider => metaProvider.GetMetadata(fieldGenerationContext));
-
-            return new Field(fieldDescriptor.Name, fieldDescriptor.Value, metadata);
-        }
-
-        #endregion Private functions
+        
     }
 }

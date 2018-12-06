@@ -48,13 +48,13 @@
         [AutoMockData]
         private void ShouldGetTypeCodeFromTypeCodeExtractor(
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
-            FieldGenerationContext fieldGenerationContext,
+            FieldDescriptor fieldDescriptor,
             NumberMetaProvider sut)
         {
-            var _ = sut.GetMetadata(fieldGenerationContext)
+            var _ = sut.GetMetadata(fieldDescriptor)
                 .ToArray();
 
-            typeMock.Verify(t => t.GetTypeCode(fieldGenerationContext.FieldDescriptor.PropertyType), Times.Once);
+            typeMock.Verify(t => t.GetTypeCode(fieldDescriptor.PropertyType), Times.Once);
         }
 
         [Theory]
@@ -71,14 +71,14 @@
         [InlineAutoMockData(TypeCode.Single)]
         private void ShouldReturnMetadata(
             TypeCode typeCode,
-            FieldGenerationContext fieldGenerationContext,
+            FieldDescriptor fieldDescriptor,
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
             NumberMetaProvider sut)
         {
             typeMock.Setup(t => t.GetTypeCode(It.IsAny<Type>()))
                 .Returns(typeCode);
 
-            var meta = sut.GetMetadata(fieldGenerationContext)
+            var meta = sut.GetMetadata(fieldDescriptor)
                 .ToArray();
 
             Assert.Equal(meta, new[] { new KeyValuePair<string, object>("type", "number"), });
@@ -94,14 +94,14 @@
         [InlineAutoMockData(TypeCode.String)]
         private void ShouldReturnEmptyMetadata(
             TypeCode typeCode,
-            FieldGenerationContext fieldGenerationContext,
+            FieldDescriptor fieldDescriptor,
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
             NumberMetaProvider sut)
         {
             typeMock.Setup(t => t.GetTypeCode(It.IsAny<Type>()))
                 .Returns(typeCode);
 
-            var meta = sut.GetMetadata(fieldGenerationContext)
+            var meta = sut.GetMetadata(fieldDescriptor)
                 .ToArray();
 
             Assert.Empty(meta);

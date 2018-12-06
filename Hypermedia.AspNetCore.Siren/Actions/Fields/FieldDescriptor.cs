@@ -1,4 +1,6 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Actions.Fields
+﻿using System;
+
+namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
     public class FieldDescriptor
     {
@@ -9,10 +11,26 @@
 
         public FieldDescriptor(string name, object value, System.Type propertyType, object[] customAttributes)
         {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException(nameof(name));
+            }
+
             this.Name = name;
             this.Value = value;
-            this.PropertyType = propertyType;
-            this.CustomAttributes = customAttributes;
+
+            this.PropertyType =
+                propertyType ??
+                throw new ArgumentNullException(nameof(propertyType));
+
+            this.CustomAttributes =
+                customAttributes ??
+                throw new ArgumentNullException(nameof(customAttributes));
         }
     }
 }

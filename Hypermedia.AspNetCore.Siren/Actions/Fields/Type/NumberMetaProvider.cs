@@ -29,14 +29,14 @@
                 throw new ArgumentNullException(nameof(typeCodeExtractor));
         }
 
-        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldGenerationContext fieldGenerationContext)
+        public IEnumerable<KeyValuePair<string, object>> GetMetadata(FieldDescriptor fieldDescriptor)
         {
-            if (fieldGenerationContext == null)
+            if (fieldDescriptor == null)
             {
-                throw new ArgumentNullException(nameof(fieldGenerationContext));
+                throw new ArgumentNullException(nameof(fieldDescriptor));
             }
 
-            var fieldDescriptorPropertyType = fieldGenerationContext.FieldDescriptor.PropertyType;
+            var fieldDescriptorPropertyType = fieldDescriptor.PropertyType;
             var typeCode = this._typeCodeExtractor.GetTypeCode(fieldDescriptorPropertyType);
 
             if (this._numberTypeCodes.Contains(typeCode))

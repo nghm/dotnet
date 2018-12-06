@@ -74,13 +74,13 @@
         [AutoMockData]
         private void ShouldGetTypeCodeFromTypeCodeExtractor(
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
-            FieldGenerationContext fieldGenerationContext,
+            FieldDescriptor fieldDescriptor,
             StringMetaProvider sut)
         {
-            var _ = sut.GetMetadata(fieldGenerationContext)
+            var _ = sut.GetMetadata(fieldDescriptor)
                 .ToArray();
 
-            typeMock.Verify(t => t.GetTypeCode(fieldGenerationContext.FieldDescriptor.PropertyType), Times.Once);
+            typeMock.Verify(t => t.GetTypeCode(fieldDescriptor.PropertyType), Times.Once);
         }
 
         [Theory]
@@ -103,14 +103,14 @@
         [InlineAutoMockData(TypeCode.Object)]
         private void ShouldReturnEmptyMetadata(
             TypeCode typeCode,
-            FieldGenerationContext fieldGenerationContext,
+            FieldDescriptor fieldDescriptor,
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
             StringMetaProvider sut)
         {
             typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
                 .Returns(typeCode);
 
-            var meta = sut.GetMetadata(fieldGenerationContext)
+            var meta = sut.GetMetadata(fieldDescriptor)
                 .ToArray();
 
             Assert.Empty(meta);
@@ -121,16 +121,16 @@
         private void ShouldGetDataTypeAttributeFromDataTypeAttributeExtractor(
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
             [Frozen] Mock<IDataTypeAttributeExtractor> dataTypeMock,
-            FieldGenerationContext fieldGenerationContext,
+            FieldDescriptor fieldDescriptor,
             StringMetaProvider sut)
         {
             typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
                 .Returns(TypeCode.String);
 
-            var _ = sut.GetMetadata(fieldGenerationContext)
+            var _ = sut.GetMetadata(fieldDescriptor)
                 .ToArray();
 
-            dataTypeMock.Verify(t => t.GetDataTypeAttribute(fieldGenerationContext.FieldDescriptor.CustomAttributes), Times.Once);
+            dataTypeMock.Verify(t => t.GetDataTypeAttribute(fieldDescriptor.CustomAttributes), Times.Once);
         }
 
         [Theory]
@@ -138,15 +138,15 @@
         private void ShouldFallbackToTypeText(
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
             [Frozen] Mock<IDataTypeAttributeExtractor> dataTypeMock,
-            FieldGenerationContext fieldGenerationContext,
+            FieldDescriptor fieldDescriptor,
             StringMetaProvider sut)
         {
             typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
                 .Returns(TypeCode.String);
-            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldGenerationContext.FieldDescriptor.CustomAttributes))
+            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldDescriptor.CustomAttributes))
                 .Returns(null as DataTypeAttribute);
 
-            var meta = sut.GetMetadata(fieldGenerationContext)
+            var meta = sut.GetMetadata(fieldDescriptor)
                 .ToArray();
 
             Assert.Equal(new[]
@@ -161,16 +161,16 @@
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
             [Frozen] Mock<IDataTypeAttributeExtractor> dataTypeMock,
             [Frozen] Mock<IStringPropertyTypeMap> stringPropertyTypeMap,
-            FieldGenerationContext fieldGenerationContext,
+            FieldDescriptor fieldDescriptor,
             StringMetaProvider sut,
             DataTypeAttribute expectedDataTypeAttribute)
         {
             typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
                 .Returns(TypeCode.String);
-            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldGenerationContext.FieldDescriptor.CustomAttributes))
+            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldDescriptor.CustomAttributes))
                 .Returns(expectedDataTypeAttribute);
 
-            var _ = sut.GetMetadata(fieldGenerationContext)
+            var _ = sut.GetMetadata(fieldDescriptor)
                 .ToArray();
 
             stringPropertyTypeMap.Verify(m => m.MapDataType(expectedDataTypeAttribute.DataType), Times.Once);
@@ -182,19 +182,19 @@
             [Frozen] Mock<ITypeCodeExtractor> typeMock,
             [Frozen] Mock<IDataTypeAttributeExtractor> dataTypeMock,
             [Frozen] Mock<IStringPropertyTypeMap> stringPropertyTypeMap,
-            FieldGenerationContext fieldGenerationContext,
+            FieldDescriptor fieldDescriptor,
             StringMetaProvider sut,
             DataTypeAttribute expectedDataTypeAttribute,
             string type)
         {
             typeMock.Setup(t => t.GetTypeCode(It.IsAny<System.Type>()))
                 .Returns(TypeCode.String);
-            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldGenerationContext.FieldDescriptor.CustomAttributes))
+            dataTypeMock.Setup(t => t.GetDataTypeAttribute(fieldDescriptor.CustomAttributes))
                 .Returns(expectedDataTypeAttribute);
             stringPropertyTypeMap.Setup(m => m.MapDataType(expectedDataTypeAttribute.DataType))
                 .Returns(type);
 
-            var meta = sut.GetMetadata(fieldGenerationContext)
+            var meta = sut.GetMetadata(fieldDescriptor)
                 .ToArray();
 
             Assert.Equal(new[]
