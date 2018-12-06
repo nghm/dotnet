@@ -1,10 +1,10 @@
 ﻿using Hypermedia.AspNetCore.Siren.Endpoints;
 using System;
-using System.Collections.Generic;
 
 namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 {
     using Builders.Abstractions;
+    using System.Linq;
 
     internal class FieldsFactory : IFieldsFactory
     {
@@ -17,7 +17,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
                 throw new ArgumentNullException(nameof(fieldFactory));
         }
 
-        public IEnumerable<IField> MakeFields(ActionArgument bodyArgument)
+        public IFields MakeFields(ActionArgument bodyArgument)
         {
             if (bodyArgument == null)
             {
@@ -26,12 +26,7 @@ namespace Hypermedia.AspNetCore.Siren.Actions.Fields
 
             var argumentFields = bodyArgument.FieldDescriptors;
 
-            foreach (var field in argumentFields)
-            {
-                yield return _fieldFactory.MakeField(field);
-            }
+            return new Fields(argumentFields.Select(argument => this._fieldFactory.MakeField(argument)));
         }
-
-
     }
 }
