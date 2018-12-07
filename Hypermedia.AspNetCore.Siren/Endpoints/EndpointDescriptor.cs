@@ -27,7 +27,6 @@ namespace Hypermedia.AspNetCore.Siren.Endpoints
 
             this.Host = host;
             this.Protocol = protocol;
-            this.Body = actionDescriptor.PickBodyArgument(arguments);
             this.Template = actionDescriptor.AttributeRouteInfo.Template.ToLower();
             this.Method = actionDescriptor.GetHttpMethod().ToUpper();
             this.ArgumentsCollection = new ArgumentCollection(parameters, arguments);
@@ -39,7 +38,6 @@ namespace Hypermedia.AspNetCore.Siren.Endpoints
         public string Host { get; }
         public string Protocol { get; }
         public string Method { get; }
-        public object Body { get; }
         public string Template { get; }
         public ActionArgument BodyArgument { get; }
         public ArgumentCollection ArgumentsCollection { get; }

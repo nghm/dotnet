@@ -57,7 +57,7 @@
                 return;
             }
 
-            if (descriptor.Body != null)
+            if (descriptor.BodyArgument != null)
             {
                 throw new InvalidOperationException("Cannot add link, body is not null!");
             }

@@ -9,7 +9,6 @@
         string Host { get; }
         string Protocol { get; }
         string Method { get; }
-        object Body { get; }
         string Template { get; }
         ActionArgument BodyArgument { get; }
         ArgumentCollection ArgumentsCollection { get; }
