@@ -1,7 +1,8 @@
-﻿namespace Hypermedia.AspNetCore.Store
+﻿namespace Hypermedia.AspNetCore.Core
 {
     using System.Collections;
     using System.Collections.Generic;
+    using Store;
 
     internal class Storage<TStored> : IStorage<TStored>
     {

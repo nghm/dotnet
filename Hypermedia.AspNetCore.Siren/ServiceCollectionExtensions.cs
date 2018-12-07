@@ -1,4 +1,6 @@
-﻿namespace Hypermedia.AspNetCore.Siren
+﻿using Hypermedia.AspNetCore.Core;
+
+namespace Hypermedia.AspNetCore.Siren
 {
     using Actions;
     using Actions.Fields;
