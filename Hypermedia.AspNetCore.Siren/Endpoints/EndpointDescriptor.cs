@@ -10,7 +10,7 @@ namespace Hypermedia.AspNetCore.Siren.Endpoints
     using System.Linq;
     using Util;
 
-    internal class EndpointDescriptor
+    internal class EndpointDescriptor : IEndpointDescriptor
     {
         public EndpointDescriptor(
             ActionDescriptor actionDescriptor,

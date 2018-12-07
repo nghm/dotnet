@@ -2,6 +2,6 @@
 {
     internal interface IHrefFactory
     {
-        string MakeHref(EndpointDescriptor endpointDescriptor);
+        string MakeHref(IEndpointDescriptor endpointDescriptor);
     }
 }

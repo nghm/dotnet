@@ -20,7 +20,7 @@
             this._accessValidator = accessValidator;
         }
 
-        public EndpointDescriptor GetEndpointDescriptor<T>(
+        public IEndpointDescriptor GetEndpointDescriptor<T>(
             Expression<Action<T>> endpointCapture,
             ClaimsPrincipal claimsPrincipal
         ) where T : class

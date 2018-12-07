@@ -8,7 +8,7 @@ namespace Hypermedia.AspNetCore.Siren.Endpoints
 
     internal class HrefFactory : IHrefFactory
     {
-        public string MakeHref(EndpointDescriptor endpointDescriptor)
+        public string MakeHref(IEndpointDescriptor endpointDescriptor)
         {
             ExtractParameters(
                 endpointDescriptor.ArgumentsCollection,

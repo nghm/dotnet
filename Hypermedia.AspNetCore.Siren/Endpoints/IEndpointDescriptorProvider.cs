@@ -6,7 +6,7 @@
 
     internal interface IEndpointDescriptorProvider
     {
-        EndpointDescriptor GetEndpointDescriptor<T>(
+        IEndpointDescriptor GetEndpointDescriptor<T>(
             Expression<Action<T>> endpointCapture,
             ClaimsPrincipal claimsPrincipal
         ) where T : class;
