@@ -1,9 +1,9 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Test
 {
-    using System.Linq;
-    using System.Reflection;
     using Endpoints;
     using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
+    using System.Linq;
+    using System.Reflection;
     using Xunit;
 
     public class Collectable
@@ -21,13 +21,12 @@
 
         [Theory]
         [AutoMockData]
-        private void TestPerformanceOld(ExpressionCallCollector sut)
+        private void TestPerformanceOld(MethodMethodCallPlucker sut)
         {
-            var callCollected = sut.CollectMethodCall<Collectable>(e => e.CollectMe(1, 2, 3 + 2));
+            sut.PluckMethodCall<Collectable>(e => e.CollectMe(1, 2, 3 + 2), out var callCollected);
 
-            Assert.Equal(typeof(Collectable), callCollected.Target);
             Assert.Equal(callCollected.Method, this.CollectMeMethodInfo);
-            Assert.Equal(callCollected.Arguments.OfType<int>(), new [] { 1, 2, 5 });
+            Assert.Equal(callCollected.Arguments.OfType<int>(), new[] { 1, 2, 5 });
         }
     }
 }

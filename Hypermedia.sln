@@ -27,9 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypermedia.AspNetCore.Async
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypermedia.AspNetCore.Tests.Common", "Hypermedia.AspNetCore.Tests.Common\Hypermedia.AspNetCore.Tests.Common.csproj", "{369818FC-0E63-4388-8FB0-4854E95A951F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermedia.AspNetCore.Siren.Builders.Test", "Hypermedia.AspNetCore.Siren.Builders.Test\Hypermedia.AspNetCore.Siren.Builders.Test.csproj", "{BC1975C7-5328-40FC-8352-4EE2BA9B0789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypermedia.AspNetCore.Siren.Builders.Test", "Hypermedia.AspNetCore.Siren.Builders.Test\Hypermedia.AspNetCore.Siren.Builders.Test.csproj", "{BC1975C7-5328-40FC-8352-4EE2BA9B0789}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermedia.AspNetCore.Siren.Builders.Abstractions", "Hypermedia.AspNetCore.Siren.Builders.Abstractions\Hypermedia.AspNetCore.Siren.Builders.Abstractions.csproj", "{F5E0DD66-9DFB-4323-A6C2-320DDCDBF1FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypermedia.AspNetCore.Siren.Builders.Abstractions", "Hypermedia.AspNetCore.Siren.Builders.Abstractions\Hypermedia.AspNetCore.Siren.Builders.Abstractions.csproj", "{F5E0DD66-9DFB-4323-A6C2-320DDCDBF1FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermedia.AspNetCore.Mvc", "Hypermedia.AspNetCore.Mvc\Hypermedia.AspNetCore.Mvc.csproj", "{3525042F-462C-4402-BCDA-2ADC1DEF22B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{F5E0DD66-9DFB-4323-A6C2-320DDCDBF1FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5E0DD66-9DFB-4323-A6C2-320DDCDBF1FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5E0DD66-9DFB-4323-A6C2-320DDCDBF1FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3525042F-462C-4402-BCDA-2ADC1DEF22B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3525042F-462C-4402-BCDA-2ADC1DEF22B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3525042F-462C-4402-BCDA-2ADC1DEF22B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3525042F-462C-4402-BCDA-2ADC1DEF22B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +104,7 @@ Global
 		{369818FC-0E63-4388-8FB0-4854E95A951F} = {BFFE76C5-7A0A-4F91-A625-E96C46BC5F3E}
 		{BC1975C7-5328-40FC-8352-4EE2BA9B0789} = {BFFE76C5-7A0A-4F91-A625-E96C46BC5F3E}
 		{F5E0DD66-9DFB-4323-A6C2-320DDCDBF1FE} = {0A50D104-42C3-4EE9-A8C3-0319B78182CB}
+		{3525042F-462C-4402-BCDA-2ADC1DEF22B0} = {0A50D104-42C3-4EE9-A8C3-0319B78182CB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {078B1914-1774-4986-829B-74698F301995}

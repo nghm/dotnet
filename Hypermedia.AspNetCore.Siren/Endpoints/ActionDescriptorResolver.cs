@@ -1,18 +1,17 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
-    using System;
+    using Microsoft.AspNetCore.Mvc.Controllers;
+    using Microsoft.AspNetCore.Mvc.Infrastructure;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Microsoft.AspNetCore.Mvc.Controllers;
-    using Microsoft.AspNetCore.Mvc.Infrastructure;
 
     internal class ActionDescriptorResolver : IActionDescriptorResolver
     {
         private readonly IActionDescriptorCollectionProvider _actionDescriptorProvider;
-        private Dictionary<Type, Dictionary<MethodInfo, ControllerActionDescriptor>> _cachedDescriptorDictionary;
+        private Dictionary<MethodInfo, ControllerActionDescriptor> _cachedDescriptorDictionary;
 
-        private IDictionary<Type, Dictionary<MethodInfo, ControllerActionDescriptor>> DescriptorDictionary 
+        private IDictionary<MethodInfo, ControllerActionDescriptor> DescriptorDictionary
             => this._cachedDescriptorDictionary ?? (this._cachedDescriptorDictionary = MakeDescriptorDictionary());
 
         public ActionDescriptorResolver(IActionDescriptorCollectionProvider actionDescriptorProvider)
@@ -20,7 +19,7 @@
             this._actionDescriptorProvider = actionDescriptorProvider;
         }
 
-        private Dictionary<Type, Dictionary<MethodInfo, ControllerActionDescriptor>> MakeDescriptorDictionary()
+        private Dictionary<MethodInfo, ControllerActionDescriptor> MakeDescriptorDictionary()
         {
             var actionDescriptorsItems = this._actionDescriptorProvider
                 .ActionDescriptors
@@ -29,28 +28,14 @@
                 .ToArray();
 
             return actionDescriptorsItems
-                .GroupBy(d => d.ControllerTypeInfo.AsType())
                 .ToDictionary(
-                    i => i.Key,
-                    i => i.ToDictionary(k => k.MethodInfo, k => k)
-                );
+                    i => i.MethodInfo,
+                    i => i);
         }
 
-        public ControllerActionDescriptor Resolve(Type controllerType, MethodInfo actionMethodInfo)
+        public ControllerActionDescriptor Resolve(MethodInfo actionMethodInfo)
         {
-            if (!this.DescriptorDictionary.ContainsKey(controllerType))
-            {
-                return null;
-            }
-
-            var controllerActionDescriptors = this.DescriptorDictionary[controllerType];
-
-            if (!controllerActionDescriptors.ContainsKey(actionMethodInfo))
-            {
-                return null;
-            }
-
-            return controllerActionDescriptors[actionMethodInfo];
+            return !this.DescriptorDictionary.ContainsKey(actionMethodInfo) ? null : this.DescriptorDictionary[actionMethodInfo];
         }
     }
 }

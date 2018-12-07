@@ -21,7 +21,7 @@
 
             services.AddSingleton<IAccessValidator, AccessValidator>();
             services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
-            services.AddSingleton<ICallCollector, ExpressionCallCollector>();
+            services.AddSingleton<IMethodCallPlucker, MethodMethodCallPlucker>();
             services.AddSingleton<IEndpointDescriptorProvider, EndpointDescriptorProvider>();
             services.AddSingleton<IHrefFactory, HrefFactory>();
             services.AddSingleton<IFieldsFactory, FieldsFactory>();

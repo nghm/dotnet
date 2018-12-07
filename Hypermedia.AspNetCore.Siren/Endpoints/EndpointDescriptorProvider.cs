@@ -7,16 +7,16 @@
     internal class EndpointDescriptorProvider : IEndpointDescriptorProvider
     {
         private readonly IActionDescriptorResolver _actionDescriptorResolver;
-        private readonly ICallCollector _callCollector;
+        private readonly IMethodCallPlucker _methodCallPlucker;
         private readonly IAccessValidator _accessValidator;
 
         public EndpointDescriptorProvider(
             IActionDescriptorResolver actionDescriptorResolver,
-            ICallCollector callCollector,
+            IMethodCallPlucker methodCallPlucker,
             IAccessValidator accessValidator)
         {
             this._actionDescriptorResolver = actionDescriptorResolver;
-            this._callCollector = callCollector;
+            this._methodCallPlucker = methodCallPlucker;
             this._accessValidator = accessValidator;
         }
 
@@ -25,21 +25,18 @@
             ClaimsPrincipal claimsPrincipal
         ) where T : class
         {
-            var methodCall = this._callCollector.CollectMethodCall(endpointCapture);
+            this._methodCallPlucker.PluckMethodCall(endpointCapture, out var call);
 
-            if (methodCall == null)
-            {
-                return null;
-            }
-            
-            var actionDescriptor = this._actionDescriptorResolver.Resolve(methodCall.Target, methodCall.Method);
+            var (method, arguments) = call;
+
+            var actionDescriptor = this._actionDescriptorResolver.Resolve(method);
 
             if (actionDescriptor == null)
             {
                 throw new InvalidOperationException("Expression does not call application action");
             }
 
-            var endpointDescriptor = new EndpointDescriptor(actionDescriptor, methodCall.Arguments, "localhost:54287", "http");
+            var endpointDescriptor = new EndpointDescriptor(actionDescriptor, arguments, "localhost:54287", "http");
 
             if (!this._accessValidator.CanAccess(claimsPrincipal, endpointDescriptor.Policies))
             {
