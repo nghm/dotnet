@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.AspNetCore.Builder
+﻿namespace Hypermedia.AspNetCore.AsyncStepBuilder
 {
     using System.Threading.Tasks;
 

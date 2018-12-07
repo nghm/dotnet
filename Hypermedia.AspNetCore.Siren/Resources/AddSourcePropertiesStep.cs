@@ -1,6 +1,7 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Resources
+﻿using Hypermedia.AspNetCore.AsyncStepBuilder;
+
+namespace Hypermedia.AspNetCore.Siren.Resources
 {
-    using Hypermedia.AspNetCore.Builder;
     using Hypermedia.AspNetCore.Siren.Entities;
     using System;
     using System.Threading.Tasks;

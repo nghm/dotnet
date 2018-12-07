@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.AspNetCore.Builder
+﻿namespace Hypermedia.AspNetCore.Core
 {
     public interface IBuilder<out TBuilt> where TBuilt : class
     {

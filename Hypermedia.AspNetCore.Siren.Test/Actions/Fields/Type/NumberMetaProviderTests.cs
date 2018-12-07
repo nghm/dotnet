@@ -1,4 +1,6 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
+﻿using Hypermedia.AspNetCore.Tests.Common;
+
+namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
 {
     using AutoFixture.Xunit2;
     using Moq;
@@ -22,14 +24,7 @@
         [AutoMockData]
         private void ShouldCreateInstance(ITypeCodeExtractor typeCodeExtractor)
         {
-            try
-            {
-                var _ = new NumberMetaProvider(typeCodeExtractor);
-            }
-            catch
-            {
-                Assert.True(false, "Exception was thrown when none was expected!");
-            }
+            AssertUtils.NoExceptions(() => new NumberMetaProvider(typeCodeExtractor));
         }
 
         [Theory]

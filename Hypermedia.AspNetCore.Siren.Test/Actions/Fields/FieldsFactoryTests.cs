@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AutoFixture.Xunit2;
-using Hypermedia.AspNetCore.Siren.Actions;
+﻿using AutoFixture.Xunit2;
 using Hypermedia.AspNetCore.Siren.Actions.Fields;
+using Hypermedia.AspNetCore.Tests.Common;
 using Moq;
 using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields
 {
@@ -26,14 +23,7 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields
         private void ShouldCreateInstance(
             IFieldFactory fieldFactory)
         {
-            try
-            {
-                var _ = new FieldsFactory(fieldFactory);
-            }
-            catch
-            {
-                Assert.True(false, "Exception was thrown when none was expected!");
-            }
+            AssertUtils.NoExceptions(() => new FieldsFactory(fieldFactory));
         }
 
         [Theory]

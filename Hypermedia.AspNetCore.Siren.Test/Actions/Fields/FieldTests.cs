@@ -1,5 +1,6 @@
 ﻿using AutoFixture.Xunit2;
 using Hypermedia.AspNetCore.Siren.Actions.Fields;
+using Hypermedia.AspNetCore.Tests.Common;
 using Moq;
 using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
 using System;
@@ -35,14 +36,7 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields
         private void ShouldCreateInstanceWithMinimalNumberOfNonNullArguments(
             string name)
         {
-            try
-            {
-                var _ = new Field(name, null);
-            }
-            catch
-            {
-                Assert.True(false, "Exception was thrown when none was expected!");
-            }
+            AssertUtils.NoExceptions(() => new Field(name, null));
         }
 
         [Theory]
@@ -52,14 +46,7 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields
             object value,
             ICollection<KeyValuePair<string, object>> metadata)
         {
-            try
-            {
-                var _ = new Field(name, value, metadata);
-            }
-            catch
-            {
-                Assert.True(false, "Exception was thrown when none was expected!");
-            }
+            AssertUtils.NoExceptions(() => new Field(name, value, metadata));
         }
 
         [Theory]

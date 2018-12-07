@@ -1,10 +1,11 @@
-﻿namespace Hypermedia.AspNetCore.Builder
-{
-    using Store;
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
+﻿using Hypermedia.AspNetCore.Core;
+using Hypermedia.AspNetCore.Store;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
+namespace Hypermedia.AspNetCore.AsyncStepBuilder
+{
     internal class AsyncStepBuilder<TBuilder, TBuilt> : IAsyncStepBuilder<TBuilder, TBuilt>
         where TBuilder : class, IBuilder<TBuilt>
         where TBuilt : class
@@ -16,12 +17,19 @@
         public AsyncStepBuilder(
             IStorage<(Type, Action<IAsyncBuildStep<TBuilder, TBuilt>>)> parts,
             TBuilder builder,
-            IIsolatedBuildStepExecutor<TBuilder, TBuilt> isolatedBuildStepExecutor
-        )
+            IIsolatedBuildStepExecutor<TBuilder, TBuilt> isolatedBuildStepExecutor)
         {
-            this._parts = parts ?? throw new ArgumentNullException(nameof(parts));
-            this._builder = builder ?? throw new ArgumentNullException(nameof(builder));
-            this._isolatedBuildStepExecutor = isolatedBuildStepExecutor ?? throw new ArgumentNullException(nameof(isolatedBuildStepExecutor));
+            this._parts =
+                parts ??
+                throw new ArgumentNullException(nameof(parts));
+
+            this._builder =
+                builder ??
+                throw new ArgumentNullException(nameof(builder));
+
+            this._isolatedBuildStepExecutor =
+                isolatedBuildStepExecutor ??
+                throw new ArgumentNullException(nameof(isolatedBuildStepExecutor));
         }
 
         public void AddStep<TStep>(Action<TStep> configure)

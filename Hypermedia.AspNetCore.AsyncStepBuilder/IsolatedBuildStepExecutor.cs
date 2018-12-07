@@ -1,5 +1,6 @@
-﻿namespace Hypermedia.AspNetCore.Builder
+﻿namespace Hypermedia.AspNetCore.AsyncStepBuilder
 {
+    using Core;
     using Microsoft.Extensions.DependencyInjection;
     using System;
     using System.Threading.Tasks;
@@ -12,12 +13,19 @@
 
         public IsolatedBuildStepExecutor(IServiceScopeFactory serviceScopeFactory)
         {
-            this._serviceScopeFactory = serviceScopeFactory ?? throw new ArgumentNullException(nameof(serviceScopeFactory));
+            this._serviceScopeFactory =
+                serviceScopeFactory ??
+                throw new ArgumentNullException(nameof(serviceScopeFactory));
         }
 
         public Task ExecuteBuildStepAsync((Type, Action<IAsyncBuildStep<TBuilder, TBuilt>>) part, TBuilder builder)
         {
             var (serviceType, configure) = part;
+
+            if (serviceType == null)
+            {
+                throw new ArgumentNullException(nameof(serviceType));
+            }
 
             using (var scope = this._serviceScopeFactory.CreateScope())
             {

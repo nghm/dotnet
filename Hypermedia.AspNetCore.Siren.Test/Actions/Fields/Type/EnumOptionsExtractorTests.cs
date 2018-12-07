@@ -1,4 +1,6 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
+﻿using Hypermedia.AspNetCore.Tests.Common;
+
+namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
 {
     using AutoFixture.Xunit2;
     using Hypermedia.AspNetCore.Siren.Actions.Fields;
@@ -21,14 +23,7 @@
         [AutoMockData]
         private void ShouldCreateInstance(IEnumUtilities enumUtilities)
         {
-            try
-            {
-                var _ = new EnumOptionsExtractor(enumUtilities);
-            }
-            catch
-            {
-                Assert.True(false, "Exception was thrown when none was expected!");
-            }
+            AssertUtils.NoExceptions(() => new EnumOptionsExtractor(enumUtilities));
         }
 
         [Theory]

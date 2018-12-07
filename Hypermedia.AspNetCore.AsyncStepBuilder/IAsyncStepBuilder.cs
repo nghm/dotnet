@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Hypermedia.AspNetCore.Core;
 
-namespace Hypermedia.AspNetCore.Builder
+namespace Hypermedia.AspNetCore.AsyncStepBuilder
 {
+    using System;
+
     public interface IAsyncStepBuilder<TBuilder, TBuilt> : IAsyncBuilder<TBuilt>
         where TBuilder : class, IBuilder<TBuilt>
         where TBuilt : class

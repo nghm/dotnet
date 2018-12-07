@@ -1,4 +1,5 @@
 ﻿using Hypermedia.AspNetCore.Siren.Actions.Fields;
+using Hypermedia.AspNetCore.Tests.Common;
 using System;
 
 namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields
@@ -85,14 +86,7 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields
             System.Type propertyType,
             object[] customAttributes)
         {
-            try
-            {
-                var _ = new FieldDescriptor(name, null, propertyType, customAttributes);
-            }
-            catch
-            {
-                Assert.True(false, "Exception was thrown when none was expected!");
-            }
+            AssertUtils.NoExceptions(() => new FieldDescriptor(name, null, propertyType, customAttributes));
         }
 
         [Theory]
@@ -103,14 +97,7 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields
             System.Type propertyType,
             object[] customAttributes)
         {
-            try
-            {
-                var _ = new FieldDescriptor(name, value, propertyType, customAttributes);
-            }
-            catch
-            {
-                Assert.True(false, "Exception was thrown when none was expected!");
-            }
+            AssertUtils.NoExceptions(() => new FieldDescriptor(name, value, propertyType, customAttributes));
         }
     }
 }

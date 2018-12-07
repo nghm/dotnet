@@ -1,4 +1,6 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
+﻿using Hypermedia.AspNetCore.Tests.Common;
+
+namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
 {
     using AutoFixture.Xunit2;
     using Hypermedia.AspNetCore.Siren.Actions.Fields;
@@ -25,14 +27,7 @@
         [AutoMockData]
         private void ShouldCreateInstance(IEnumOptionsExtractor enumOptionsExtractor)
         {
-            try
-            {
-                var _ = new OptionMetaProvider(enumOptionsExtractor);
-            }
-            catch
-            {
-                Assert.True(false, "Exception was thrown when none was expected!");
-            }
+            AssertUtils.NoExceptions(() => new OptionMetaProvider(enumOptionsExtractor));
         }
 
         [Theory]

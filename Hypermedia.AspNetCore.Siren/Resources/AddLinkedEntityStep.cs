@@ -1,8 +1,9 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Resources
+﻿using Hypermedia.AspNetCore.AsyncStepBuilder;
+
+namespace Hypermedia.AspNetCore.Siren.Resources
 {
-    using Builder;
     using Endpoints;
-    using Hypermedia.AspNetCore.Siren.Entities;
+    using Entities;
     using System;
     using System.Linq.Expressions;
     using System.Security.Claims;

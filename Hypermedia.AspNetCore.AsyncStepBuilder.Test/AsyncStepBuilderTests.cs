@@ -1,14 +1,14 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Test.Parallel
+﻿namespace Hypermedia.AspNetCore.AsyncStepBuilder.Test
 {
     using AutoFixture.Xunit2;
-    using Builder;
-    using Hypermedia.AspNetCore.Tests.Common;
+    using Core;
     using Moq;
     using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
     using Store;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Tests.Common;
     using Xunit;
 
     public class AsyncStepBuilderTests
@@ -60,10 +60,7 @@
             IBuilder<object> builder,
             IIsolatedBuildStepExecutor<IBuilder<object>, object> stepExecutor)
         {
-            AssertUtils.NoExceptions(() =>
-            {
-                var _ = new AsyncStepBuilder<IBuilder<object>, object>(storage, builder, stepExecutor);
-            });
+            AssertUtils.NoExceptions(() => new AsyncStepBuilder<IBuilder<object>, object>(storage, builder, stepExecutor));
         }
 
         [Theory]

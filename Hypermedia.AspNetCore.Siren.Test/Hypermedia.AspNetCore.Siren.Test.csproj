@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hypermedia.AspNetCore.Siren\Hypermedia.AspNetCore.Siren.csproj" />
+    <ProjectReference Include="..\Hypermedia.AspNetCore.Tests.Common\Hypermedia.AspNetCore.Tests.Common.csproj" />
   </ItemGroup>
 
 </Project>

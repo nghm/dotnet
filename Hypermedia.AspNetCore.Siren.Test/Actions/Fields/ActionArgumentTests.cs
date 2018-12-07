@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Hypermedia.AspNetCore.Tests.Common;
+using Moq;
 
 namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields
 {
@@ -65,14 +66,7 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields
             BindingSource bindingSource,
             FieldDescriptor[] fieldDescriptors)
         {
-            try
-            {
-                var _ = new ActionArgument(name, null, null, bindingSource, fieldDescriptors);
-            }
-            catch
-            {
-                Assert.True(false, "Exception was thrown when none was expected!");
-            }
+            AssertUtils.NoExceptions(() => new ActionArgument(name, null, null, bindingSource, fieldDescriptors));
         }
 
         [Theory]
@@ -84,14 +78,8 @@ namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields
             BindingSource bindingSource,
             FieldDescriptor[] fieldDescriptors)
         {
-            try
-            {
-                var _ = new ActionArgument(name, value, defaultValue, bindingSource, fieldDescriptors);
-            }
-            catch
-            {
-                Assert.True(false, "Exception was thrown when none was expected!");
-            }
+            AssertUtils.NoExceptions(() =>
+                new ActionArgument(name, value, defaultValue, bindingSource, fieldDescriptors));
         }
 
         [Theory]

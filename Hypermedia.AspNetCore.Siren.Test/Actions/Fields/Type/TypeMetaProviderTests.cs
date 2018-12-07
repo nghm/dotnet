@@ -1,4 +1,6 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
+﻿using Hypermedia.AspNetCore.Tests.Common;
+
+namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
 {
     using Hypermedia.AspNetCore.Siren.Actions.Fields;
     using Hypermedia.AspNetCore.Siren.Actions.Fields.Type;
@@ -21,9 +23,7 @@
         [AutoMockData]
         private void ShouldCreateInstance(IEnumerable<ITypeMetaProvider> typeMetaProviders)
         {
-            var sut = new TypeMetadataProvider(typeMetaProviders);
-
-            Assert.NotNull(sut);
+            AssertUtils.NoExceptions(() => new TypeMetadataProvider(typeMetaProviders));
         }
 
         [Theory, AutoMockData]

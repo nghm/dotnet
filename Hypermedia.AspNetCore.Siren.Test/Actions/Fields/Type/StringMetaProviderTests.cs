@@ -1,4 +1,6 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
+﻿using Hypermedia.AspNetCore.Tests.Common;
+
+namespace Hypermedia.AspNetCore.Siren.Test.Actions.Fields.Type
 {
     using AutoFixture.Xunit2;
     using Hypermedia.AspNetCore.Siren.Actions.Fields;
@@ -51,14 +53,8 @@
             IDataTypeAttributeExtractor dataTypeAttributeExtractor
             )
         {
-            try
-            {
-                var _ = new StringMetaProvider(stringPropertyTypeMap, typeCodeExtractor, dataTypeAttributeExtractor);
-            }
-            catch
-            {
-                Assert.True(false, "Exception was thrown when none was expected!");
-            }
+            AssertUtils.NoExceptions(() =>
+                new StringMetaProvider(stringPropertyTypeMap, typeCodeExtractor, dataTypeAttributeExtractor));
         }
 
         [Theory]

@@ -1,7 +1,8 @@
-﻿namespace Hypermedia.AspNetCore.Siren.Resources
+﻿using Hypermedia.AspNetCore.AsyncStepBuilder;
+
+namespace Hypermedia.AspNetCore.Siren.Resources
 {
     using AutoMapper;
-    using Builder;
     using Hypermedia.AspNetCore.Siren.Entities;
     using System;
     using System.Threading.Tasks;
