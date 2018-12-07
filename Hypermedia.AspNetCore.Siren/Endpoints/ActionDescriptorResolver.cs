@@ -2,10 +2,12 @@
 {
     using Microsoft.AspNetCore.Mvc.Controllers;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
 
+    [Obsolete]
     internal class ActionDescriptorResolver : IActionDescriptorResolver
     {
         private readonly IActionDescriptorCollectionProvider _actionDescriptorProvider;

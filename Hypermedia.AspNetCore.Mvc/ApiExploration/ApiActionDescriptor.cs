@@ -2,7 +2,12 @@
 {
     internal class ApiActionDescriptor : IApiActionDescriptor
     {
-        public ApiActionDescriptor(string name, string template, (string Name, int Index)[] query, (string Name, int Index)[] route)
+        public ApiActionDescriptor(
+            string name,
+            string template,
+            (string Name, int Index)[] query,
+            (string Name, int Index)[] route
+        )
         {
             this.Name = name;
             this.Template = template;
