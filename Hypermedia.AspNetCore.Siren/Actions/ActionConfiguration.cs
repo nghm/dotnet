@@ -7,11 +7,11 @@
     using System.Linq;
     using System.Linq.Expressions;
 
-    internal class ActionBuilder<TBody> : IActionBuilder<TBody>
+    internal class ActionConfiguration<TBody> : IActionConfiguration<TBody>
     {
         private readonly Action _action;
 
-        public ActionBuilder(Action action)
+        public ActionConfiguration(Action action)
         {
             this._action = action;
         }

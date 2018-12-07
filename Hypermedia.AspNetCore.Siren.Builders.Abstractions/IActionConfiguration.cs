@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
-    public interface IActionBuilder<TBody>
+    public interface IActionConfiguration<TBody>
     {
         void WithOptions<TOption>(
             Expression<Func<TBody, IEnumerable<TOption>>> collectExpression,

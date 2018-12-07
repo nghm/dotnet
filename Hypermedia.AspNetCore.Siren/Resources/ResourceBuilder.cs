@@ -20,7 +20,7 @@
         public IResourceBuilder WithAction<TController, TBody>(
             string name,
             Expression<Action<TController>> resource,
-            Action<IActionBuilder<TBody>> configureActionBuilder = null
+            Action<IActionConfiguration<TBody>> configureActionBuilder = null
         ) where TController : class
           where TBody : class
         {
@@ -46,7 +46,7 @@
             params (
                 string name,
                 Expression<Action<TController>> resource,
-                Action<IActionBuilder<TBody>> configure
+                Action<IActionConfiguration<TBody>> configure
                 )[] actions
         )
             where TController : class

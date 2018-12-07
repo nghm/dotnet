@@ -20,7 +20,7 @@
 
         private Expression<Action<TController>> _captureExpression;
         private string _name;
-        private Action<IActionBuilder<TBody>> _configureActionBuilder;
+        private Action<IActionConfiguration<TBody>> _configureActionBuilder;
 
         public AddActionBuildStep(
             IEndpointDescriptorProvider endpointDescriptorProvider,
@@ -37,7 +37,7 @@
         public void Configure(
             string name,
             Expression<Action<TController>> captureExpression,
-            Action<IActionBuilder<TBody>> configureActionBuilder
+            Action<IActionConfiguration<TBody>> configureActionBuilder
         )
         {
             this._captureExpression = captureExpression ?? throw new ArgumentNullException(nameof(captureExpression));
@@ -67,7 +67,7 @@
 
             if (this._configureActionBuilder != null)
             {
-                var actionBuilder = new ActionBuilder<TBody>(action);
+                var actionBuilder = new ActionConfiguration<TBody>(action);
 
                 this._configureActionBuilder(actionBuilder);
             }
