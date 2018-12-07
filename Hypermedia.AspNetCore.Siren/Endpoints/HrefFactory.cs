@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Hypermedia.AspNetCore.Siren.Endpoints
 {
+    using System;
     using System.Collections.Generic;
     using Util;
 
+    [Obsolete]
     internal class HrefFactory : IHrefFactory
     {
         public string MakeHref(IEndpointDescriptor endpointDescriptor)

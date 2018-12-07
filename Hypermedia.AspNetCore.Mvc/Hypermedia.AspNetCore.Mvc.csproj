@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hypermedia.AspNetCore.Siren\Hypermedia.AspNetCore.Siren.csproj" />
+  </ItemGroup>
+
 </Project>

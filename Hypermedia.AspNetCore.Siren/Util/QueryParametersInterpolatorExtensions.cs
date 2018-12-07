@@ -1,10 +1,11 @@
 ﻿namespace Hypermedia.AspNetCore.Siren.Util
 {
     using System;
-    using System.Web;
     using System.Collections.Generic;
+    using System.Web;
 
-    static class QueryParametersInterpolatorExtensions
+    [Obsolete]
+    internal static class QueryParametersInterpolatorExtensions
     {
         public static string InterpolateQueryParameters(this string template, IDictionary<string, string> parameters)
         {

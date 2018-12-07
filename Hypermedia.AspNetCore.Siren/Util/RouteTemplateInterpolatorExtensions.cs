@@ -5,7 +5,8 @@ namespace Hypermedia.AspNetCore.Siren.Util
 {
     using System.Collections.Generic;
 
-    static class RouteTemplateInterpolatorExtensions
+    [Obsolete]
+    internal static class RouteTemplateInterpolatorExtensions
     {
         public static string InterpolateRouteParameters(this string template, IDictionary<string, string> parameters)
         {
