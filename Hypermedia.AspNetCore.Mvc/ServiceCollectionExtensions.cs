@@ -4,9 +4,8 @@
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddHypermedia(this IServiceCollection services)
+        public static IServiceCollection AddHypermediaMvc(this IServiceCollection services)
         {
-            services.AddSingleton<IActionDescriptorResolver, ActionDescriptorResolver>();
             services.AddSingleton<IHrefFactories, HrefFactories>();
 
             return services;

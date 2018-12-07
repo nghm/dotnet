@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.AspNetCore.Mvc
+﻿namespace Hypermedia.AspNetCore.Mvc.ApiExploration
 {
     internal interface IApiActionDescriptor
     {

@@ -1,5 +1,6 @@
 ﻿namespace Hypermedia.AspNetCore.Mvc
 {
+    using ApiExploration;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
 
