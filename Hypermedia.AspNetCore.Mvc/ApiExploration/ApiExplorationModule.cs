@@ -2,7 +2,7 @@
 {
     using Microsoft.Extensions.DependencyInjection;
 
-    internal static class Module
+    internal static class ApiExplorationModule
     {
         public static IServiceCollection AddApiExploration(this IServiceCollection services)
         {

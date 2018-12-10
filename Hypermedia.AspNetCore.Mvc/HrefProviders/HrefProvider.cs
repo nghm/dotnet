@@ -6,20 +6,20 @@
     using System.Web;
     using static System.String;
 
-    internal class HrefFactory : IHrefFactory
+    internal class HrefProvider : IHrefProvider
     {
         private readonly string _template;
         private readonly (string Name, int Index)[] _query;
         private readonly (string Name, int Index)[] _route;
 
-        public HrefFactory(string template, (string Name, int Index)[] query, (string Name, int Index)[] route)
+        public HrefProvider(string template, (string Name, int Index)[] query, (string Name, int Index)[] route)
         {
             this._template = template;
             this._query = query;
             this._route = route;
         }
 
-        public string Make(object[] arguments)
+        public string Get(object[] arguments)
         {
             var result = this._template;
             var args = arguments.Select(a => a.ToString()).ToArray();

@@ -2,11 +2,11 @@
 {
     using Microsoft.Extensions.DependencyInjection;
 
-    public static class ServiceCollectionExtensions
+    public static class HrefModule
     {
         public static IServiceCollection AddHypermediaMvc(this IServiceCollection services)
         {
-            services.AddSingleton<IHrefFactories, HrefFactories>();
+            services.AddSingleton<IHrefProviders, HrefProviders>();
 
             return services;
         }

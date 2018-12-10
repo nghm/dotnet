@@ -2,7 +2,7 @@
 {
     using System.Security.Claims;
 
-    internal interface IAccessValidator
+    public interface IAccessValidator
     {
         bool CanAccess(ClaimsPrincipal user);
     }
