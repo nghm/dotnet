@@ -1,9 +1,9 @@
-﻿namespace Hypermedia.AspNetCore.Mvc
+﻿namespace Hypermedia.AspNetCore.Mvc.AccessValidation
 {
     using System.Security.Claims;
 
     public interface IAccessValidator
     {
-        bool CanAccess(ClaimsPrincipal user);
+        bool Allows(ClaimsPrincipal user);
     }
 }

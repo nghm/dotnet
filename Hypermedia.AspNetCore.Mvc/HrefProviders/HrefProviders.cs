@@ -1,8 +1,8 @@
-﻿namespace Hypermedia.AspNetCore.Mvc
+﻿namespace Hypermedia.AspNetCore.Mvc.HrefProviders
 {
-    using ApiExploration;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using ApiExploration;
 
     internal class HrefProviders : IHrefProviders
     {

@@ -1,10 +1,10 @@
-﻿namespace Hypermedia.AspNetCore.Mvc
+﻿namespace Hypermedia.AspNetCore.Mvc.HrefProviders
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Web;
-    using static System.String;
 
     internal class HrefProvider : IHrefProvider
     {
@@ -32,7 +32,7 @@
 
         private string ApplyQuery(string result, IReadOnlyList<string> arguments)
         {
-            var query = HttpUtility.ParseQueryString(Empty);
+            var query = HttpUtility.ParseQueryString(String.Empty);
 
             foreach (var (name, index) in this._query)
             {

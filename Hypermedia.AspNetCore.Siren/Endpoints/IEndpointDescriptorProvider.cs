@@ -4,6 +4,7 @@
     using System.Linq.Expressions;
     using System.Security.Claims;
 
+    [Obsolete]
     internal interface IEndpointDescriptorProvider
     {
         IEndpointDescriptor GetEndpointDescriptor<T>(

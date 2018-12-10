@@ -1,4 +1,4 @@
-﻿namespace Hypermedia.AspNetCore.Mvc
+﻿namespace Hypermedia.AspNetCore.Mvc.HrefProviders
 {
     internal interface IHrefProvider
     {

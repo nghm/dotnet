@@ -1,8 +1,8 @@
-﻿namespace Hypermedia.AspNetCore.Mvc
+﻿namespace Hypermedia.AspNetCore.Mvc.AccessValidation
 {
-    using Microsoft.AspNetCore.Authorization;
     using System.Linq;
     using System.Security.Claims;
+    using Microsoft.AspNetCore.Authorization;
 
     internal class AccessValidator : IAccessValidator
     {
@@ -15,7 +15,7 @@
             this._policies = policies;
         }
 
-        public bool CanAccess(ClaimsPrincipal user)
+        public bool Allows(ClaimsPrincipal user)
         {
             if (this._policies.Length == 0)
             {

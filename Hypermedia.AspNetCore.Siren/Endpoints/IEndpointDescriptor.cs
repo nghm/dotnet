@@ -2,7 +2,10 @@
 {
     using Actions.Fields;
     using Microsoft.AspNetCore.Authorization;
+    using System;
 
+
+    [Obsolete]
     internal interface IEndpointDescriptor
     {
         AuthorizationPolicy[] Policies { get; }
