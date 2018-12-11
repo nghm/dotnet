@@ -5,7 +5,7 @@
     using System.Linq.Expressions;
     using System.Reflection;
 
-    internal class MethodMethodCallPlucker : IMethodCallPlucker
+    internal class MethodCallPlucker : IMethodCallPlucker
     {
         public void PluckMethodCall<T>(Expression<Action<T>> expression, out (MethodInfo Method, object[] Arguments) call) where T : class
         {

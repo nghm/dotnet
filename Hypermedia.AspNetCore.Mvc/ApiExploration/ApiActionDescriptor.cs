@@ -23,6 +23,7 @@
         public string Template { get; }
         public (string Name, int Index)[] Query { get; }
         public (string Name, int Index)[] Route { get; }
+        public (string Name, int Index) Body { get; }
         public AuthorizationPolicy[] Policies { get; set; }
     }
 }

@@ -10,7 +10,7 @@
         [JsonProperty("value")]
         object Value { get; }
 
-        [JsonProperty("type")]
-        FieldType Type { get; }
+        //[JsonProperty("type")]
+        //FieldType Type { get; }
     }
 }

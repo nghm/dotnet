@@ -2,10 +2,10 @@
 {
     using AccessValidation;
     using ApiExploration;
+    using HrefProviders;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Reflection;
-    using HrefProviders;
 
     internal class ProxifiedActionFactories : IProxifiedActionFactories
     {
@@ -13,16 +13,18 @@
         private readonly IApiActionDescriptors _descriptors;
         private readonly IHrefProviders _hrefProviders;
         private readonly IAccessValidators _accessValidators;
+        private readonly IFieldsFactories _fieldFactories;
 
         public ProxifiedActionFactories(
             IApiActionDescriptors descriptors,
             IHrefProviders hrefProviders,
-            IAccessValidators accessValidators
-        )
+            IAccessValidators accessValidators,
+            IFieldsFactories fieldFactories)
         {
             this._descriptors = descriptors;
             this._hrefProviders = hrefProviders;
             this._accessValidators = accessValidators;
+            this._fieldFactories = fieldFactories;
         }
 
         public IProxifiedActionFactory Get(MethodInfo method)
@@ -36,7 +38,8 @@
 
             this._factories[method] = new ProxifiedActionFactory(
                 this._hrefProviders.Get(descriptor),
-                this._accessValidators.Get(descriptor)
+                this._accessValidators.Get(descriptor),
+                this._fieldFactories.Get(descriptor)
             );
 
             return this._factories[method];
