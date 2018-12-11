@@ -1,0 +1,4 @@
+D:\Siren\dotnet\AspNetCore.ReflectMap\obj\Debug\netcoreapp2.1\AspNetCore.ReflectMap.csprojAssemblyReference.cache
+D:\Siren\dotnet\AspNetCore.ReflectMap\obj\Debug\netcoreapp2.1\AspNetCore.ReflectMap.csproj.CoreCompileInputs.cache
+D:\Siren\dotnet\AspNetCore.ReflectMap\obj\Debug\netcoreapp2.1\AspNetCore.ReflectMap.AssemblyInfoInputs.cache
+D:\Siren\dotnet\AspNetCore.ReflectMap\obj\Debug\netcoreapp2.1\AspNetCore.ReflectMap.AssemblyInfo.cs
