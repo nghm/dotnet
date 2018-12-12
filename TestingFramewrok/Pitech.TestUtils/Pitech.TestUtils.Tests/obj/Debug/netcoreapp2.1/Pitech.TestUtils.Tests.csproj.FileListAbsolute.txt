@@ -1,0 +1,17 @@
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\bin\Debug\netcoreapp2.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\bin\Debug\netcoreapp2.1\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\bin\Debug\netcoreapp2.1\xunit.runner.utility.netcoreapp10.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\bin\Debug\netcoreapp2.1\Pitech.TestUtils.Tests.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\bin\Debug\netcoreapp2.1\Pitech.TestUtils.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\bin\Debug\netcoreapp2.1\Pitech.TestUtils.pdb
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\obj\Debug\netcoreapp2.1\Pitech.TestUtils.Tests.csprojAssemblyReference.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\obj\Debug\netcoreapp2.1\Pitech.TestUtils.Tests.csproj.CoreCompileInputs.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\obj\Debug\netcoreapp2.1\Pitech.TestUtils.Tests.AssemblyInfoInputs.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\obj\Debug\netcoreapp2.1\Pitech.TestUtils.Tests.AssemblyInfo.cs
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\obj\Debug\netcoreapp2.1\Pitech.TestUtils.Tests.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\obj\Debug\netcoreapp2.1\Pitech.TestUtils.Tests.pdb
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\bin\Debug\netcoreapp2.1\Pitech.TestUtils.Tests.deps.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\bin\Debug\netcoreapp2.1\Pitech.TestUtils.Tests.runtimeconfig.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\bin\Debug\netcoreapp2.1\Pitech.TestUtils.Tests.runtimeconfig.dev.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\bin\Debug\netcoreapp2.1\Pitech.TestUtils.Tests.pdb
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils.Tests\obj\Debug\netcoreapp2.1\Pitech.TestUtils.Tests.csproj.CopyComplete

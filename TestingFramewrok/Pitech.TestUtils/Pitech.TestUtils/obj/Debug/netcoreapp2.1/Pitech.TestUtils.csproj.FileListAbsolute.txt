@@ -1,0 +1,11 @@
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils\bin\Debug\netcoreapp2.1\Pitech.TestUtils.deps.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils\bin\Debug\netcoreapp2.1\Pitech.TestUtils.runtimeconfig.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils\bin\Debug\netcoreapp2.1\Pitech.TestUtils.runtimeconfig.dev.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils\bin\Debug\netcoreapp2.1\Pitech.TestUtils.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils\bin\Debug\netcoreapp2.1\Pitech.TestUtils.pdb
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils\obj\Debug\netcoreapp2.1\Pitech.TestUtils.csproj.CoreCompileInputs.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils\obj\Debug\netcoreapp2.1\Pitech.TestUtils.AssemblyInfoInputs.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils\obj\Debug\netcoreapp2.1\Pitech.TestUtils.AssemblyInfo.cs
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils\obj\Debug\netcoreapp2.1\Pitech.TestUtils.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils\obj\Debug\netcoreapp2.1\Pitech.TestUtils.pdb
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\TestingFramewrok\Pitech.TestUtils\Pitech.TestUtils\obj\Debug\netcoreapp2.1\Pitech.TestUtils.csprojAssemblyReference.cache
