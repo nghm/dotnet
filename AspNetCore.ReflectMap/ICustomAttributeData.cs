@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace AspNetCore.ReflectMap
 {
-    public interface ICustomAttributeData
+    public interface ICustomAttributeData : IReflectedTypeWrapper<CustomAttributeData>
     {
         string ToString();
 

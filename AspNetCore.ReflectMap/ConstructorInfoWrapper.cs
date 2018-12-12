@@ -3,21 +3,18 @@ using System.Reflection;
 
 namespace AspNetCore.ReflectMap
 {
-    internal class ConstructorInfoWrapper : IConstructorInfo
+    internal class ConstructorInfoWrapper : ReflectedTypeWrapper<ConstructorInfo>, IConstructorInfo
     {
-        private readonly ConstructorInfo _constructorInfo;
+        public ConstructorInfoWrapper(IReflection reflection, ConstructorInfo constructorInfo)
+            : base(reflection, constructorInfo)
+        { }
 
-        public ConstructorInfoWrapper(ConstructorInfo constructorInfo)
-        {
-            _constructorInfo = constructorInfo;
-        }
-
-        public MemberTypes MemberType => _constructorInfo.MemberType;
+        public MemberTypes MemberType => _underlyingType.MemberType;
 
         public object Invoke(object[] parameters)
-            => _constructorInfo.Invoke(parameters);
+            => _underlyingType.Invoke(parameters);
 
         public object Invoke(BindingFlags invokeAttr, Binder binder, object[] parameters, CultureInfo culture)
-            => _constructorInfo.Invoke(invokeAttr, binder, parameters, culture);
+            => _underlyingType.Invoke(invokeAttr, binder, parameters, culture);
     }
 }

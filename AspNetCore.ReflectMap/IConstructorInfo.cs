@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace AspNetCore.ReflectMap
 {
-    public interface IConstructorInfo
+    public interface IConstructorInfo : IReflectedTypeWrapper<ConstructorInfo>
     {
         MemberTypes MemberType { get; }
 

@@ -2,3 +2,8 @@ D:\Siren\dotnet\AspNetCore.ReflectMap\obj\Debug\netcoreapp2.1\AspNetCore.Reflect
 D:\Siren\dotnet\AspNetCore.ReflectMap\obj\Debug\netcoreapp2.1\AspNetCore.ReflectMap.csproj.CoreCompileInputs.cache
 D:\Siren\dotnet\AspNetCore.ReflectMap\obj\Debug\netcoreapp2.1\AspNetCore.ReflectMap.AssemblyInfoInputs.cache
 D:\Siren\dotnet\AspNetCore.ReflectMap\obj\Debug\netcoreapp2.1\AspNetCore.ReflectMap.AssemblyInfo.cs
+D:\Siren\dotnet\AspNetCore.ReflectMap\bin\Debug\netcoreapp2.1\AspNetCore.ReflectMap.deps.json
+D:\Siren\dotnet\AspNetCore.ReflectMap\bin\Debug\netcoreapp2.1\AspNetCore.ReflectMap.dll
+D:\Siren\dotnet\AspNetCore.ReflectMap\bin\Debug\netcoreapp2.1\AspNetCore.ReflectMap.pdb
+D:\Siren\dotnet\AspNetCore.ReflectMap\obj\Debug\netcoreapp2.1\AspNetCore.ReflectMap.dll
+D:\Siren\dotnet\AspNetCore.ReflectMap\obj\Debug\netcoreapp2.1\AspNetCore.ReflectMap.pdb
