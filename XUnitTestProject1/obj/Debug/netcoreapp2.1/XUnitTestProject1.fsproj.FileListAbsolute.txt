@@ -1,0 +1,13 @@
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\XUnitTestProject1\bin\Debug\netcoreapp2.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\XUnitTestProject1\bin\Debug\netcoreapp2.1\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\XUnitTestProject1\bin\Debug\netcoreapp2.1\xunit.runner.utility.netcoreapp10.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\XUnitTestProject1\bin\Debug\netcoreapp2.1\XUnitTestProject1.deps.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\XUnitTestProject1\bin\Debug\netcoreapp2.1\XUnitTestProject1.runtimeconfig.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\XUnitTestProject1\bin\Debug\netcoreapp2.1\XUnitTestProject1.runtimeconfig.dev.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\XUnitTestProject1\bin\Debug\netcoreapp2.1\XUnitTestProject1.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\XUnitTestProject1\bin\Debug\netcoreapp2.1\XUnitTestProject1.pdb
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\XUnitTestProject1\obj\Debug\netcoreapp2.1\XUnitTestProject1.fsprojAssemblyReference.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\XUnitTestProject1\obj\Debug\netcoreapp2.1\XUnitTestProject1.AssemblyInfoInputs.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\XUnitTestProject1\obj\Debug\netcoreapp2.1\XUnitTestProject1.AssemblyInfo.fs
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\XUnitTestProject1\obj\Debug\netcoreapp2.1\XUnitTestProject1.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\XUnitTestProject1\obj\Debug\netcoreapp2.1\XUnitTestProject1.pdb

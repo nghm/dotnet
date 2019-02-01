@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pitech.TestUtils", "Pitech.TestUtils\Pitech.TestUtils.csproj", "{F57ADE16-08A0-4A98-ACD7-FF03BBD78E8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitech.TestUtils", "Pitech.TestUtils\Pitech.TestUtils.csproj", "{F57ADE16-08A0-4A98-ACD7-FF03BBD78E8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pitech.TestUtils.Tests", "Pitech.TestUtils.Tests\Pitech.TestUtils.Tests.csproj", "{B0E628A4-9AA9-47CF-A883-984F02EE054E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitech.TestUtils.Tests", "Pitech.TestUtils.Tests\Pitech.TestUtils.Tests.csproj", "{B0E628A4-9AA9-47CF-A883-984F02EE054E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

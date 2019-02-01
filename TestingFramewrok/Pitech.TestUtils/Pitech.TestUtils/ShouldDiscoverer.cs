@@ -50,7 +50,9 @@
         protected override string GetDisplayName(IAttributeInfo factAttribute, string displayName)
         {
             var parameters = this.TestMethod.Method.GetParameters().ToList();
-            
+
+            displayName = "should " + this.TestMethod.Method.Name;
+
             return Regex.Replace(displayName,
                 "\\{ *([a-zA-Z]+) *\\}",
                 match =>

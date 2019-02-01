@@ -5,7 +5,7 @@
     public class ConstructorAttribute : Attribute
     {
         public ConstructorAttribute()
-            : base(systemUnderTest)
+        //: base(systemUnderTest)
         {
         }
     }

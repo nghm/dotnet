@@ -1,0 +1,13 @@
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\ScriptTesting\bin\Debug\netcoreapp2.1\ScriptTesting.deps.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\ScriptTesting\bin\Debug\netcoreapp2.1\ScriptTesting.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\ScriptTesting\obj\Debug\netcoreapp2.1\ScriptTesting.csproj.CoreCompileInputs.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\ScriptTesting\obj\Debug\netcoreapp2.1\ScriptTesting.AssemblyInfoInputs.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\ScriptTesting\obj\Debug\netcoreapp2.1\ScriptTesting.AssemblyInfo.cs
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\ScriptTesting\bin\Debug\netcoreapp2.1\Fixie.VisualStudio.TestAdapter.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\ScriptTesting\bin\Debug\netcoreapp2.1\Fixie.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\ScriptTesting\bin\Debug\netcoreapp2.1\ScriptTesting.runtimeconfig.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\ScriptTesting\bin\Debug\netcoreapp2.1\ScriptTesting.runtimeconfig.dev.json
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\ScriptTesting\bin\Debug\netcoreapp2.1\ScriptTesting.pdb
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\ScriptTesting\obj\Debug\netcoreapp2.1\ScriptTesting.csprojAssemblyReference.cache
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\ScriptTesting\obj\Debug\netcoreapp2.1\ScriptTesting.dll
+C:\Users\dan.patiu\Documents\Git\Hypermedia\Hypermedia.WebApi\ScriptTesting\obj\Debug\netcoreapp2.1\ScriptTesting.pdb
